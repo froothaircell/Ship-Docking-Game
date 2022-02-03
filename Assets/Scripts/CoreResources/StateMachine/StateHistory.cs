@@ -168,7 +168,7 @@ namespace CoreResources.StateMachine
             // Find oldest state
             TState cleanState = PrevState;
             int tempIter = 0;
-            while (cleanState.PrevState != null || tempIter < historyLength - nthOldest)
+            while (cleanState.PrevState != null && tempIter < historyLength - nthOldest)
             {
                 cleanState = cleanState.PrevState;
                 tempIter++;
@@ -194,7 +194,7 @@ namespace CoreResources.StateMachine
             // Find oldest state
             TState cleanState = NextState;
             int tempIter = 0;
-            while (cleanState.NextState != null || tempIter < historyLength - nthOldest)
+            while (cleanState.NextState != null && tempIter < historyLength - nthOldest)
             {
                 cleanState = cleanState.NextState;
             }

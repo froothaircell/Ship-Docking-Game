@@ -46,7 +46,7 @@ namespace CoreResources.StateMachine
     public class StateMachineHistory : IStateMachineHistory
     {
         // Applies to both sides so it's essentially twice the length
-        protected const int HISTORY_LENGTH = 10;
+        protected const int HISTORY_LENGTH = 5;
         
         public virtual int TotalNextStates
         {
@@ -162,6 +162,12 @@ namespace CoreResources.StateMachine
         {
             if (_currentState != null)
             {
+                if(_totalPreviousStates >= HISTORY_LENGTH)
+                {
+                    _currentState.CleanOldestPreviousState(HISTORY_LENGTH);
+                    _totalPreviousStates--;
+                }
+                
                 TState nextState = GetState(context.OpenState);
                 InsertAfterState(_currentState, nextState);
                 InternalStateTransition(nextState, context);
@@ -177,6 +183,8 @@ namespace CoreResources.StateMachine
         {
             // Clean all states and insert a new state. Requires a context
             _currentState.ReturnToPool();
+            _totalNextStates = 0;
+            _totalPreviousStates = 0;
             InternalStateTransition(GetState(context.OpenState), context);
         }
 
@@ -194,12 +202,22 @@ namespace CoreResources.StateMachine
                 _totalNextStates += _totalPreviousStates;
                 _totalPreviousStates = 0;
                 InternalMoveToState(-backCount);
+                if (_totalNextStates >= HISTORY_LENGTH)
+                {
+                    _currentState.CleanOldestNextState(HISTORY_LENGTH, _totalNextStates - HISTORY_LENGTH);
+                    _totalNextStates = HISTORY_LENGTH;
+                }
                 return;
             }
 
             _totalPreviousStates -= backCount;
             _totalNextStates += backCount;
             InternalMoveToState(-backCount);
+            if (_totalNextStates >= HISTORY_LENGTH)
+            {
+                _currentState.CleanOldestNextState(HISTORY_LENGTH, _totalNextStates - HISTORY_LENGTH);
+                _totalNextStates = HISTORY_LENGTH;
+            }
         }
 
         public override void GoToNextState(int forwardCount = 1)
@@ -216,12 +234,22 @@ namespace CoreResources.StateMachine
                 _totalPreviousStates += _totalNextStates;
                 _totalNextStates = 0;
                 InternalMoveToState(forwardCount);
+                if (_totalPreviousStates >= HISTORY_LENGTH)
+                {
+                    _currentState.CleanOldestPreviousState(HISTORY_LENGTH, _totalPreviousStates - HISTORY_LENGTH);
+                    _totalPreviousStates = HISTORY_LENGTH;
+                }
                 return;
             }
 
             _totalNextStates -= forwardCount;
             _totalPreviousStates += forwardCount;
             InternalMoveToState(forwardCount);
+            if (_totalPreviousStates >= HISTORY_LENGTH)
+            {
+                _currentState.CleanOldestPreviousState(HISTORY_LENGTH, _totalPreviousStates - HISTORY_LENGTH);
+                _totalPreviousStates = HISTORY_LENGTH;
+            }
         }
 
         private void InsertAfterState(TState targetState, TState insertState)
@@ -260,7 +288,7 @@ namespace CoreResources.StateMachine
                 }
             }
 
-            InternalExitToEnterState(tempState, null);
+            InternalExitToEnterState(tempState, tempState.Context);
         }
 
         private void InternalExitToEnterState(TState nextState, TStateContext context)

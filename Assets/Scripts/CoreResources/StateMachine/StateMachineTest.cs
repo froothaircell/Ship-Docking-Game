@@ -46,6 +46,15 @@ public class StateMachineTest : MonoBehaviour
         someStateMachine.GoToPreviousState();
         someStateMachine.GoToNextState(3);
         someStateMachine.GoToStateNonHistorically(SampleStateContext.GetContext(typeof(SampleState2)));
+        someStateMachine.GoToState<SampleState2>();
+        someStateMachine.GoToState<SampleState1>();
+        someStateMachine.GoToState<SampleState2>();
+        someStateMachine.GoToState<SampleState2>();
+        someStateMachine.GoToState<SampleState1>();
+        someStateMachine.GoToState<SampleState2>();
+        someStateMachine.GoToPreviousState(3);
+        someStateMachine.GoToState<SampleState1>();
+        someStateMachine.GoToPreviousState(4);
     }
 }
 
