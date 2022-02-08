@@ -9,7 +9,7 @@ namespace CoreResources.Handlers.EventHandler
     {
         public static void Dispatch()
         {
-            var evt = REvent.Get<Event1>();
+            var evt = Get<Event1>();
 
             AppHandler.EventHandler.Dispatch(evt);
         }
@@ -21,7 +21,7 @@ namespace CoreResources.Handlers.EventHandler
 
         public static void Dispatch(int val)
         {
-            var evt = REvent.Get<Event2>();
+            var evt = Get<Event2>();
             evt.Something = val;
             Debug.Log($"The value stored is {val}");
             
@@ -33,7 +33,7 @@ namespace CoreResources.Handlers.EventHandler
     {
         public static void Dispatch()
         {
-            var evt = REvent.Get<Event3>();
+            var evt = Get<Event3>();
 
             AppHandler.EventHandler.Dispatch(evt);
         }
