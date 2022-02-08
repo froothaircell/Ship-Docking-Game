@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using CoreResources.Utils;
 
 
-namespace CoreResources.Handlers
+namespace CoreResources.Handlers.EventHandler
 {
-    public class EventHandler : GenericSingleton<EventHandler>
+    public class REventHandler : GenericSingleton<REventHandler>
     {
         private Dictionary<Type, Delegate> _listeners = new Dictionary<Type, Delegate>();
 
@@ -25,16 +25,13 @@ namespace CoreResources.Handlers
             
             if (_listeners.TryGetValue(type, out observer))
             {
-                if (observer != null)
-                {
-                    var action = observer as Action<T>;
-                    action += callback;
-                    _listeners[type] = action;
-                }
-                else
-                {
-                    _listeners.Add(type, callback);
-                }
+                var action = observer as Action<T>;
+                action += callback;
+                _listeners[type] = action;
+            }
+            else
+            {
+                _listeners.Add(type, callback);
             }
 
             return Disposables.CreateWithState(callback, this.RemoveListener);

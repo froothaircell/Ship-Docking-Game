@@ -8,12 +8,12 @@ namespace CoreResources.StateMachine
     {
         public static T Get<T>() where T : StateHistory, new()
         {
-            return AppHandler.Instance.AppPool.Get<T>();
+            return AppHandler.AppPool.Get<T>();
         }
 
         public static TState Get<TState>(Type exactType) where TState : StateHistory
         {
-            return AppHandler.Instance.AppPool.Get<TState>(exactType);
+            return AppHandler.AppPool.Get<TState>(exactType);
         }
         
         public abstract StateContext GetContext();

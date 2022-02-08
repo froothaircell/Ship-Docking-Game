@@ -132,7 +132,7 @@ namespace CoreResources.Promise
                 case PromiseState.Pending:
                     if (_progressHandlers == null)
                     {
-                        _progressHandlers = AppHandler.Instance.AppPool.Get<PooledList<Action<float>>>();
+                        _progressHandlers = AppHandler.AppPool.Get<PooledList<Action<float>>>();
                     }
                     _progressHandlers.Add(onProgress);
                     onProgress.Invoke(_progressPerc);
@@ -155,7 +155,7 @@ namespace CoreResources.Promise
                 case PromiseState.Pending:
                     if (_rejectHandlers == null)
                     {
-                        _rejectHandlers = AppHandler.Instance.AppPool.Get<PooledList<Action<Exception>>>();
+                        _rejectHandlers = AppHandler.AppPool.Get<PooledList<Action<Exception>>>();
                     }
                     _rejectHandlers.Add(onRejected);
                     break;

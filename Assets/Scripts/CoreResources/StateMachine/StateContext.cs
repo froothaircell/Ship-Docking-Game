@@ -9,7 +9,7 @@ namespace CoreResources.StateMachine
         
         protected static TStateContext Get<TStateContext>(Type openState) where TStateContext : StateContext, new()
         {
-            TStateContext context = AppHandler.Instance.AppPool.Get<TStateContext>();
+            TStateContext context = AppHandler.AppPool.Get<TStateContext>();
             context.OpenState = openState;
 
             return context;

@@ -6,8 +6,19 @@ namespace CoreResources
 {
     public class AppHandler : GenericSingleton<AppHandler>
     {
-        public TypePool AppPool = new TypePool("AppPool");
-        public TypePool EventPool = new TypePool("EventPool");
-        public EventHandler EventHandler = EventHandler.Instance;
+        public static TypePool AppPool = new TypePool("AppPool");
+        public static TypePool EventPool = new TypePool("EventPool");
+        public static REventHandler EventHandler;
+
+        protected override void Awake()
+        {
+            InitEventHandler();
+            base.Awake();
+        }
+
+        private void InitEventHandler()
+        {
+            EventHandler = REventHandler.Instance;
+        }
     }
 }

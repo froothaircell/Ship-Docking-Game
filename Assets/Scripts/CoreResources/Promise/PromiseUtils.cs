@@ -6,40 +6,40 @@ namespace CoreResources.Promise
     {
         public static Promise Get()
         {
-            Promise promise = AppHandler.Instance.AppPool.Get<Promise>();
+            Promise promise = AppHandler.AppPool.Get<Promise>();
             return promise;
         }
 
         public static Promise<T> Get<T>()
         {
-            Promise<T> promise = AppHandler.Instance.AppPool.Get<Promise<T>>();
+            Promise<T> promise = AppHandler.AppPool.Get<Promise<T>>();
             return promise;
         }
 
         public static Promise Resolved()
         {
-            Promise promise = AppHandler.Instance.AppPool.Get<Promise>();
+            Promise promise = AppHandler.AppPool.Get<Promise>();
             promise.Resolve();
             return promise;
         }
 
         public static Promise Rejected(Exception exception)
         {
-            Promise promise = AppHandler.Instance.AppPool.Get<Promise>();
+            Promise promise = AppHandler.AppPool.Get<Promise>();
             promise.Reject(exception);
             return promise;
         }
 
         public static IPromise<T> Resolved<T>(T resolveValue)
         {
-            Promise<T> promise = AppHandler.Instance.AppPool.Get<Promise<T>>();
+            Promise<T> promise = AppHandler.AppPool.Get<Promise<T>>();
             promise.Resolve(resolveValue);
             return promise;
         }
 
         public static IPromise<T> Rejected<T>(Exception exception)
         {
-            Promise<T> promise = AppHandler.Instance.AppPool.Get<Promise<T>>();
+            Promise<T> promise = AppHandler.AppPool.Get<Promise<T>>();
             promise.Reject(exception);
             return promise;
         }
