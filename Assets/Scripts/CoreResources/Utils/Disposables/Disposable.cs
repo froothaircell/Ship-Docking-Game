@@ -1,6 +1,6 @@
 using System;
 
-namespace CoreResources.Utils
+namespace CoreResources.Utils.Disposables
 {
     public static class Disposables
     {
