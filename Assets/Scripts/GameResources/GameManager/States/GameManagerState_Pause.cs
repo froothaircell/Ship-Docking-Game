@@ -6,9 +6,9 @@ using CoreResources.Utils.Disposables;
 
 namespace GameResources.GameManager.States
 {
-    public class GameManagerState_Win : GameManagerState
+    public class GameManagerState_Pause : GameManagerState
     {
-        private PooledList<IDisposable> _disposables; 
+        private PooledList<IDisposable> _disposables;
 
         public override void OnEnter()
         {

@@ -30,7 +30,8 @@ namespace CoreResources
             EventHandler = REventHandler.Instance;
             PlayerStats = PlayerModel.Instance;
             SaveManager = PlayerPrefsManager.Instance;
-
+            
+            PlayerStats.Init();
             GMMediator = GameManagerMediator.Create();
         }
     }

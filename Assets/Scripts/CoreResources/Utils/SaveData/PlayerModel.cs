@@ -5,6 +5,9 @@ namespace CoreResources.Utils.SaveData
         private int _score;
         private int _level;
 
+        public int Score => _score;
+        public int Level => _level;
+
         public void UpdateStats()
         {
             AppHandler.SaveManager.GetPlayerInfo(ref _score, ref _level);
@@ -15,9 +18,8 @@ namespace CoreResources.Utils.SaveData
             AppHandler.SaveManager.SetPlayerInfo(_score, _level);
         }
 
-        protected override void Awake()
+        public void Init()
         {
-            base.Awake();
             UpdateStats();
         }
     }

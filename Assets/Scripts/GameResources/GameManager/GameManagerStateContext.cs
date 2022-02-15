@@ -1,4 +1,5 @@
 using System;
+using CoreResources;
 using CoreResources.StateMachine;
 using CoreResources.Utils.SaveData;
 using UnityEngine;
