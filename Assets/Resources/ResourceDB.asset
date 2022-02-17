@@ -19,3 +19,5 @@ MonoBehaviour:
     _path: Menus
   - _name: Win or Loss Menu
     _path: Menus
+  - _name: Three Capsules
+    _path: 

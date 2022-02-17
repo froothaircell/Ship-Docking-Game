@@ -1,6 +1,7 @@
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Pool;
 using CoreResources.Utils;
+using CoreResources.Utils.ResourceLoader;
 using CoreResources.Utils.SaveData;
 using GameResources.GameManager;
 
@@ -11,6 +12,7 @@ namespace CoreResources
         public static TypePool AppPool = new TypePool("AppPool");
         public static TypePool EventPool = new TypePool("EventPool");
         public static REventHandler EventHandler;
+        public static AssetLoader AssetHandler;
         public static PlayerPrefsManager SaveManager;
         public static PlayerModel PlayerStats;
         // Essentially this mediator should run on itself
@@ -30,6 +32,7 @@ namespace CoreResources
             EventHandler = REventHandler.Instance;
             PlayerStats = PlayerModel.Instance;
             SaveManager = PlayerPrefsManager.Instance;
+            AssetHandler = AssetLoader.Instance;
             
             PlayerStats.Init();
             GMMediator = GameManagerMediator.Create();

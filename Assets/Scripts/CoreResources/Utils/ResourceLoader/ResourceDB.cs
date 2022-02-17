@@ -8,7 +8,7 @@ namespace CoreResources.Utils.ResourceLoader
     [CreateAssetMenu(fileName = "ResourceDB", menuName = "ScriptableObjects/ResourceDB", order = 1)]
     public class ResourceDB : ScriptableObject
     {
-        public static ResourceDB _instance;
+        private static ResourceDB _instance;
 
         public static ResourceDB Instance
         {
