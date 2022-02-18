@@ -1,3 +1,5 @@
+using GameResources;
+
 namespace CoreResources.Utils.SaveData
 {
     public class PlayerModel : GenericSingleton<PlayerModel>

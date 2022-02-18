@@ -5,6 +5,7 @@ namespace CoreResources.Utils
     public abstract class GenericSingleton<T> : MonoBehaviour where T : Component
     {
         private static T _instance;
+        protected bool FirstInitComplete = false;
 
         public static T Instance
         {
@@ -20,13 +21,14 @@ namespace CoreResources.Utils
                         _instance = obj.AddComponent<T>();
                     }
                 }
+                
                 return _instance;
             }
         }
 
-        protected virtual void Awake()
+        protected virtual void InitSingleton()
         {
-            if (Instance != null)
+            if (Instance != null && FirstInitComplete)
             {
                 Destroy(gameObject);
             }
@@ -34,7 +36,13 @@ namespace CoreResources.Utils
             {
                 _instance = this as T;
                 DontDestroyOnLoad(gameObject);
+                FirstInitComplete = true; // Makes sure that Instance can be called before awake
             }
+        }
+
+        private void Awake()
+        {
+            InitSingleton();
         }
     }
 }

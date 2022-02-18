@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using GameResources;
 using UnityEngine;
 
 namespace CoreResources.Utils.ResourceLoader

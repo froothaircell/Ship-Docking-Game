@@ -1,29 +1,27 @@
+using CoreResources.Utils;
 using UnityEngine;
 
 namespace CoreResources.Mediators
 {
-    public class Mediator : MonoBehaviour
+    public class Mediator<T> : GenericSingleton<T> where T : Mediator<T>
     {
         public virtual string Name
         {
             get { return GetType().Name; }
         }
-    }
-
-    public class Mediator<T> : Mediator where T : Mediator<T>
-    {
-        static public T Create()
+        
+        public static T Create()
         {
             GameObject mediatorGO = new GameObject();
             T mediator = mediatorGO.AddComponent<T>();
             mediatorGO.name = mediator.Name;
             
-            mediator.Initialize();
+            // mediator.Initialize();
             
             return mediator;
         }
 
-        protected virtual void Initialize()
+        public virtual void Initialize()
         {
             Debug.Log($"{Name} Initialized!");
         }

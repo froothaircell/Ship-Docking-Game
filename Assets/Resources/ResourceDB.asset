@@ -15,9 +15,7 @@ MonoBehaviour:
   _prefabResourceItems:
   - _name: Main Menu
     _path: Menus
-  - _name: Pause Menu
+  - _name: Pause and HUD Menu
     _path: Menus
   - _name: Win or Loss Menu
     _path: Menus
-  - _name: Three Capsules
-    _path: 

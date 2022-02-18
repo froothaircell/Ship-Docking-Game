@@ -1,3 +1,4 @@
+using GameResources.GameManager.States;
 using UnityEngine;
 
 namespace CoreResources.Utils.ResourceLoader
@@ -24,8 +25,9 @@ namespace CoreResources.Utils.ResourceLoader
                 Debug.LogWarning($"LoadAsset | Asset ({name}) not found in local DB");
                 return null;
             }
-
+            
             return resourceItem.Load<GameObject>();
         }
+
     }
 }

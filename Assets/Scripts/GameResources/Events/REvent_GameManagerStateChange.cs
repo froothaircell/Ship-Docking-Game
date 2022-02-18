@@ -1,48 +1,93 @@
 using CoreResources.Handlers.EventHandler;
 
-namespace CoreResources.Events
+namespace GameResources.Events
 {
-    public class REvent_GameManagerPlay : REvent
+    public class REvent_GameStart : REvent
     {
         public static void Dispatch()
         {
-            var evt = Get<REvent_GameManagerPlay>();
+            var evt = Get<REvent_GameStart>();
             AppHandler.EventHandler.Dispatch(evt);
         }
     }
     
-    public class REvent_GameManagerPause : REvent
+    public class REvent_GameManagerMainMenuToPlay : REvent
     {
         public static void Dispatch()
         {
-            var evt = Get<REvent_GameManagerPause>();
+            var evt = Get<REvent_GameManagerMainMenuToPlay>();
             AppHandler.EventHandler.Dispatch(evt);
         }
     }
     
-    public class REvent_GameManagerMainMenu : REvent
+    public class REvent_GameManagerWinOrLossToPlay : REvent
     {
         public static void Dispatch()
         {
-            var evt = Get<REvent_GameManagerMainMenu>();
+            var evt = Get<REvent_GameManagerWinOrLossToPlay>();
             AppHandler.EventHandler.Dispatch(evt);
         }
     }
     
-    public class REvent_GameManagerWin : REvent
+    public class REvent_GameManagerPlayToPause : REvent
     {
         public static void Dispatch()
         {
-            var evt = Get<REvent_GameManagerWin>();
+            var evt = Get<REvent_GameManagerPlayToPause>();
+            AppHandler.EventHandler.Dispatch(evt);
+        }
+    }
+
+    public class REvent_GameManagerPauseToPlay : REvent
+    {
+        public static void Dispatch()
+        {
+            var evt = Get<REvent_GameManagerPauseToPlay>();
             AppHandler.EventHandler.Dispatch(evt);
         }
     }
     
-    public class REvent_GameManagerLoss : REvent
+    public class REvent_GameManagerPlayToMainMenu : REvent
     {
         public static void Dispatch()
         {
-            var evt = Get<REvent_GameManagerLoss>();
+            var evt = Get<REvent_GameManagerPlayToMainMenu>();
+            AppHandler.EventHandler.Dispatch(evt);
+        }
+    }
+
+    public class REvent_GameManagerWinOrLossToMainMenu : REvent
+    {
+        public static void Dispatch()
+        {
+            var evt = Get<REvent_GameManagerWinOrLossToMainMenu>();
+            AppHandler.EventHandler.Dispatch(evt);
+        }
+    }
+    
+    public class REvent_GameManagerPlayToWin : REvent
+    {
+        public static void Dispatch()
+        {
+            var evt = Get<REvent_GameManagerPlayToWin>();
+            AppHandler.EventHandler.Dispatch(evt);
+        }
+    }
+    
+    public class REvent_GameManagerPlayToLoss : REvent
+    {
+        public static void Dispatch()
+        {
+            var evt = Get<REvent_GameManagerPlayToLoss>();
+            AppHandler.EventHandler.Dispatch(evt);
+        }
+    }
+    
+    public class REvent_GameQuit : REvent
+    {
+        public static void Dispatch()
+        {
+            var evt = Get<REvent_GameQuit>();
             AppHandler.EventHandler.Dispatch(evt);
         }
     }

@@ -1,6 +1,6 @@
 using System;
-using System.Security.Cryptography;
 using CoreResources.Pool;
+using GameResources;
 using UnityEngine;
 
 namespace CoreResources.Promise

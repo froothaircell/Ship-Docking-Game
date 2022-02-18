@@ -1,5 +1,7 @@
-using CoreResources.Events;
+using System;
+using CoreResources.Pool;
 using CoreResources.StateMachine;
+using GameResources.Events;
 
 namespace GameResources.GameManager
 {
@@ -9,8 +11,10 @@ namespace GameResources.GameManager
         
     }
     
-    public class GameManagerState : StateHistory<GameManagerStateMachine, GameManagerState, GameManagerStateContext>, IGameManagerState
+    public class RGameManagerState : StateHistory<RGameManagerStateMachine, RGameManagerState, RGameManagerStateContext>, IGameManagerState
     {
+        protected PooledList<IDisposable> _disposables;
+        
         public enum GameState
         {
             Undefined = 0,
@@ -21,27 +25,27 @@ namespace GameResources.GameManager
             Win = 5
         }
 
-        protected virtual void OnPlay(REvent_GameManagerPlay evt)
+        protected virtual void OnPlay(REvent_GameManagerMainMenuToPlay evt)
         {
             
         }
 
-        protected virtual void OnPause(REvent_GameManagerPause evt)
+        protected virtual void OnPause(REvent_GameManagerPlayToPause evt)
         {
             
         }
 
-        protected virtual void OnMainMenu(REvent_GameManagerMainMenu evt)
+        protected virtual void OnMainMenu(REvent_GameManagerPlayToMainMenu evt)
         {
             
         }
 
-        protected virtual void OnWin(REvent_GameManagerWin evt)
+        protected virtual void OnWin(REvent_GameManagerPlayToWin evt)
         {
             
         }
 
-        protected virtual void OnLoss(REvent_GameManagerLoss evt)
+        protected virtual void OnLoss(REvent_GameManagerPlayToLoss evt)
         {
             
         }

@@ -1,3 +1,7 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 namespace CoreResources.Utils.ResourceLoader
@@ -14,6 +18,7 @@ namespace CoreResources.Utils.ResourceLoader
         public string Name => _name;
         public string Path => _path;
         private string _resourcesPath;
+        public UnityEngine.Object retrievedObject;
 
         public string ResourcesPath
         {

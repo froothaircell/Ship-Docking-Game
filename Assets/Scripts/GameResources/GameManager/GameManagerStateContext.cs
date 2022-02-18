@@ -1,16 +1,13 @@
 using System;
-using CoreResources;
 using CoreResources.StateMachine;
-using CoreResources.Utils.SaveData;
-using UnityEngine;
 
 namespace GameResources.GameManager
 {
-    public class GameManagerStateContext : StateContext
+    public class RGameManagerStateContext : StateContext
     {
-        public static GameManagerStateContext GetContext(Type defaultType) 
+        public static RGameManagerStateContext GetContext(Type defaultType) 
         {
-            GameManagerStateContext context = StateContext.Get<GameManagerStateContext>(defaultType);
+            RGameManagerStateContext context = StateContext.Get<RGameManagerStateContext>(defaultType);
             return context;
         }
     }

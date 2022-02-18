@@ -1,5 +1,4 @@
-using CoreResources;
-using CoreResources.Events;
+using GameResources.Events;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,11 +14,11 @@ namespace GameResources.GameManager
         
         private void Start()
         {
-            MainMenu.onClick.AddListener(REvent_GameManagerMainMenu.Dispatch);
-            Play.onClick.AddListener(REvent_GameManagerPlay.Dispatch);
-            Pause.onClick.AddListener(REvent_GameManagerPause.Dispatch);
-            Win.onClick.AddListener(REvent_GameManagerWin.Dispatch);
-            Loss.onClick.AddListener(REvent_GameManagerLoss.Dispatch);
+            MainMenu.onClick.AddListener(REvent_GameManagerPlayToMainMenu.Dispatch);
+            Play.onClick.AddListener(REvent_GameManagerMainMenuToPlay.Dispatch);
+            Pause.onClick.AddListener(REvent_GameManagerPlayToPause.Dispatch);
+            Win.onClick.AddListener(REvent_GameManagerPlayToWin.Dispatch);
+            Loss.onClick.AddListener(REvent_GameManagerPlayToLoss.Dispatch);
         }
     }
 }

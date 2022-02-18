@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using CoreResources.Pool;
+using GameResources;
 
 namespace CoreResources.StateMachine
 {

@@ -1,15 +1,16 @@
-using System;
 using CoreResources.Mediators;
+using GameResources.Events;
 using GameResources.GameManager.States;
 
 namespace GameResources.GameManager
 {
-    public class GameManagerMediator : StateMachineMediator<GameManagerMediator, GameManagerStateMachine>
+    public class RGameManagerMediator : StateMachineMediator<RGameManagerMediator, RGameManagerStateMachine>
     {
-        protected override void Initialize()
+        public override void Initialize()
         {
             // Start the state machine with the state for the main menu
-            FSM.GoToState(GameManagerStateContext.GetContext(typeof(GameManagerState_MainMenu)));
+            FSM.GoToState(RGameManagerStateContext.GetContext(typeof(GameManagerState_MainMenu)));
+            REvent_GameStart.Dispatch();
             base.Initialize();
         }
     }

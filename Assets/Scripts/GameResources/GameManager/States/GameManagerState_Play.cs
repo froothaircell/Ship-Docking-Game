@@ -1,22 +1,19 @@
 using System;
-using CoreResources;
-using CoreResources.Events;
 using CoreResources.Pool;
 using CoreResources.Utils.Disposables;
+using GameResources.Events;
 
 namespace GameResources.GameManager.States
 {
-    public class GameManagerState_Play : GameManagerState
+    public class GameManagerState_Play : RGameManagerState
     {
-        private PooledList<IDisposable> _disposables;
-
         public override void OnEnter()
         {
             _disposables = AppHandler.AppPool.Get<PooledList<IDisposable>>();
 
-            AppHandler.EventHandler.Subscribe<REvent_GameManagerPause>(OnPause, _disposables);
-            AppHandler.EventHandler.Subscribe<REvent_GameManagerWin>(OnWin, _disposables);
-            AppHandler.EventHandler.Subscribe<REvent_GameManagerLoss>(OnLoss, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToPause>(OnPause, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnWin, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToLoss>(OnLoss, _disposables);
         }
 
         public override void OnExit()
@@ -24,17 +21,17 @@ namespace GameResources.GameManager.States
             _disposables.ClearDisposables();
         }
 
-        protected override void OnPause(REvent_GameManagerPause evt)
+        protected override void OnPause(REvent_GameManagerPlayToPause evt)
         {
             AppHandler.GMMediator.FSM.GoToState<GameManagerState_Pause>();
         }
 
-        protected override void OnWin(REvent_GameManagerWin evt)
+        protected override void OnWin(REvent_GameManagerPlayToWin evt)
         {
             AppHandler.GMMediator.FSM.GoToState<GameManagerState_Win>();
         }
 
-        protected override void OnLoss(REvent_GameManagerLoss evt)
+        protected override void OnLoss(REvent_GameManagerPlayToLoss evt)
         {
             AppHandler.GMMediator.FSM.GoToState<GameManagerState_Loss>();
         }
