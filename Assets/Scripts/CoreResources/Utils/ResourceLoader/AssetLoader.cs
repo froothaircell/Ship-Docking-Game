@@ -1,3 +1,4 @@
+using CoreResources.Utils.Singletons;
 using GameResources.GameManager.States;
 using UnityEngine;
 
@@ -28,6 +29,5 @@ namespace CoreResources.Utils.ResourceLoader
             
             return resourceItem.Load<GameObject>();
         }
-
     }
 }

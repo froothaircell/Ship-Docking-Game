@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace CoreResources.Promise
 {
-    public class PoolablePromise : Poolable
+    public class PoolablePromise : DelayedPoolable
     {
         public PromiseState State { get; protected set; }
         public Exception RejectException { get; private set; }
@@ -18,6 +18,7 @@ namespace CoreResources.Promise
 
         protected override void OnSpawn()
         {
+            base.OnSpawn();
             State = PromiseState.Pending;
             RejectException = null;
             _progressPerc = 0f;
@@ -67,7 +68,7 @@ namespace CoreResources.Promise
 
         public void ReportProgress(float progressPerc)
         {
-            if (State != PromiseState.Pending) throw PromiseException.NonPending("ReportProgress", State);
+            if (State != PromiseState.Pending) throw RPromiseException.NonPending("ReportProgress", State);
             
             if (progressPerc > 1f) progressPerc = 1f;
             
@@ -97,7 +98,7 @@ namespace CoreResources.Promise
 
         public void Reject(Exception exception)
         {
-            if (State != PromiseState.Pending) throw PromiseException.NonPending("Reject", State);
+            if (State != PromiseState.Pending) throw RPromiseException.NonPending("Reject", State);
 
             State = PromiseState.Rejected;
             RejectException = exception;
@@ -142,7 +143,7 @@ namespace CoreResources.Promise
                     onProgress.Invoke(1f);
                     break;
                 case PromiseState.Pooled:
-                    throw PromiseException.PooledInteraction("AddProgressHandler", this);
+                    throw RPromiseException.PooledInteraction("AddProgressHandler", this);
             }
         }
 
@@ -165,7 +166,7 @@ namespace CoreResources.Promise
                     onRejected.Invoke(RejectException);
                     break;
                 case PromiseState.Pooled:
-                    throw PromiseException.PooledInteraction("AddRejectHandler", this);
+                    throw RPromiseException.PooledInteraction("AddRejectHandler", this);
             }
         }
 

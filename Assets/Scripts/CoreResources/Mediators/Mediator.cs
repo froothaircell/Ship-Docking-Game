@@ -1,4 +1,5 @@
 using CoreResources.Utils;
+using CoreResources.Utils.Singletons;
 using UnityEngine;
 
 namespace CoreResources.Mediators

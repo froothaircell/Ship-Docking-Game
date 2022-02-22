@@ -3,12 +3,12 @@ using CoreResources.Pool;
 
 namespace CoreResources.Promise
 {
-    public class PromiseException : Exception
+    public class RPromiseException : Exception
     {
-        public PromiseException(string message) : base(message)
+        public RPromiseException(string message) : base(message)
         {}
 
-        protected PromiseException(string message, Exception innerException) : base(message, innerException)
+        protected RPromiseException(string message, Exception innerException) : base(message, innerException)
         {}
 
         public Exception GetBaseException(Type searchType = null)
@@ -26,20 +26,20 @@ namespace CoreResources.Promise
             return exception;
         }
         
-        public static PromiseException NonPending(string methodName, PromiseState state)
+        public static RPromiseException NonPending(string methodName, PromiseState state)
         {
             string stateName = Enum.GetName(typeof(PromiseState), state);
 
-            return new PromiseException(
+            return new RPromiseException(
                 string.Format(
                     "PromiseException | Calling '{0}()' on a non-pending promise in state: {1}",
                     methodName,
                     stateName));
         }
 
-        public static PromiseException PooledInteraction(string methodName, PoolablePromise promise)
+        public static RPromiseException PooledInteraction(string methodName, PoolablePromise promise)
         {
-            return new PromiseException(
+            return new RPromiseException(
                 string.Format(
                     "PromiseException | Calling '{0}()' on a pooled instance of a promise: {1}",
                     methodName,

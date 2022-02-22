@@ -8,12 +8,12 @@ namespace CoreResources.Promise
     public class PromiseTest : MonoBehaviour
     {
         private int num = 1;
-        private Promise<int> testPromise;
+        private RPromise<int> testPromise;
         private Coroutine routine;
 
         private void Start()
         {
-            testPromise = Promise.Get<int>();
+            testPromise = RPromise.Get<int>();
             testPromise.Then(OnResolve, OnReject);
             DoSomethingAsync();
         }
@@ -21,7 +21,7 @@ namespace CoreResources.Promise
         private async void DoSomethingAsync()
         {
             await Task.Delay(TimeSpan.FromSeconds(3.0f));
-            Promise.SafeResolve<int>(ref testPromise, 4);
+            RPromise.SafeResolve<int>(ref testPromise, 4);
         }
 
         private void OnResolve(int num)

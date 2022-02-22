@@ -3,69 +3,69 @@ using GameResources;
 
 namespace CoreResources.Promise
 {
-    public partial class Promise
+    public partial class RPromise
     {
-        public static Promise Get()
+        public static RPromise Get()
         {
-            Promise promise = AppHandler.AppPool.Get<Promise>();
+            RPromise promise = AppHandler.AppPool.Get<RPromise>();
             return promise;
         }
 
-        public static Promise<T> Get<T>()
+        public static RPromise<T> Get<T>()
         {
-            Promise<T> promise = AppHandler.AppPool.Get<Promise<T>>();
+            RPromise<T> promise = AppHandler.AppPool.Get<RPromise<T>>();
             return promise;
         }
 
-        public static Promise Resolved()
+        public static RPromise Resolved()
         {
-            Promise promise = AppHandler.AppPool.Get<Promise>();
+            RPromise promise = AppHandler.AppPool.Get<RPromise>();
             promise.Resolve();
             return promise;
         }
 
-        public static Promise Rejected(Exception exception)
+        public static RPromise Rejected(Exception exception)
         {
-            Promise promise = AppHandler.AppPool.Get<Promise>();
+            RPromise promise = AppHandler.AppPool.Get<RPromise>();
             promise.Reject(exception);
             return promise;
         }
 
         public static IPromise<T> Resolved<T>(T resolveValue)
         {
-            Promise<T> promise = AppHandler.AppPool.Get<Promise<T>>();
+            RPromise<T> promise = AppHandler.AppPool.Get<RPromise<T>>();
             promise.Resolve(resolveValue);
             return promise;
         }
 
         public static IPromise<T> Rejected<T>(Exception exception)
         {
-            Promise<T> promise = AppHandler.AppPool.Get<Promise<T>>();
+            RPromise<T> promise = AppHandler.AppPool.Get<RPromise<T>>();
             promise.Reject(exception);
             return promise;
         }
 
-        public static void SafeResolve(ref Promise promise)
+        public static void SafeResolve(ref RPromise promise)
         {
             InternalSafePromiseBehaviour(ref promise)?.Resolve();
         }
 
-        public static void SafeReject(ref Promise promise, Exception exception)
+        public static void SafeReject(ref RPromise promise, Exception exception)
         {
             InternalSafePromiseBehaviour(ref promise)?.Reject(exception);
         }
         
-        public static void SafeResolve<T>(ref Promise<T> promise, T resolveValue)
+        public static void SafeResolve<T>(ref RPromise<T> promise, T resolveValue)
         {
             InternalSafePromiseBehaviour(ref promise)?.Resolve(resolveValue);
         }
         
-        public static void SafeReject<T>(ref Promise<T> promise, Exception exception)
+        public static void SafeReject<T>(ref RPromise<T> promise, Exception exception)
         {
             InternalSafePromiseBehaviour(ref promise)?.Reject(exception);
         }
 
-        private static Promise InternalSafePromiseBehaviour(ref Promise promise)
+        private static RPromise InternalSafePromiseBehaviour(ref RPromise promise)
         {
             if (promise == null) return null;
 
@@ -75,12 +75,12 @@ namespace CoreResources.Promise
                 return null;
             }
 
-            Promise tmpPromise = promise;
+            RPromise tmpPromise = promise;
             promise = null;
             return tmpPromise;
         }
 
-        private static Promise<T> InternalSafePromiseBehaviour<T>(ref Promise<T> promise)
+        private static RPromise<T> InternalSafePromiseBehaviour<T>(ref RPromise<T> promise)
         {
             if (promise == null) return null;
 
@@ -90,7 +90,7 @@ namespace CoreResources.Promise
                 return null;
             }
 
-            Promise<T> tmpPromise = promise;
+            RPromise<T> tmpPromise = promise;
             promise = null;
             return tmpPromise;
         }

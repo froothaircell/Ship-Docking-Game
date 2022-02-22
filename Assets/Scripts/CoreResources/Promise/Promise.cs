@@ -5,14 +5,14 @@ using UnityEngine;
 
 namespace CoreResources.Promise
 {
-    public partial class Promise : PoolablePromise, IPromise
+    public partial class RPromise : PoolablePromise, IPromise
     {
         private List<Action> _resolveHandlers;
 
         public void Resolve()
         {
             if (State != PromiseState.Pending)
-                throw PromiseException.NonPending($"Resolve {typeof(Promise).FullName}", State);
+                throw RPromiseException.NonPending($"Resolve {typeof(RPromise).FullName}", State);
             
             InternalReportProgress(1f);
 
@@ -87,7 +87,7 @@ namespace CoreResources.Promise
             return this;
         }
 
-        public IPromise Then(Promise onReactPromise)
+        public IPromise Then(RPromise onReactPromise)
         {
             if (onReactPromise == null) throw new ArgumentNullException(nameof(onReactPromise));
             
@@ -120,7 +120,7 @@ namespace CoreResources.Promise
                 case PromiseState.Rejected:
                     break;
                 case PromiseState.Pooled:
-                    throw PromiseException.PooledInteraction("AddResolveHandler", this);
+                    throw RPromiseException.PooledInteraction("AddResolveHandler", this);
                 
             }
         }
@@ -132,7 +132,7 @@ namespace CoreResources.Promise
         }
     }
 
-    public class Promise<T> : PoolablePromise, IPromise<T>
+    public class RPromise<T> : PoolablePromise, IPromise<T>
     {
         private T _resolveValue;
         
@@ -146,7 +146,7 @@ namespace CoreResources.Promise
 
         public void Resolve(T resolveValue)
         {
-            if (State != PromiseState.Pending) throw PromiseException.NonPending("Resolve", State);
+            if (State != PromiseState.Pending) throw RPromiseException.NonPending("Resolve", State);
             
             InternalReportProgress(1f);
 
@@ -227,7 +227,7 @@ namespace CoreResources.Promise
             return this;
         }
 
-        public IPromise Then(Promise onReactPromise)
+        public IPromise Then(RPromise onReactPromise)
         {
             if (onReactPromise == null) throw new ArgumentNullException(nameof(onReactPromise));
 
@@ -279,7 +279,7 @@ namespace CoreResources.Promise
             return this;
         }
 
-        public IPromise<T> Then(Promise<T> onReactPromise)
+        public IPromise<T> Then(RPromise<T> onReactPromise)
         {
             if (onReactPromise == null) throw new ArgumentNullException(nameof(onReactPromise));
 
@@ -311,7 +311,7 @@ namespace CoreResources.Promise
                 case PromiseState.Rejected:
                     break;
                 case PromiseState.Pooled:
-                    throw PromiseException.PooledInteraction("AddResolveHandler", this);
+                    throw RPromiseException.PooledInteraction("AddResolveHandler", this);
             }
         }
 

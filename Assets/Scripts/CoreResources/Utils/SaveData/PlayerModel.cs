@@ -1,3 +1,4 @@
+using CoreResources.Utils.Singletons;
 using GameResources;
 
 namespace CoreResources.Utils.SaveData

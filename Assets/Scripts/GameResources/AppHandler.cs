@@ -2,8 +2,10 @@ using System;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Pool;
 using CoreResources.Utils;
+using CoreResources.Utils.Jobs;
 using CoreResources.Utils.ResourceLoader;
 using CoreResources.Utils.SaveData;
+using CoreResources.Utils.Singletons;
 using GameResources.GameManager;
 using GameResources.Menus.MainMenu;
 using GameResources.Menus.PauseAndHudMenu;
@@ -15,10 +17,12 @@ namespace GameResources
     {
         public static TypePool AppPool = new TypePool("AppPool");
         public static TypePool EventPool = new TypePool("EventPool");
+        public static TypePool JobPool = new TypePool("Job Pool");
         public static REventHandler EventHandler;
         public static AssetLoader AssetHandler;
         public static PlayerPrefsManager SaveManager;
         public static PlayerModel PlayerStats;
+        public static JobManager JobHandler;
         // Essentially this mediator should run on itself
         // and not be accessed from here think about removing
         // this later
@@ -43,8 +47,8 @@ namespace GameResources
             MainMenuMediator = RMainMenuMediator.Instance;
             PauseAndHudMenuMediator = RPauseAndHudMenuMediator.Instance;
             WinOrLossMenuMediator = RWinOrLossMenuMediator.Instance;
-            
-            
+
+            JobHandler = JobManager.SetInstanceType<JobManager>();
             PlayerStats.Init();
             InitializeMenus();
             GMMediator = RGameManagerMediator.Create();

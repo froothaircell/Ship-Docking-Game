@@ -57,6 +57,11 @@ namespace GameResources.Menus.PauseAndHudMenu
                 View.pauseMenu.SetActive(false);
                 REvent_GameManagerPauseToPlay.Dispatch();
             }
+            else
+            {
+                View.pauseMenu.SetActive(true);
+                REvent_GameManagerPlayToPause.Dispatch();
+            }
         }
 
         private void OnQuitToMainMenu()

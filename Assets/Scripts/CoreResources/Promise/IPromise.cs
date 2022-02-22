@@ -25,7 +25,7 @@ namespace CoreResources.Promise
         
         IPromise Then([NotNull] Action onResolved, [NotNull] Action<Exception> onRejected, [NotNull] Action<float> onProgress);
 
-        IPromise Then([NotNull] Promise onReactPromise);
+        IPromise Then([NotNull] RPromise onReactPromise);
     }
     
     public interface IPromise<T> : IPromise
@@ -38,7 +38,7 @@ namespace CoreResources.Promise
         
         IPromise<T> Then([NotNull] Action<T> onResolved, [NotNull] Action<Exception> onRejected, [NotNull] Action<float> onProgress);
 
-        IPromise<T> Then([NotNull] Promise<T> onReactPromise);
+        IPromise<T> Then([NotNull] RPromise<T> onReactPromise);
     }
 
     

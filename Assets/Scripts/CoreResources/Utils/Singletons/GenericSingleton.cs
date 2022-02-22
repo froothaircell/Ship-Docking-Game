@@ -1,8 +1,8 @@
 using UnityEngine;
 
-namespace CoreResources.Utils
+namespace CoreResources.Utils.Singletons
 {
-    public abstract class GenericSingleton<T> : MonoBehaviour where T : Component
+    public abstract class GenericSingleton<T> : MonoBehaviour where T : GenericSingleton<T>
     {
         private static T _instance;
         protected bool FirstInitComplete = false;

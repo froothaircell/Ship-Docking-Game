@@ -1,3 +1,4 @@
+using CoreResources.Utils.Singletons;
 using UnityEngine;
 
 namespace CoreResources.Utils.SaveData
