@@ -7,9 +7,11 @@ using CoreResources.Utils.ResourceLoader;
 using CoreResources.Utils.SaveData;
 using CoreResources.Utils.Singletons;
 using GameResources.GameManager;
+using GameResources.InputManagement;
 using GameResources.Menus.MainMenu;
 using GameResources.Menus.PauseAndHudMenu;
 using GameResources.Menus.WinOrLossMenu;
+using GameResources.Pathing;
 
 namespace GameResources
 {
@@ -21,6 +23,7 @@ namespace GameResources
         public static REventHandler EventHandler;
         public static AssetLoader AssetHandler;
         public static PlayerPrefsManager SaveManager;
+        public static RInputManager InputHandler;
         public static PlayerModel PlayerStats;
         public static JobManager JobHandler;
         // Essentially this mediator should run on itself
@@ -43,6 +46,7 @@ namespace GameResources
             EventHandler = REventHandler.Instance;
             PlayerStats = PlayerModel.Instance;
             SaveManager = PlayerPrefsManager.Instance;
+            InputHandler = RInputManager.Instance;
             AssetHandler = AssetLoader.Instance;
             MainMenuMediator = RMainMenuMediator.Instance;
             PauseAndHudMenuMediator = RPauseAndHudMenuMediator.Instance;

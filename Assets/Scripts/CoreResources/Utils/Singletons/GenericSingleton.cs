@@ -40,7 +40,7 @@ namespace CoreResources.Utils.Singletons
             }
         }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             InitSingleton();
         }
