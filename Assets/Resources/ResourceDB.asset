@@ -13,9 +13,127 @@ MonoBehaviour:
   m_Name: ResourceDB
   m_EditorClassIdentifier: 
   _prefabResourceItems:
+  - _name: FisherBoat
+    _path: Boats
+    retrievedObject: {fileID: 0}
+  - _name: JetSki
+    _path: Boats
+    retrievedObject: {fileID: 0}
+  - _name: ScoutBoat
+    _path: Boats
+    retrievedObject: {fileID: 0}
+  - _name: SpeedBoat
+    _path: Boats
+    retrievedObject: {fileID: 0}
   - _name: Main Menu
     _path: Menus
+    retrievedObject: {fileID: 0}
   - _name: Pause and HUD Menu
     _path: Menus
+    retrievedObject: {fileID: 0}
   - _name: Win or Loss Menu
     _path: Menus
+    retrievedObject: {fileID: 0}
+  _otherResourceItems:
+  - _name: Level 1
+    _path: 
+    retrievedObject: {fileID: 0}
+  - _name: ResourceDB
+    _path: 
+    retrievedObject: {fileID: 0}
+  - _name: Blue to Purple - Vertical
+    _path: Color Gradient Presets
+    retrievedObject: {fileID: 0}
+  - _name: Dark to Light Green - Vertical
+    _path: Color Gradient Presets
+    retrievedObject: {fileID: 0}
+  - _name: Light to Dark Green - Vertical
+    _path: Color Gradient Presets
+    retrievedObject: {fileID: 0}
+  - _name: Yellow to Orange - Vertical
+    _path: Color Gradient Presets
+    retrievedObject: {fileID: 0}
+  - _name: Anton SDF - Drop Shadow
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: Anton SDF - Outline
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: Anton SDF - Sunny Days
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: Anton SDF
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: Bangers SDF - Drop Shadow
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: Bangers SDF - Outline
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: Bangers SDF Glow
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: Bangers SDF Logo
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: Bangers SDF
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: Electronic Highway Sign SDF
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: LiberationSans SDF - Metalic Green
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: LiberationSans SDF - Overlay
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: LiberationSans SDF - Soft Mask
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: Oswald Bold SDF
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: Roboto-Bold SDF - Drop Shadow
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: Roboto-Bold SDF - Surface
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: Roboto-Bold SDF
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: Default Sprite Asset
+    _path: Sprite Assets
+    retrievedObject: {fileID: 0}
+  - _name: DropCap Numbers
+    _path: Sprite Assets
+    retrievedObject: {fileID: 0}
+  - _name: LiberationSans SDF - Drop Shadow
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: LiberationSans SDF - Fallback
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: LiberationSans SDF - Outline
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: LiberationSans SDF
+    _path: Fonts & Materials
+    retrievedObject: {fileID: 0}
+  - _name: EmojiOne
+    _path: Sprite Assets
+    retrievedObject: {fileID: 0}
+  - _name: Default Style Sheet
+    _path: Style Sheets
+    retrievedObject: {fileID: 0}
+  - _name: LineBreaking Following Characters
+    _path: 
+    retrievedObject: {fileID: 0}
+  - _name: LineBreaking Leading Characters
+    _path: 
+    retrievedObject: {fileID: 0}
+  - _name: TMP Settings
+    _path: 
+    retrievedObject: {fileID: 0}

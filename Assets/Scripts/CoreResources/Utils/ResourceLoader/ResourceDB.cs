@@ -26,7 +26,7 @@ namespace CoreResources.Utils.ResourceLoader
 
 #if UNITY_EDITOR
                 var resDir = new DirectoryInfo(Path.Combine(Application.dataPath, "Resources/"));
-                if (resDir.Exists)
+                if (!resDir.Exists)
                     AssetDatabase.CreateFolder("Assets/", "Resources");
 
                 AssetDatabase.CreateAsset(_instance, "Assets/Resources/ResourceDB.asset");
@@ -37,8 +37,10 @@ namespace CoreResources.Utils.ResourceLoader
         }
 
         [SerializeField] private List<ResourceItem> _prefabResourceItems = new List<ResourceItem>();
+        [SerializeField] private List<ResourceItem> _otherResourceItems = new List<ResourceItem>();
 
         public int PrefabCount => _prefabResourceItems.Count;
+        public int OtherCount => _otherResourceItems.Count;
 
         public static ResourceDB FindInstance()
         {
@@ -50,13 +52,13 @@ namespace CoreResources.Utils.ResourceLoader
         // prefabs to this DB
         public bool HasAsset(string assetName)
         {
-            ResourceItem item = CheckForItemInList(assetName, _prefabResourceItems);
+            ResourceItem item = CheckForItemInList(assetName, _otherResourceItems) ?? CheckForItemInList(assetName, _prefabResourceItems);
             return item != null;
         }
 
         public ResourceItem GetResourceItem(string assetName)
         {
-            ResourceItem item = CheckForItemInList(assetName, _prefabResourceItems);
+            ResourceItem item = CheckForItemInList(assetName, _otherResourceItems) ?? CheckForItemInList(assetName, _prefabResourceItems);
             return item;
         }
 
@@ -166,12 +168,13 @@ namespace CoreResources.Utils.ResourceLoader
             if (extension.Equals(".prefab"))
                 return _prefabResourceItems;
 
-            return null;
+            return _otherResourceItems;
         }
 
         private void ClearAllLists()
         {
             _prefabResourceItems.Clear();
+            _otherResourceItems.Clear();
         }
     }
 }

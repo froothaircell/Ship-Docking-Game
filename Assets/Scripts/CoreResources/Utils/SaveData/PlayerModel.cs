@@ -24,6 +24,12 @@ namespace CoreResources.Utils.SaveData
         public void Init()
         {
             UpdateStats();
+            if (_level == 0)
+            {
+                _level = 1;
+                _score = 0;
+                UpdateSaveData();
+            }
         }
     }
 }

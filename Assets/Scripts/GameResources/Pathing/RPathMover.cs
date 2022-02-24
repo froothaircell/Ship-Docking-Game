@@ -45,6 +45,8 @@ namespace GameResources.Pathing
                 }
                 else
                 {
+                    // Add logic here to maintain course in the current direction of the ship
+                    
                     yield return 0;
                 }
             }

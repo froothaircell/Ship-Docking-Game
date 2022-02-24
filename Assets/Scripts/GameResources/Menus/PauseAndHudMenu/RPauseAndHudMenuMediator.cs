@@ -2,6 +2,7 @@ using System;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Mediators;
 using CoreResources.Pool;
+using CoreResources.Utils.Disposables;
 using GameResources.Events;
 using UnityEngine;
 
@@ -34,8 +35,12 @@ namespace GameResources.Menus.PauseAndHudMenu
         public void OnEnterMainMenu(REvent evt)
         {
             View.gameObject.SetActive(true);
+            View.pause_MainMenuButton.onClick.RemoveAllListeners();
+            View.pauseMenu.SetActive(false);
+            View.settingsButton.onClick.RemoveAllListeners();
             View.settingsButton.gameObject.SetActive(false);
-            OnEnterMenu();
+            View.levelText.gameObject.SetActive(true);
+            View.scoreText.gameObject.SetActive(true);
         }
         
         public override void OnEnterMenu()
@@ -48,6 +53,7 @@ namespace GameResources.Menus.PauseAndHudMenu
         public override void OnExitMenu()
         {
             View.RemoveAllListeners();
+            // _disposables.ClearDisposables();
         }
 
         private void OnSettingsToggled()

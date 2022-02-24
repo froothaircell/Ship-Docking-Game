@@ -10,7 +10,7 @@ namespace CoreResources.Utils.ResourceLoader
         {
             Debug.Log("Started async task");
             await Task.Delay(3000);
-            GameObject sample = AppHandler.AssetHandler.LoadAsset("Three Capsules");
+            GameObject sample = AppHandler.AssetHandler.LoadAsset<GameObject>("Three Capsules");
             sample.transform.position = new Vector3(0, 0, 0);
             Instantiate(sample);
             Debug.Log("Ended async task");

@@ -12,6 +12,7 @@ using GameResources.Menus.MainMenu;
 using GameResources.Menus.PauseAndHudMenu;
 using GameResources.Menus.WinOrLossMenu;
 using GameResources.Pathing;
+using GameResources.Ship;
 
 namespace GameResources
 {
@@ -22,9 +23,9 @@ namespace GameResources
         public static TypePool JobPool = new TypePool("Job Pool");
         public static REventHandler EventHandler;
         public static AssetLoader AssetHandler;
+        public static PlayerModel PlayerStats;
         public static PlayerPrefsManager SaveManager;
         public static RInputManager InputHandler;
-        public static PlayerModel PlayerStats;
         public static JobManager JobHandler;
         // Essentially this mediator should run on itself
         // and not be accessed from here think about removing
@@ -33,6 +34,7 @@ namespace GameResources
         public static RMainMenuMediator MainMenuMediator;
         public static RPauseAndHudMenuMediator PauseAndHudMenuMediator;
         public static RWinOrLossMenuMediator WinOrLossMenuMediator;
+        public static ShipPoolManager ShipPoolHandler;
 
         private void Awake()
         {
@@ -57,6 +59,8 @@ namespace GameResources
             InitializeMenus();
             GMMediator = RGameManagerMediator.Create();
             GMMediator.Initialize();
+            
+            ShipPoolHandler = ShipPoolManager.Instance;
         }
 
         private void InitializeMenus()

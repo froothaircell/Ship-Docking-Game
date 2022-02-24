@@ -35,7 +35,7 @@ namespace GameResources.Menus.MainMenu
         public override void OnExitMenu()
         {
             View.RemoveAllListeners();
-            _disposables.ClearDisposables();
+            // _disposables.ClearDisposables();
         }
 
         private void OnStartGame()

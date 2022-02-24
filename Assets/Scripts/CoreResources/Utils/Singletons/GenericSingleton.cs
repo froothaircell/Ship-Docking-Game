@@ -25,18 +25,21 @@ namespace CoreResources.Utils.Singletons
                 return _instance;
             }
         }
-
+        
         protected virtual void InitSingleton()
         {
-            if (Instance != null && FirstInitComplete)
+            if (!FirstInitComplete)
             {
-                Destroy(gameObject);
-            }
-            else
-            {
-                _instance = this as T;
-                DontDestroyOnLoad(gameObject);
-                FirstInitComplete = true; // Makes sure that Instance can be called before awake
+                if (Instance != null && FirstInitComplete)
+                {
+                    Destroy(gameObject);
+                }
+                else
+                {
+                    _instance = this as T;
+                    DontDestroyOnLoad(gameObject);
+                    FirstInitComplete = true; // Makes sure that Instance can be called before awake
+                }
             }
         }
 

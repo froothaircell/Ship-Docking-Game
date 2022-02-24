@@ -17,7 +17,7 @@ namespace CoreResources.Utils.ResourceLoader
             return ResourceDB.Instance.HasAsset(name);
         }
 
-        public GameObject LoadAsset(string name)
+        public T LoadAsset<T>(string name) where T : Object
         {
             ResourceItem resourceItem = ResourceDB.Instance.GetResourceItem(name);
 
@@ -27,7 +27,7 @@ namespace CoreResources.Utils.ResourceLoader
                 return null;
             }
             
-            return resourceItem.Load<GameObject>();
+            return resourceItem.Load<T>();
         }
     }
 }

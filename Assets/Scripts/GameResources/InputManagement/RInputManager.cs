@@ -36,7 +36,7 @@ namespace GameResources.InputManagement
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out _raycastHit, Mathf.Infinity, (_boatLayerMask)))
                 {
-                    _selectedPathingManager = _raycastHit.collider.gameObject.GetComponent<RPathingManager>();
+                    _selectedPathingManager = _raycastHit.collider.transform.parent.GetComponent<RPathingManager>();
                     _selectedPathingManager.ClearPath();
                 }
             }
