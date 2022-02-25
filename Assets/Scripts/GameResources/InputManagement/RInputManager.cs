@@ -1,4 +1,3 @@
-using System;
 using CoreResources.Utils.Singletons;
 using GameResources.Pathing;
 using UnityEngine;

@@ -35,6 +35,7 @@ namespace GameResources
         public static RPauseAndHudMenuMediator PauseAndHudMenuMediator;
         public static RWinOrLossMenuMediator WinOrLossMenuMediator;
         public static ShipPoolManager ShipPoolHandler;
+        public static ShipSpawnManager ShipSpawnHandler;
 
         private void Awake()
         {
@@ -61,6 +62,7 @@ namespace GameResources
             GMMediator.Initialize();
             
             ShipPoolHandler = ShipPoolManager.Instance;
+            ShipSpawnHandler = ShipSpawnManager.Instance;
         }
 
         private void InitializeMenus()

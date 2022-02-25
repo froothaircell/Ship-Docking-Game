@@ -2,9 +2,7 @@ using System;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Mediators;
 using CoreResources.Pool;
-using CoreResources.Utils.Disposables;
 using GameResources.Events;
-using UnityEngine;
 
 namespace GameResources.Menus.WinOrLossMenu
 {
@@ -61,7 +59,7 @@ namespace GameResources.Menus.WinOrLossMenu
 
         private void OnMainMenu()
         {
-            REvent_GameManagerPlayToMainMenu.Dispatch();
+            REvent_GameManagerWinOrLossToMainMenu.Dispatch();
         }
 
         private void OnRestartLevel()

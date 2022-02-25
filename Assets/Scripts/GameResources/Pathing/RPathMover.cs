@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using CoreResources.Utils.Jobs;
+using GameResources.Ship;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,11 +14,50 @@ namespace GameResources.Pathing
         private Queue<Vector3> _pathPoints = new Queue<Vector3>();
         public float distanceThreshold = 0.5f;
         private UpdateJob _pathingCoroutine;
-
+        private float _shipSpeed;
+        private Vector3 _forwardDirection;
+        
+        private Action onPathingStopped = delegate {  };
+        
         private void Awake()
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
+            _shipSpeed = GetComponent<ShipController>()._shipData.ShipSpeed;
+            if (_shipSpeed == null)
+            {
+                _shipSpeed = 3f;
+            }
             GetComponent<RPathingManager>().OnNewPathCreated += SetPoints;
+            onPathingStopped += OnPathingStopped;
+        }
+
+        private void OnEnable()
+        {
+            _forwardDirection = transform.forward;
+            if (_pathingCoroutine != null)
+            {
+                JobManager.SafeStopUpdate(ref _pathingCoroutine);
+            }
+            _pathingCoroutine = AppHandler.JobHandler.ExecuteCoroutine(MoveStraight());
+        }
+
+        private void OnDisable()
+        {
+            if (_pathingCoroutine != null)
+            {
+                JobManager.SafeStopUpdate(ref _pathingCoroutine);
+            }
+        }
+
+        private void OnPathingStopped()
+        {
+            _forwardDirection = transform.forward;
+            _navMeshAgent.ResetPath();
+            if (_pathingCoroutine != null)
+            {
+                JobManager.SafeStopUpdate(ref _pathingCoroutine);
+            }
+            _pathingCoroutine = AppHandler.JobHandler.ExecuteCoroutine(MoveStraight());
         }
 
         private void SetPoints(IEnumerable<Vector3> points)
@@ -33,7 +74,7 @@ namespace GameResources.Pathing
             }
         }
 
-        public IEnumerator UpdatePathing()
+        private IEnumerator UpdatePathing()
         {
             while (true)
             {
@@ -45,10 +86,21 @@ namespace GameResources.Pathing
                 }
                 else
                 {
-                    // Add logic here to maintain course in the current direction of the ship
-                    
+                    if (_pathPoints.Count == 0)
+                    {
+                        onPathingStopped.Invoke();
+                    }
                     yield return 0;
                 }
+            }
+        }
+
+        private IEnumerator MoveStraight()
+        {
+            while (true)
+            {
+                transform.position += _forwardDirection * Time.deltaTime * _shipSpeed;
+                yield return 0;
             }
         }
 

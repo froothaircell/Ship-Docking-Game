@@ -1,4 +1,5 @@
 using System;
+using CoreResources.Handlers.EventHandler;
 using CoreResources.Pool;
 using CoreResources.Utils.Disposables;
 using GameResources.Events;
@@ -21,17 +22,17 @@ namespace GameResources.GameManager.States
             _disposables.ClearDisposables();
         }
 
-        protected override void OnPause(REvent_GameManagerPlayToPause evt)
+        protected override void OnPause(REvent evt)
         {
             AppHandler.GMMediator.FSM.GoToState<GameManagerState_Pause>();
         }
 
-        protected override void OnWin(REvent_GameManagerPlayToWin evt)
+        protected override void OnWin(REvent evt)
         {
             AppHandler.GMMediator.FSM.GoToState<GameManagerState_Win>();
         }
 
-        protected override void OnLoss(REvent_GameManagerPlayToLoss evt)
+        protected override void OnLoss(REvent evt)
         {
             AppHandler.GMMediator.FSM.GoToState<GameManagerState_Loss>();
         }

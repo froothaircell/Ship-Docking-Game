@@ -1,4 +1,5 @@
 using System;
+using CoreResources.Handlers.EventHandler;
 using CoreResources.Pool;
 using CoreResources.StateMachine;
 using GameResources.Events;
@@ -25,27 +26,27 @@ namespace GameResources.GameManager
             Win = 5
         }
 
-        protected virtual void OnPlay(REvent_GameManagerMainMenuToPlay evt)
+        protected virtual void OnPlay(REvent evt)
         {
             
         }
 
-        protected virtual void OnPause(REvent_GameManagerPlayToPause evt)
+        protected virtual void OnPause(REvent evt)
         {
             
         }
 
-        protected virtual void OnMainMenu(REvent_GameManagerPlayToMainMenu evt)
+        protected virtual void OnMainMenu(REvent evt)
         {
             
         }
 
-        protected virtual void OnWin(REvent_GameManagerPlayToWin evt)
+        protected virtual void OnWin(REvent evt)
         {
             
         }
 
-        protected virtual void OnLoss(REvent_GameManagerPlayToLoss evt)
+        protected virtual void OnLoss(REvent evt)
         {
             
         }

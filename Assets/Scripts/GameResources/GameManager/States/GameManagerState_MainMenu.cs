@@ -1,4 +1,5 @@
 using System;
+using CoreResources.Handlers.EventHandler;
 using CoreResources.Pool;
 using CoreResources.Utils.Disposables;
 using GameResources.Events;
@@ -19,7 +20,7 @@ namespace GameResources.GameManager.States
             _disposables.ClearDisposables();
         }
 
-        protected override void OnPlay(REvent_GameManagerMainMenuToPlay evt)
+        protected override void OnPlay(REvent evt)
         {
             AppHandler.GMMediator.FSM.GoToState<GameManagerState_Play>();
         }

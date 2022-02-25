@@ -1,12 +1,7 @@
 using System;
-using System.Collections.Generic;
-using CoreResources.Handlers.EventHandler;
 using CoreResources.Mediators;
 using CoreResources.Pool;
-using CoreResources.Utils.Disposables;
 using GameResources.Events;
-using UnityEngine;
-using UnityEngine.Events;
 
 namespace GameResources.Menus.MainMenu
 {

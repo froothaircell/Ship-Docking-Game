@@ -1,6 +1,5 @@
 using CoreResources.Utils;
 using TMPro;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace GameResources.Menus.WinOrLossMenu

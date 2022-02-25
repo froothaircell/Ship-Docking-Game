@@ -2,16 +2,17 @@ using System;
 using System.Collections.Generic;
 using CoreResources.Utils.Singletons;
 using GameResources.LevelManagement;
+using GameResources.Pathing;
 using UnityEngine;
 
 namespace GameResources.Ship
 {
     public enum ShipTypes
     {
-        ScoutBoat,
-        FisherBoat,
-        SpeedBoat,
-        JetSki
+        ScoutBoat = 0,
+        FisherBoat = 1,
+        SpeedBoat = 2,
+        JetSki = 3
     }
     
     public class ShipPoolManager : GenericSingleton<ShipPoolManager>
@@ -24,13 +25,13 @@ namespace GameResources.Ship
 
         private List<string> _shipNames;
         private Dictionary<string, List<GameObject>> _shipPool; // We'll keep this static for each level
-        private List<GameObject> _despawnedItems;
+        private List<GameObject> _spawnedItems;
         
         protected override void InitSingleton()
         {
             base.InitSingleton();
             _shipPool = new Dictionary<string, List<GameObject>>();
-            _despawnedItems = new List<GameObject>();
+            _spawnedItems = new List<GameObject>();
             LoadShipPool();
         }
 
@@ -94,11 +95,11 @@ namespace GameResources.Ship
             }
             _shipPool.Clear();
 
-            for (int i = 0; i < _despawnedItems.Count; i++)
+            for (int i = 0; i < _spawnedItems.Count; i++)
             {
-                Destroy(_despawnedItems[i]);
+                Destroy(_spawnedItems[i]);
             }
-            _despawnedItems.Clear();
+            _spawnedItems.Clear();
         }
 
         public GameObject Spawn(ShipTypes type, Vector3 position, Quaternion rotation)
@@ -107,25 +108,27 @@ namespace GameResources.Ship
             switch (type)
             {
                 case ShipTypes.ScoutBoat:
-                    temp = _shipPool[_shipNames[0]][_shipPool.Count - 1];
-                    _shipPool[_shipNames[0]].RemoveAt(_shipPool.Count - 1);
+                    temp = _shipPool[_shipNames[0]][0];
+                    _shipPool[_shipNames[0]].RemoveAt(0);
                     break;
                 case ShipTypes.FisherBoat:
-                    temp = _shipPool[_shipNames[1]][_shipPool.Count - 1];
-                    _shipPool[_shipNames[1]].RemoveAt(_shipPool.Count - 1);
+                    temp = _shipPool[_shipNames[1]][0];
+                    _shipPool[_shipNames[1]].RemoveAt(0);
                     break;
                 case ShipTypes.SpeedBoat:
-                    temp = _shipPool[_shipNames[2]][_shipPool.Count - 1];
-                    _shipPool[_shipNames[2]].RemoveAt(_shipPool.Count - 1);
+                    temp = _shipPool[_shipNames[2]][0];
+                    _shipPool[_shipNames[2]].RemoveAt(0);
                     break;
                 case ShipTypes.JetSki:
-                    temp = _shipPool[_shipNames[3]][_shipPool.Count - 1];
-                    _shipPool[_shipNames[3]].RemoveAt(_shipPool.Count - 1);
+                    temp = _shipPool[_shipNames[3]][0];
+                    _shipPool[_shipNames[3]].RemoveAt(0);
                     break;
             }
+            _spawnedItems.Add(temp);
             temp.transform.position = position;
             temp.transform.rotation = rotation;
             temp.SetActive(true);
+            temp.GetComponent<RPathMover>().enabled = true;
             return temp;
         }
 
