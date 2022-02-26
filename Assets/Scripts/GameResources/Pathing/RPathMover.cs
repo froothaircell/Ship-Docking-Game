@@ -17,9 +17,13 @@ namespace GameResources.Pathing
         private float _shipSpeed;
         private Vector3 _forwardDirection;
         
-        private Action onPathingStopped = delegate {  };
+        public Action onPathingStopped = delegate {  };
         
         private void Awake()
+        {
+        }
+
+        private void OnEnable()
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();
             _shipSpeed = GetComponent<ShipController>()._shipData.ShipSpeed;
@@ -29,10 +33,6 @@ namespace GameResources.Pathing
             }
             GetComponent<RPathingManager>().OnNewPathCreated += SetPoints;
             onPathingStopped += OnPathingStopped;
-        }
-
-        private void OnEnable()
-        {
             _forwardDirection = transform.forward;
             if (_pathingCoroutine != null)
             {
@@ -43,6 +43,8 @@ namespace GameResources.Pathing
 
         private void OnDisable()
         {
+            _navMeshAgent.ResetPath();
+            onPathingStopped -= OnPathingStopped;
             if (_pathingCoroutine != null)
             {
                 JobManager.SafeStopUpdate(ref _pathingCoroutine);

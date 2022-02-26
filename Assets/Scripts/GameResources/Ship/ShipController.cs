@@ -1,3 +1,5 @@
+using System;
+using GameResources.Events;
 using UnityEngine;
 
 namespace GameResources.Ship
@@ -12,5 +14,19 @@ namespace GameResources.Ship
     public class ShipController : MonoBehaviour
     {
         public ShipData _shipData;
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.layer == LayerMask.NameToLayer("Flag"))
+            {
+                REvent_BoatDocked.Dispatch(transform.position);
+                AppHandler.ShipPoolHandler.Despawn(gameObject);
+            }
+            else if (other.gameObject.layer == LayerMask.NameToLayer("Obstacles"))
+            {
+                REvent_BoatDestroyed.Dispatch(transform.position);
+                AppHandler.ShipPoolHandler.Despawn(gameObject);
+            }
+        }
     }
 }

@@ -16,13 +16,30 @@ namespace GameResources.Pathing
 
         protected void Awake()
         {
+        }
+
+        private void OnEnable()
+        {
             _points = AppHandler.AppPool.Get<PooledList<Vector3>>();
             _lineRenderer = GetComponentInChildren<LineRenderer>();
+            GetComponent<RPathMover>().onPathingStopped += CleanRenderer;
+        }
+
+        private void OnDisable()
+        {
+            ClearPath();
+            CleanRenderer();
+            GetComponent<RPathMover>().onPathingStopped -= CleanRenderer;
         }
 
         public void ClearPath()
         {
             _points.Clear();
+        }
+
+        public void CleanRenderer()
+        {
+            _lineRenderer.positionCount = 0;
         }
 
         public void DrawPath(RaycastHit hitInfo)

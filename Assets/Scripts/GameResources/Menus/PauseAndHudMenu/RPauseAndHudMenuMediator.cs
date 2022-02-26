@@ -15,7 +15,7 @@ namespace GameResources.Menus.PauseAndHudMenu
                 _disposables = AppHandler.AppPool.Get<PooledList<IDisposable>>();
             }
 
-            AppHandler.EventHandler.Subscribe<REvent_GameStart>(OnEnterMainMenu);
+            AppHandler.EventHandler.Subscribe<REvent_GameStart>(OnEnterMainMenu, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerMainMenuToPlay>(OnEnterPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToPlay>(OnEnterPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToMainMenu>(OnEnterMainMenu, _disposables);
