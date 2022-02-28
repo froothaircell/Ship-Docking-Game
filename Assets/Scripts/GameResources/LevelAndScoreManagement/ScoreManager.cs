@@ -56,7 +56,7 @@ namespace GameResources.LevelAndScoreManagement
             if (_dockedShips < _totalShips)
             {
                 _dockedShips++;
-                int dockedPerc = (_dockedShips / _totalShips) * 100;
+                int dockedPerc = (_dockedShips * 100) / _totalShips;
                 REvent_DisplayScore.Dispatch(dockedPerc);
                 // Won the level
                 if (dockedPerc >= 75)

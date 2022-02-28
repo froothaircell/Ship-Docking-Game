@@ -7,6 +7,8 @@ namespace CoreResources.Handlers.EventHandler
     // Correction : definition of the invoke/dispatch function is necessary
     public class REvent : Poolable
     {
+        public string Name => this.Name;
+
         public static T Get<T>() where T : REvent, new()
         {
             var temp = AppHandler.EventPool.Get<T>();

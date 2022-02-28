@@ -2,7 +2,10 @@ using System;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Mediators;
 using CoreResources.Pool;
+using CoreResources.Utils.Disposables;
 using GameResources.Events;
+using GameResources.LevelAndScoreManagement;
+using UnityEngine;
 
 namespace GameResources.Menus.PauseAndHudMenu
 {
@@ -19,27 +22,27 @@ namespace GameResources.Menus.PauseAndHudMenu
             AppHandler.EventHandler.Subscribe<REvent_GameManagerMainMenuToPlay>(OnEnterPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToPlay>(OnEnterPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToMainMenu>(OnEnterMainMenu, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToMainMenu>(OnEnterMainMenu, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnExit, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToLoss>(OnExit, _disposables);
         }
 
         public void OnEnterPlay(REvent evt)
         {
-            View.gameObject.SetActive(true);
             View.settingsButton.gameObject.SetActive(true);
             View.settingsButton.onClick.AddListener(OnSettingsToggled);
+            transform.GetChild(0).gameObject.SetActive(true);
             OnEnterMenu();
         }
 
         public void OnEnterMainMenu(REvent evt)
         {
-            View.gameObject.SetActive(true);
-            View.pause_MainMenuButton.onClick.RemoveAllListeners();
             View.pauseMenu.SetActive(false);
-            View.settingsButton.onClick.RemoveAllListeners();
+            View.RemoveAllListeners();
             View.settingsButton.gameObject.SetActive(false);
             View.levelText.gameObject.SetActive(true);
             View.scoreText.gameObject.SetActive(true);
+            transform.GetChild(0).gameObject.SetActive(true);
         }
         
         public override void OnEnterMenu()
@@ -47,6 +50,7 @@ namespace GameResources.Menus.PauseAndHudMenu
             View.levelText.gameObject.SetActive(true);
             View.scoreText.gameObject.SetActive(true);
             View.pause_MainMenuButton.onClick.AddListener(OnQuitToMainMenu);
+            View.pause_ResetSavesButton.onClick.AddListener(OnResetSaves);
         }
 
         public override void OnExitMenu()
@@ -71,7 +75,14 @@ namespace GameResources.Menus.PauseAndHudMenu
 
         private void OnQuitToMainMenu()
         {
-            REvent_GameManagerPlayToMainMenu.Dispatch();
+            LevelManager.LoadMainMenu();
+        }
+
+        private void OnResetSaves()
+        {
+            AppHandler.SaveManager.ResetPlayerPrefs();
+            AppHandler.PlayerStats.ResetStats();
+            LevelManager.LoadMainMenu();
         }
     }
 }

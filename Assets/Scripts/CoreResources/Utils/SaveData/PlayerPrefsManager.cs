@@ -1,4 +1,5 @@
 using CoreResources.Utils.Singletons;
+using GameResources.LevelAndScoreManagement;
 using UnityEngine;
 
 namespace CoreResources.Utils.SaveData
@@ -35,6 +36,11 @@ namespace CoreResources.Utils.SaveData
         {
             PlayerPrefs.SetInt(nameof(score), score);
             PlayerPrefs.SetInt(nameof(level), level);
+        }
+
+        public void ResetPlayerPrefs()
+        {
+            PlayerPrefs.DeleteAll();
         }
     }
 }

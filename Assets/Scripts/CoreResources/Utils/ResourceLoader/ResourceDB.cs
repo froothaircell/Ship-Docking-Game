@@ -78,6 +78,7 @@ namespace CoreResources.Utils.ResourceLoader
             return null;
         }
 
+#if UNITY_EDITOR
         public void UpdateResourceDB()
         {
             Debug.Log("Updating ResourceDB");
@@ -176,5 +177,6 @@ namespace CoreResources.Utils.ResourceLoader
             _prefabResourceItems.Clear();
             _otherResourceItems.Clear();
         }
+#endif
     }
 }

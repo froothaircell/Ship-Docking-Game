@@ -321,7 +321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _shipData:
     ShipType: 2
-    ShipSpeed: 9
+    ShipSpeed: 7
 --- !u!54 &3110652022247067949
 Rigidbody:
   m_ObjectHideFlags: 0

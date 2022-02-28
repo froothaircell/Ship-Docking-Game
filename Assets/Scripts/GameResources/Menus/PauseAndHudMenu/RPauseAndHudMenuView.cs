@@ -9,6 +9,7 @@ namespace GameResources.Menus.PauseAndHudMenu
     {
         public Button settingsButton;
         public Button pause_MainMenuButton;
+        public Button pause_ResetSavesButton;
         public TMP_Text levelText;
         public TMP_Text scoreText;
         public GameObject pauseMenu;
@@ -17,6 +18,7 @@ namespace GameResources.Menus.PauseAndHudMenu
         {
             settingsButton.onClick.RemoveAllListeners();
             pause_MainMenuButton.onClick.RemoveAllListeners();
+            pause_ResetSavesButton.onClick.RemoveAllListeners();
         }
     }
 }

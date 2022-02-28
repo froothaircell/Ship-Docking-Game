@@ -27,6 +27,12 @@ namespace CoreResources.Mediators
             OnExitMenu();
             transform.GetChild(0).gameObject.SetActive(false);
         }
+        
+        protected virtual void OnDestroy()
+        {
+            _disposables.ClearDisposables();
+            _disposables.ReturnToPool();
+        }
 
         public abstract void SubscribeToEvents();
         

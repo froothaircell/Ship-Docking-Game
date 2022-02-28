@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using CoreResources.Handlers.EventHandler;
 using GameResources.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine;

@@ -52,5 +52,12 @@ namespace CoreResources.Utils.SaveData
             UpdateScoreAndLevel(score, level);
             UpdateSaveData();
         }
+
+        public void ResetStats()
+        {
+            _score = 0;
+            _level = 1;
+            UpdateSaveData();
+        }
     }
 }

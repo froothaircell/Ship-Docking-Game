@@ -1,6 +1,10 @@
 using System;
 using System.Collections.Generic;
+using CoreResources.Handlers.EventHandler;
+using CoreResources.Pool;
+using CoreResources.Utils.Disposables;
 using CoreResources.Utils.Singletons;
+using GameResources.Events;
 using GameResources.LevelAndScoreManagement;
 using GameResources.Pathing;
 using UnityEngine;
@@ -26,6 +30,27 @@ namespace GameResources.Ship
         private List<string> _shipNames;
         private Dictionary<string, List<GameObject>> _shipPool; // We'll keep this static for each level
         private List<GameObject> _spawnedItems;
+        private PooledList<IDisposable> _disposables;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            
+            if (_disposables == null)
+            {
+                _disposables = AppHandler.AppPool.Get<PooledList<IDisposable>>();
+            }
+            
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToMainMenu>(OnMainMenuTransition, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToMainMenu>(OnMainMenuTransition,
+                _disposables);
+        }
+
+        private void OnDestroy()
+        {
+            _disposables.ClearDisposables();
+            _disposables.ReturnToPool();
+        }
 
         protected override void InitSingleton()
         {
@@ -77,7 +102,12 @@ namespace GameResources.Ship
             }
         }
 
-        public void ResetPool()
+        private void OnMainMenuTransition(REvent evt)
+        {
+            ResetPool();
+        }
+
+        private void ResetPool()
         {
             ClearPool();
             InitSingleton();

@@ -34,8 +34,20 @@ MonoBehaviour:
   - _name: Win or Loss Menu
     _path: Menus
     retrievedObject: {fileID: 0}
+  - _name: Flag
+    _path: Misc Prefabs
+    retrievedObject: {fileID: 0}
+  - _name: Obstacle
+    _path: Misc Prefabs
+    retrievedObject: {fileID: 0}
+  - _name: ShipSpawner
+    _path: Misc Prefabs
+    retrievedObject: {fileID: 0}
   _otherResourceItems:
   - _name: Level 1
+    _path: 
+    retrievedObject: {fileID: 0}
+  - _name: Level 2
     _path: 
     retrievedObject: {fileID: 0}
   - _name: ResourceDB

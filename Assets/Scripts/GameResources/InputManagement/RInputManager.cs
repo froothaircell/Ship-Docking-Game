@@ -55,7 +55,34 @@ namespace GameResources.InputManagement
                 }
             }
 #else
-            
+            if (Input.touchCount > 0)
+            {
+                Touch press = Input.GetTouch(0);
+                if (press.phase == TouchPhase.Began)
+                {
+                    ray = Camera.main.ScreenPointToRay(press.position);
+                    if (Physics.Raycast(ray, out _raycastHit, Mathf.Infinity, (_boatLayerMask)))
+                    {
+                        _selectedPathingManager = _raycastHit.collider.transform.parent.GetComponent<RPathingManager>();
+                        _selectedPathingManager.ClearPath();
+                    }
+                }
+
+                if (press.phase == TouchPhase.Ended)
+                {
+                    _selectedPathingManager.OnButtonReleased();
+                    _selectedPathingManager = null;
+                }
+
+                if (press.phase == TouchPhase.Moved && _selectedPathingManager != null)
+                {
+                    ray = Camera.main.ScreenPointToRay(press.position);
+                    if (Physics.Raycast(ray, out _raycastHit, Mathf.Infinity))
+                    {
+                        _selectedPathingManager.DrawPath(_raycastHit);
+                    }
+                }
+            }
 #endif
         }
     }
