@@ -21,7 +21,7 @@ namespace GameResources.Ship
 
         private void TestCallback(REvent_BoatDocked evt)
         {
-            Debug.Log($"Event called at position {evt.position}");
+            Debug.Log($"Event called at position {evt.Position}");
         }
     }
 }

@@ -3,6 +3,7 @@ using CoreResources.Handlers.EventHandler;
 using CoreResources.Mediators;
 using CoreResources.Pool;
 using GameResources.Events;
+using GameResources.LevelAndScoreManagement;
 
 namespace GameResources.Menus.WinOrLossMenu
 {
@@ -24,6 +25,7 @@ namespace GameResources.Menus.WinOrLossMenu
         public void OnEnterWin(REvent evt)
         {
             View.gameObject.SetActive(true);
+            View.winOrLossText.text = string.Format($"You Won! \n Total Score : {AppHandler.PlayerStats.Score}");
             OnEnterMenu();
             View.nextLevelButton.onClick.AddListener(OnNextLevel);
             View.nextLevelButton.gameObject.SetActive(true);
@@ -32,18 +34,20 @@ namespace GameResources.Menus.WinOrLossMenu
         public void OnEnterLoss(REvent evt)
         {
             View.gameObject.SetActive(true);
-            OnEnterMenu();
+            View.winOrLossText.text = string.Format($"You Lost! \n");
             View.nextLevelButton.gameObject.SetActive(false);
+            OnEnterMenu();
         }
         
         public override void OnEnterMenu()
         {
-            View.mainMenuButton.onClick.AddListener(OnMainMenu);
-            View.restartLevelButton.onClick.AddListener(OnRestartLevel);
-
             View.mainMenuButton.gameObject.SetActive(true);
             View.restartLevelButton.gameObject.SetActive(true);
             View.winOrLossText.gameObject.SetActive(true);
+            transform.GetChild(0).gameObject.SetActive(true);
+
+            View.mainMenuButton.onClick.AddListener(OnMainMenu);
+            View.restartLevelButton.onClick.AddListener(OnRestartLevel);
         }
 
         public override void OnExitMenu()
@@ -54,17 +58,20 @@ namespace GameResources.Menus.WinOrLossMenu
 
         private void OnNextLevel()
         {
-            REvent_GameManagerMainMenuToPlay.Dispatch();
+            LevelManager.LoadNextLevel();
+            REvent_GameManagerWinOrLossToPlay.Dispatch();
         }
 
         private void OnMainMenu()
         {
+            LevelManager.LoadMainMenu();
             REvent_GameManagerWinOrLossToMainMenu.Dispatch();
         }
 
         private void OnRestartLevel()
         {
-            REvent_GameManagerMainMenuToPlay.Dispatch();
+            LevelManager.LoadCurrentLevel();
+            REvent_GameManagerWinOrLossToPlay.Dispatch();
         }
     }
 }

@@ -18,14 +18,14 @@ namespace CoreResources.Mediators
 
         public virtual void OnEnter(REvent evt)
         {
-            View.gameObject.SetActive(true);
+            transform.GetChild(0).gameObject.SetActive(true);
             OnEnterMenu();
         }
 
         public virtual void OnExit(REvent evt)
         {
             OnExitMenu();
-            View.gameObject.SetActive(false);
+            transform.GetChild(0).gameObject.SetActive(false);
         }
 
         public abstract void SubscribeToEvents();

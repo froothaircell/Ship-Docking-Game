@@ -10,9 +10,9 @@ namespace GameResources.InputManagement
         private RPathingManager _selectedPathingManager;
         private RaycastHit _raycastHit;
 
-        protected override void Awake()
+        protected override void InitSingleton()
         {
-            base.Awake();
+            base.InitSingleton();
             _selectedPathingManager = null;
         }
 

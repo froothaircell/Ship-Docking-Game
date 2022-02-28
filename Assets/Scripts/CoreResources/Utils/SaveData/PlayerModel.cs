@@ -31,5 +31,26 @@ namespace CoreResources.Utils.SaveData
                 UpdateSaveData();
             }
         }
+
+        // Just set the value of a parameter to -1 if we don't need to add it
+        public void UpdateScoreAndLevel(int score, int level)
+        {
+            // score gets added
+            if (score > 0)
+            {
+                _score += score;
+            }
+
+            if (level > 0)
+            {
+                _level = level;
+            }
+        }
+
+        public void UpdateAndSave(int score, int level)
+        {
+            UpdateScoreAndLevel(score, level);
+            UpdateSaveData();
+        }
     }
 }

@@ -11,6 +11,15 @@ namespace GameResources.Events
         }
     }
     
+    public class REvent_LevelStart : REvent
+    {
+        public static void Dispatch()
+        {
+            var evt = Get<REvent_LevelStart>();
+            AppHandler.EventHandler.Dispatch(evt);
+        }
+    }
+    
     public class REvent_GameManagerMainMenuToPlay : REvent
     {
         public static void Dispatch()

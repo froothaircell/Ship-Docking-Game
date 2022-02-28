@@ -6,7 +6,7 @@ using CoreResources.Handlers.EventHandler;
 using CoreResources.Utils.Jobs;
 using CoreResources.Utils.Singletons;
 using GameResources.Events;
-using GameResources.LevelManagement;
+using GameResources.LevelAndScoreManagement;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -21,6 +21,22 @@ namespace GameResources.Ship
 
         private UpdateJob SpawnCoroutine;
 
+        public List<int> RemainingShips => _remainingShips;
+
+        public int RemainingShipsTotal
+        {
+            get
+            {
+                int tmp = 0;
+                foreach (var remainingShipTypes in _remainingShips)
+                {
+                    tmp += remainingShipTypes;
+                }
+
+                return tmp;
+            }
+        }
+
         public void AddToSpawnerList(GameObject spawnerToAdd)
         {
             if (spawnerToAdd != null)
@@ -29,13 +45,23 @@ namespace GameResources.Ship
             }
         }
 
-        protected override void Awake()
+        public void RemoveFromSpawnersList(GameObject spawnerToRemove)
         {
-            base.Awake();
+            if (_spawnerList.Contains(spawnerToRemove))
+            {
+                _spawnerList.Remove(spawnerToRemove);
+            }
+        }
+
+        protected override void InitSingleton()
+        {
+            base.InitSingleton();
             _disposables = new List<IDisposable>();
             _spawnerList = new List<GameObject>();
             _remainingShips = new List<int>();
+            _prevIndex = -1;
             LevelManager.AccessLevelData(ref _remainingShips);
+            AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnReset, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerMainMenuToPlay>(OnEnterPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToPlay>(OnEnterPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToPlay>(OnResumePlay, _disposables);
@@ -47,7 +73,6 @@ namespace GameResources.Ship
         private void OnEnterPlay(REvent evt)
         {
             LevelManager.AccessLevelData(ref _remainingShips);
-            StartSpawners();
         }
 
         private void OnResumePlay(REvent evt)
@@ -79,6 +104,18 @@ namespace GameResources.Ship
             {
                 JobManager.SafeStopUpdate(ref SpawnCoroutine);
             }
+        }
+
+        protected override void OnReset(REvent evt)
+        {
+            LevelManager.AccessLevelData(ref _remainingShips);
+            _prevIndex = -1;
+            ShipSpawner[] spawners = FindObjectsOfType<ShipSpawner>();
+            foreach (var spawner in spawners)
+            {
+                AddToSpawnerList(spawner.gameObject);
+            }
+            StartSpawners();
         }
 
         private IEnumerator SpawnIEnumerator()

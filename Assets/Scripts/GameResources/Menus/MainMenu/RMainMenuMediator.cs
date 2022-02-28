@@ -2,6 +2,7 @@ using System;
 using CoreResources.Mediators;
 using CoreResources.Pool;
 using GameResources.Events;
+using GameResources.LevelAndScoreManagement;
 
 namespace GameResources.Menus.MainMenu
 {
@@ -15,6 +16,7 @@ namespace GameResources.Menus.MainMenu
             }
 
 
+            // AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnEnter, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameStart>(OnEnter, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerMainMenuToPlay>(OnExit, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToMainMenu>(OnEnter, _disposables);
@@ -35,6 +37,7 @@ namespace GameResources.Menus.MainMenu
 
         private void OnStartGame()
         {
+            LevelManager.LoadCurrentLevel();
             REvent_GameManagerMainMenuToPlay.Dispatch();
         }
 

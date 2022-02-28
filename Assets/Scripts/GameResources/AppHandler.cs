@@ -1,17 +1,15 @@
-using System;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Pool;
-using CoreResources.Utils;
 using CoreResources.Utils.Jobs;
 using CoreResources.Utils.ResourceLoader;
 using CoreResources.Utils.SaveData;
 using CoreResources.Utils.Singletons;
 using GameResources.GameManager;
 using GameResources.InputManagement;
+using GameResources.LevelAndScoreManagement;
 using GameResources.Menus.MainMenu;
 using GameResources.Menus.PauseAndHudMenu;
 using GameResources.Menus.WinOrLossMenu;
-using GameResources.Pathing;
 using GameResources.Ship;
 
 namespace GameResources
@@ -36,6 +34,7 @@ namespace GameResources
         public static RWinOrLossMenuMediator WinOrLossMenuMediator;
         public static ShipPoolManager ShipPoolHandler;
         public static ShipSpawnManager ShipSpawnHandler;
+        public static ScoreManager ScoreHandler;
 
         private void Awake()
         {
@@ -63,6 +62,7 @@ namespace GameResources
             
             ShipPoolHandler = ShipPoolManager.Instance;
             ShipSpawnHandler = ShipSpawnManager.Instance;
+            ScoreHandler = ScoreManager.Instance;
         }
 
         private void InitializeMenus()

@@ -19,10 +19,6 @@ namespace GameResources.Pathing
         
         public Action onPathingStopped = delegate {  };
         
-        private void Awake()
-        {
-        }
-
         private void OnEnable()
         {
             _navMeshAgent = GetComponent<NavMeshAgent>();

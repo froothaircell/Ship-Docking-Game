@@ -1,3 +1,4 @@
+using CoreResources.Handlers.EventHandler;
 using UnityEngine;
 
 namespace CoreResources.Utils.Singletons
@@ -5,7 +6,6 @@ namespace CoreResources.Utils.Singletons
     public abstract class GenericSingleton<T> : MonoBehaviour where T : GenericSingleton<T>
     {
         private static T _instance;
-        protected bool FirstInitComplete = false;
 
         public static T Instance
         {
@@ -28,24 +28,25 @@ namespace CoreResources.Utils.Singletons
         
         protected virtual void InitSingleton()
         {
-            if (!FirstInitComplete)
+            if (Instance != null && GetInstanceID() != Instance.GetInstanceID())
             {
-                if (Instance != null && FirstInitComplete)
-                {
-                    Destroy(gameObject);
-                }
-                else
-                {
-                    _instance = this as T;
-                    DontDestroyOnLoad(gameObject);
-                    FirstInitComplete = true; // Makes sure that Instance can be called before awake
-                }
+                Destroy(gameObject);
+            }
+            else
+            {
+                _instance = this as T;
+                DontDestroyOnLoad(gameObject);
             }
         }
 
         protected virtual void Awake()
         {
             InitSingleton();
+        }
+
+        protected virtual void OnReset(REvent evt)
+        {
+            
         }
     }
 }

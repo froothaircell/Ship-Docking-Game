@@ -5,9 +5,14 @@ namespace GameResources.Ship
 {
     public class ShipSpawner : MonoBehaviour
     {
-        private void Start()
+        public void AddSelfToManager()
         {
-            AppHandler.ShipSpawnHandler.AddToSpawnerList(this.gameObject);
+            // AppHandler.ShipSpawnHandler.AddToSpawnerList(this.gameObject);
+        }
+
+        private void OnDestroy()
+        {
+            AppHandler.ShipSpawnHandler.RemoveFromSpawnersList(this.gameObject);
         }
 
         public void Spawn(ShipTypes type)

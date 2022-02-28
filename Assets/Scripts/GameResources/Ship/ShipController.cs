@@ -22,7 +22,7 @@ namespace GameResources.Ship
                 REvent_BoatDocked.Dispatch(transform.position);
                 AppHandler.ShipPoolHandler.Despawn(gameObject);
             }
-            else if (other.gameObject.layer == LayerMask.NameToLayer("Obstacles"))
+            else if (other.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
             {
                 REvent_BoatDestroyed.Dispatch(transform.position);
                 AppHandler.ShipPoolHandler.Despawn(gameObject);

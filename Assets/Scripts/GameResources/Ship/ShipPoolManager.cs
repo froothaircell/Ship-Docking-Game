@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using CoreResources.Utils.Singletons;
-using GameResources.LevelManagement;
+using GameResources.LevelAndScoreManagement;
 using GameResources.Pathing;
 using UnityEngine;
 
@@ -26,7 +26,7 @@ namespace GameResources.Ship
         private List<string> _shipNames;
         private Dictionary<string, List<GameObject>> _shipPool; // We'll keep this static for each level
         private List<GameObject> _spawnedItems;
-        
+
         protected override void InitSingleton()
         {
             base.InitSingleton();
