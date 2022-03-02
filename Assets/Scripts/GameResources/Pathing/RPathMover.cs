@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CoreResources.Utils.Jobs;
 using GameResources.Ship;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace GameResources.Pathing
     public class RPathMover : MonoBehaviour
     {
         private NavMeshAgent _navMeshAgent;
-        private Queue<Vector3> _pathPoints = new Queue<Vector3>();
+        private List<Vector3> _pathPoints = new List<Vector3>();
         public float distanceThreshold = 0.5f;
         private UpdateJob _pathingCoroutine;
         private float _shipSpeed;
@@ -27,7 +28,7 @@ namespace GameResources.Pathing
             {
                 _shipSpeed = 3f;
             }
-            GetComponent<RPathingManager>().OnNewPathCreated += SetPoints;
+            GetComponent<RPathingManager>().OnNewPointAdded += SetPoints;
             onPathingStopped += OnPathingStopped;
             _forwardDirection = transform.forward;
             if (_pathingCoroutine != null)
@@ -50,17 +51,23 @@ namespace GameResources.Pathing
         private void OnPathingStopped()
         {
             _forwardDirection = transform.forward;
+            ClearPath();
+            _pathingCoroutine = AppHandler.JobHandler.ExecuteCoroutine(MoveStraight());
+        }
+
+        public void ClearPath()
+        {
             _navMeshAgent.ResetPath();
+            _pathPoints.Clear();
             if (_pathingCoroutine != null)
             {
                 JobManager.SafeStopUpdate(ref _pathingCoroutine);
             }
-            _pathingCoroutine = AppHandler.JobHandler.ExecuteCoroutine(MoveStraight());
         }
 
-        private void SetPoints(IEnumerable<Vector3> points)
+        private void SetPoints(Vector3 point)
         {
-            _pathPoints = new Queue<Vector3>(points);
+            _pathPoints.Add(point);
             if (_pathingCoroutine == null)
             {
                 _pathingCoroutine = AppHandler.JobHandler.ExecuteCoroutine(UpdatePathing());
@@ -78,7 +85,9 @@ namespace GameResources.Pathing
             {
                 if (ShouldSetDestination())
                 {
-                    Vector3 pathPoint = _pathPoints.Dequeue();
+                    Vector3 pathPoint = _pathPoints[0];
+                    Debug.Log(pathPoint);
+                    _pathPoints.RemoveAt(0);
                     _navMeshAgent.SetDestination(pathPoint);
                     yield return 0;
                 }

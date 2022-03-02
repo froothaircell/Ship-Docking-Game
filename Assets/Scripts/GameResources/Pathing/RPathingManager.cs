@@ -11,8 +11,10 @@ namespace GameResources.Pathing
     {
         private LineRenderer _lineRenderer;
         private PooledList<Vector3> _points;
-        public Action<IEnumerable<Vector3>> OnNewPathCreated = delegate {  };
+        public Action<Vector3> OnNewPointAdded = delegate {  };
         public float yOffset = 0.5f;
+
+        private RPathMover _pathMover;
 
         protected void Awake()
         {
@@ -22,7 +24,8 @@ namespace GameResources.Pathing
         {
             _points = AppHandler.AppPool.Get<PooledList<Vector3>>();
             _lineRenderer = GetComponentInChildren<LineRenderer>();
-            GetComponent<RPathMover>().onPathingStopped += CleanRenderer;
+            _pathMover = GetComponent<RPathMover>();
+            _pathMover.onPathingStopped += CleanRenderer;
         }
 
         private void OnDisable()
@@ -35,6 +38,7 @@ namespace GameResources.Pathing
         public void ClearPath()
         {
             _points.Clear();
+            _pathMover.ClearPath();
         }
 
         public void CleanRenderer()
@@ -46,15 +50,16 @@ namespace GameResources.Pathing
         {
             if (DistanceToLastPoint(hitInfo.point) > 1f)
             {
-                _points.Add(hitInfo.point + new Vector3(0, yOffset));
+                Vector3 point = hitInfo.point + new Vector3(0, yOffset);
+                _points.Add(point);
                 _lineRenderer.positionCount = _points.Count;
                 _lineRenderer.SetPositions(_points.ToArray());
+                OnNewPointAdded(point);
             }
         }
 
         public void OnButtonReleased()
         {
-            OnNewPathCreated(_points);
         }
 
         private float DistanceToLastPoint(Vector3 newPoint)

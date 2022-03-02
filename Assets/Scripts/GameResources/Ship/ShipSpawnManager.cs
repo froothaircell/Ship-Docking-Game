@@ -108,7 +108,7 @@ namespace GameResources.Ship
 
         protected override void OnReset(REvent evt)
         {
-            LevelManager.AccessLevelData(ref _remainingShips);
+                LevelManager.AccessLevelData(ref _remainingShips);
             _prevIndex = -1;
             ShipSpawner[] spawners = FindObjectsOfType<ShipSpawner>();
             foreach (var spawner in spawners)

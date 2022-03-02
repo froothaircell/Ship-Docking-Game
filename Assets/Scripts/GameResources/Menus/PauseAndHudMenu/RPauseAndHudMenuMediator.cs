@@ -5,6 +5,7 @@ using CoreResources.Pool;
 using CoreResources.Utils.Disposables;
 using GameResources.Events;
 using GameResources.LevelAndScoreManagement;
+using JetBrains.Annotations;
 using UnityEngine;
 
 namespace GameResources.Menus.PauseAndHudMenu
@@ -26,6 +27,11 @@ namespace GameResources.Menus.PauseAndHudMenu
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnExit, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToLoss>(OnExit, _disposables);
 
+            // Stats based events
+            AppHandler.EventHandler.Subscribe<REvent_GameStart>(OnDisplayLevel, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnDisplayLevel, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_DisplayScore>(OnDisplayScore, _disposables);
+            
             Debug.Log($"PauseAndHudMenuMediator | {this.GetInstanceID()} adding events");
             View.settingsButton.onClick.AddListener(OnSettingsToggled);
             View.pause_MainMenuButton.onClick.AddListener(OnQuitToMainMenu);
@@ -36,6 +42,7 @@ namespace GameResources.Menus.PauseAndHudMenu
         {
             View.settingsButton.gameObject.SetActive(true);
             transform.GetChild(0).gameObject.SetActive(true);
+            DisplayScore(0);
             OnEnterMenu();
         }
 
@@ -44,6 +51,7 @@ namespace GameResources.Menus.PauseAndHudMenu
             View.pauseMenu.SetActive(false);
             View.settingsButton.gameObject.SetActive(false);
             OnEnterMenu();
+            DisplayScore(AppHandler.PlayerStats.Score);
             transform.GetChild(0).gameObject.SetActive(true);
         }
         
@@ -83,6 +91,26 @@ namespace GameResources.Menus.PauseAndHudMenu
             AppHandler.SaveManager.ResetPlayerPrefs();
             AppHandler.PlayerStats.ResetStats();
             LevelManager.LoadMainMenu();
+        }
+
+        private void OnDisplayLevel(REvent evt)
+        {
+            DisplayLevel(AppHandler.PlayerStats.Level);
+        }
+
+        private void DisplayLevel(int level)
+        {
+            View.levelText.text = "Level " + level;
+        }
+
+        private void OnDisplayScore(REvent_DisplayScore evt)
+        {
+            DisplayScore(evt.Score);
+        }
+
+        private void DisplayScore(int score)
+        {
+            View.scoreText.text = "Score " + score;
         }
     }
 }

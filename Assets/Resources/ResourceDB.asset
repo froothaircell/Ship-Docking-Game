@@ -37,22 +37,31 @@ MonoBehaviour:
   - _name: Flag
     _path: Misc Prefabs
     retrievedObject: {fileID: 0}
+  - _name: Main Camera
+    _path: Misc Prefabs
+    retrievedObject: {fileID: 0}
   - _name: Obstacle
     _path: Misc Prefabs
     retrievedObject: {fileID: 0}
   - _name: ShipSpawner
     _path: Misc Prefabs
     retrievedObject: {fileID: 0}
+  - _name: StoneX1
+    _path: Misc Prefabs
+    retrievedObject: {fileID: 0}
+  - _name: StoneX1_2
+    _path: Misc Prefabs
+    retrievedObject: {fileID: 0}
+  - _name: Stone_LowFlat_1
+    _path: Misc Prefabs
+    retrievedObject: {fileID: 0}
+  - _name: Stone_LowFlat_3
+    _path: Misc Prefabs
+    retrievedObject: {fileID: 0}
+  - _name: AppHandler
+    _path: 
+    retrievedObject: {fileID: 0}
   _otherResourceItems:
-  - _name: Level 1
-    _path: 
-    retrievedObject: {fileID: 0}
-  - _name: Level 2
-    _path: 
-    retrievedObject: {fileID: 0}
-  - _name: ResourceDB
-    _path: 
-    retrievedObject: {fileID: 0}
   - _name: Blue to Purple - Vertical
     _path: Color Gradient Presets
     retrievedObject: {fileID: 0}
@@ -147,5 +156,23 @@ MonoBehaviour:
     _path: 
     retrievedObject: {fileID: 0}
   - _name: TMP Settings
+    _path: 
+    retrievedObject: {fileID: 0}
+  - _name: Level 1
+    _path: 
+    retrievedObject: {fileID: 0}
+  - _name: Level 2
+    _path: 
+    retrievedObject: {fileID: 0}
+  - _name: Level 3
+    _path: 
+    retrievedObject: {fileID: 0}
+  - _name: Level 4
+    _path: 
+    retrievedObject: {fileID: 0}
+  - _name: Level 5
+    _path: 
+    retrievedObject: {fileID: 0}
+  - _name: ResourceDB
     _path: 
     retrievedObject: {fileID: 0}

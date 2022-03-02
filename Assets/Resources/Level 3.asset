@@ -10,10 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d44b594a15034c509ce09e211b17d73c, type: 3}
-  m_Name: Level 1
+  m_Name: Level 3
   m_EditorClassIdentifier: 
-  Level: 1
-  ScoutBoatQuantity: 1
-  FisherBoatQuantity: 1
-  SpeedBoatQuantity: 1
-  JetSkiQuantity: 1
+  Level: 3
+  ScoutBoatQuantity: 3
+  FisherBoatQuantity: 2
+  SpeedBoatQuantity: 3
+  JetSkiQuantity: 2
