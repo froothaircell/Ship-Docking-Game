@@ -21,18 +21,17 @@ namespace GameResources.Menus.MainMenu
             AppHandler.EventHandler.Subscribe<REvent_GameManagerMainMenuToPlay>(OnExit, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToMainMenu>(OnEnter, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToMainMenu>(OnEnter, _disposables);
-        }
 
-        public override void OnEnterMenu()
-        {
             View.StartGameButton.onClick.AddListener(OnStartGame);
             View.QuitGameButton.onClick.AddListener(OnQuitGame);
         }
 
+        public override void OnEnterMenu()
+        {
+        }
+
         public override void OnExitMenu()
         {
-            View.RemoveAllListeners();
-            // _disposables.ClearDisposables();
         }
 
         private void OnStartGame()

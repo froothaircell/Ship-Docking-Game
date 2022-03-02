@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Level 2
   m_EditorClassIdentifier: 
   Level: 2
-  ScoutBoatQuantity: 2
-  FisherBoatQuantity: 3
-  SpeedBoatQuantity: 4
-  JetSkiQuantity: 4
+  ScoutBoatQuantity: 0
+  FisherBoatQuantity: 0
+  SpeedBoatQuantity: 1
+  JetSkiQuantity: 0

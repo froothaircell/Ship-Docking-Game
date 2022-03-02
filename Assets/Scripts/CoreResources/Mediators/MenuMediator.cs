@@ -30,8 +30,12 @@ namespace CoreResources.Mediators
         
         protected virtual void OnDestroy()
         {
-            _disposables.ClearDisposables();
-            _disposables.ReturnToPool();
+            View.RemoveAllListeners();
+            if (_disposables != null)
+            {
+                _disposables.ClearDisposables();
+                _disposables.ReturnToPool();
+            }
         }
 
         public abstract void SubscribeToEvents();

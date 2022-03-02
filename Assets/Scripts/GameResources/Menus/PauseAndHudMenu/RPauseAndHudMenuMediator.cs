@@ -25,12 +25,16 @@ namespace GameResources.Menus.PauseAndHudMenu
             AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToMainMenu>(OnEnterMainMenu, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnExit, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToLoss>(OnExit, _disposables);
+
+            Debug.Log($"PauseAndHudMenuMediator | {this.GetInstanceID()} adding events");
+            View.settingsButton.onClick.AddListener(OnSettingsToggled);
+            View.pause_MainMenuButton.onClick.AddListener(OnQuitToMainMenu);
+            View.pause_ResetSavesButton.onClick.AddListener(OnResetSaves);
         }
 
         public void OnEnterPlay(REvent evt)
         {
             View.settingsButton.gameObject.SetActive(true);
-            View.settingsButton.onClick.AddListener(OnSettingsToggled);
             transform.GetChild(0).gameObject.SetActive(true);
             OnEnterMenu();
         }
@@ -38,10 +42,8 @@ namespace GameResources.Menus.PauseAndHudMenu
         public void OnEnterMainMenu(REvent evt)
         {
             View.pauseMenu.SetActive(false);
-            View.RemoveAllListeners();
             View.settingsButton.gameObject.SetActive(false);
-            View.levelText.gameObject.SetActive(true);
-            View.scoreText.gameObject.SetActive(true);
+            OnEnterMenu();
             transform.GetChild(0).gameObject.SetActive(true);
         }
         
@@ -49,13 +51,11 @@ namespace GameResources.Menus.PauseAndHudMenu
         {
             View.levelText.gameObject.SetActive(true);
             View.scoreText.gameObject.SetActive(true);
-            View.pause_MainMenuButton.onClick.AddListener(OnQuitToMainMenu);
-            View.pause_ResetSavesButton.onClick.AddListener(OnResetSaves);
         }
 
         public override void OnExitMenu()
         {
-            View.RemoveAllListeners();
+            // View.RemoveAllListeners();
             // _disposables.ClearDisposables();
         }
 

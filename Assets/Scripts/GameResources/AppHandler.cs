@@ -39,7 +39,10 @@ namespace GameResources
         private void Awake()
         {
             InitSingleton();
-            Initialize();
+            if (GetInstanceID() == Instance.GetInstanceID())
+            {
+                Initialize();
+            }
         }
 
         private void Initialize()

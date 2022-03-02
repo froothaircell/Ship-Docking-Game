@@ -20,6 +20,10 @@ namespace GameResources.Menus.WinOrLossMenu
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnEnterWin, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToPlay>(OnExit, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToMainMenu>(OnExit, _disposables);
+            
+            View.nextLevelButton.onClick.AddListener(OnNextLevel);
+            View.mainMenuButton.onClick.AddListener(OnMainMenu);
+            View.restartLevelButton.onClick.AddListener(OnRestartLevel);
         }
         
         public void OnEnterWin(REvent evt)
@@ -27,7 +31,6 @@ namespace GameResources.Menus.WinOrLossMenu
             View.gameObject.SetActive(true);
             View.winOrLossText.text = string.Format($"You Won! \n Total Score : {AppHandler.PlayerStats.Score}");
             OnEnterMenu();
-            View.nextLevelButton.onClick.AddListener(OnNextLevel);
             View.nextLevelButton.gameObject.SetActive(true);
         }
 
@@ -45,14 +48,11 @@ namespace GameResources.Menus.WinOrLossMenu
             View.restartLevelButton.gameObject.SetActive(true);
             View.winOrLossText.gameObject.SetActive(true);
             transform.GetChild(0).gameObject.SetActive(true);
-
-            View.mainMenuButton.onClick.AddListener(OnMainMenu);
-            View.restartLevelButton.onClick.AddListener(OnRestartLevel);
         }
 
         public override void OnExitMenu()
         {
-            View.RemoveAllListeners();
+            // View.RemoveAllListeners();
             // _disposables.ClearDisposables();
         }
 
