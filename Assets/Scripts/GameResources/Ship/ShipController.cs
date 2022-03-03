@@ -1,4 +1,6 @@
+using System;
 using GameResources.Events;
+using GameResources.Pathing;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -14,10 +16,16 @@ namespace GameResources.Ship
     public class ShipController : MonoBehaviour
     {
         public ShipData _shipData;
+        private RPathingManager _pathingManager;
 
         private void Awake()
         {
-            GetComponent<NavMeshAgent>().speed = _shipData.ShipSpeed;
+            _pathingManager = GetComponent<RPathingManager>();
+        }
+
+        private void OnEnable()
+        {
+            _pathingManager.InitPathing(_shipData.ShipSpeed);
         }
 
         private void OnTriggerEnter(Collider other)
@@ -25,13 +33,13 @@ namespace GameResources.Ship
             if (other.gameObject.layer == LayerMask.NameToLayer("Flag"))
             {
                 REvent_BoatDocked.Dispatch(transform.position);
-                AppHandler.ShipPoolHandler.Despawn(gameObject);
+                AppHandler.ShipPoolHandler.AddToPool(gameObject);
             }
             else if (other.gameObject.layer == LayerMask.NameToLayer("Obstacle") ||
                      other.gameObject.layer == LayerMask.NameToLayer("Boat"))
             {
                 REvent_BoatDestroyed.Dispatch(transform.position);
-                AppHandler.ShipPoolHandler.Despawn(gameObject);
+                AppHandler.ShipPoolHandler.AddToPool(gameObject);
             }
         }
     }

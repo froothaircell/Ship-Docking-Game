@@ -14,12 +14,14 @@ namespace GameResources.Pathing
 
         private RPathMover _pathMover;
 
-        private void OnEnable()
+        public void InitPathing(float speed)
         {
             _points = AppHandler.AppPool.Get<PooledList<Vector3>>();
             _lineRenderer = GetComponentInChildren<LineRenderer>();
             _pathMover = GetComponent<RPathMover>();
             _pathMover.onPathingStopped += CleanRenderer;
+            _pathMover.InitPathMover(speed);
+            OnNewPointAdded += _pathMover.SetPoints;
         }
 
         private void OnDisable()
@@ -32,7 +34,7 @@ namespace GameResources.Pathing
         public void ClearPath()
         {
             _points.Clear();
-            _pathMover.ClearPath();
+            _pathMover.ResetPathMover();
         }
 
         public void CleanRenderer()

@@ -16,7 +16,6 @@ namespace GameResources.Menus.PauseAndHudMenu
 
         public override void RemoveAllListeners()
         {
-            Debug.Log($"PauseAndHudMenuView | {this.GetInstanceID()} removing events");
             settingsButton.onClick.RemoveAllListeners();
             pause_MainMenuButton.onClick.RemoveAllListeners();
             pause_ResetSavesButton.onClick.RemoveAllListeners();

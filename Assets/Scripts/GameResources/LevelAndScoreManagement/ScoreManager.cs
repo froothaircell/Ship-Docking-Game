@@ -36,18 +36,12 @@ namespace GameResources.LevelAndScoreManagement
         {
             _dockedShips = 0;
             _destroyedShips = 0;
-            GetTotalShipCount();
+            _totalShips = GetTotalShipCount();
         }
 
-        private void GetTotalShipCount()
+        private int GetTotalShipCount()
         {
-            _totalShips = 0;
-            List<int> boatQuantities = new List<int>();
-            LevelManager.AccessLevelData(ref boatQuantities);
-            foreach (var boatQuantity in boatQuantities)
-            {
-                _totalShips += boatQuantity;
-            }
+            return LevelManager.TotalShipsForLevel();
         }
 
         

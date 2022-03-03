@@ -3,6 +3,15 @@ using UnityEngine;
 
 namespace GameResources.Events
 {
+    public class REvent_BoatsLoaded : REvent
+    {
+        public static void Dispatch()
+        {
+            var evt = Get<REvent_BoatsLoaded>();
+            AppHandler.EventHandler.Dispatch(evt);
+        }
+    }
+    
     public class REvent_BoatDocked : REvent
     {
         public Vector3 Position;

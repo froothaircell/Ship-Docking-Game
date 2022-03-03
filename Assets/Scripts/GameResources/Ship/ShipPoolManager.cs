@@ -1,11 +1,12 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Pool;
+using CoreResources.Utils;
 using CoreResources.Utils.Disposables;
 using CoreResources.Utils.Singletons;
 using GameResources.Events;
-using GameResources.LevelAndScoreManagement;
 using GameResources.Pathing;
 using UnityEngine;
 
@@ -21,17 +22,15 @@ namespace GameResources.Ship
     
     public class ShipPoolManager : GenericSingleton<ShipPoolManager>
     {
-        // Load these into the game using Resources.Load the first time around
-        public GameObject ScoutBoat;
-        public GameObject FisherBoat;
-        public GameObject SpeedBoat;
-        public GameObject JetSki;
-
-        private List<string> _shipNames;
-        private Dictionary<string, List<GameObject>> _shipPool; // We'll keep this static for each level
-        private List<GameObject> _spawnedItems;
+        // We'll use this to instantiate new objects of the specific type
+        // Load the ships into this list
+        private Dictionary<ShipTypes, GameObject> _shipTypes;
+        // We'll keep this dynamic for each level
+        private Dictionary<ShipTypes, List<GameObject>> _shipPool;
+        private PooledList<GameObject> _spawnedItems;
         private PooledList<IDisposable> _disposables;
-
+        private const int poolCap = 10;
+        
         protected override void Awake()
         {
             base.Awake();
@@ -40,24 +39,30 @@ namespace GameResources.Ship
             {
                 _disposables = AppHandler.AppPool.Get<PooledList<IDisposable>>();
             }
-            
-            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToMainMenu>(OnMainMenuTransition, _disposables);
-            AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToMainMenu>(OnMainMenuTransition,
-                _disposables);
+
+            AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnStartLevel);
         }
 
         private void OnDestroy()
         {
             _disposables.ClearDisposables();
             _disposables.ReturnToPool();
+            _spawnedItems.ReturnToPool();
         }
 
         protected override void InitSingleton()
         {
             base.InitSingleton();
-            _shipPool = new Dictionary<string, List<GameObject>>();
-            _spawnedItems = new List<GameObject>();
+            _shipPool = new Dictionary<ShipTypes, List<GameObject>>();
+            _spawnedItems = AppHandler.AppPool.Get<PooledList<GameObject>>();
             LoadShipPool();
+        }
+
+        private async void OnStartLevel(REvent evt)
+        {
+            ResetPool();
+            await Task.Delay(500);
+            REvent_BoatsLoaded.Dispatch();
         }
 
         // Make sure to name the prefabs after the variable names listed here
@@ -65,63 +70,59 @@ namespace GameResources.Ship
         // do for now
         private void LoadShipPool()
         {
-            List<int> shipQuantities = new List<int>();
-            LevelManager.AccessLevelData(ref shipQuantities);
-
-            ScoutBoat = ScoutBoat == null ? AppHandler.AssetHandler.LoadAsset<GameObject>(nameof(ScoutBoat)) : ScoutBoat;
-            FisherBoat = FisherBoat == null ? AppHandler.AssetHandler.LoadAsset<GameObject>(nameof(FisherBoat)) : FisherBoat;
-            SpeedBoat = SpeedBoat == null ? AppHandler.AssetHandler.LoadAsset<GameObject>(nameof(SpeedBoat)) : SpeedBoat;
-            JetSki = JetSki == null ? AppHandler.AssetHandler.LoadAsset<GameObject>(nameof(JetSki)) : JetSki;
-
-            List<GameObject> shipTypes = new List<GameObject>()
+            if (_shipTypes == null)
             {
-                ScoutBoat, FisherBoat, SpeedBoat, JetSki
-            };
-
-            _shipNames = new List<string>()
+                _shipTypes = new Dictionary<ShipTypes, GameObject>();
+            }
+            
+            foreach (var shipType in EnumUtil.GetValues<ShipTypes>())
             {
-                nameof(ScoutBoat), nameof(FisherBoat), nameof(SpeedBoat), nameof(JetSki)
-            };
+                if(!_shipTypes.ContainsKey(shipType))
+                    _shipTypes.Add(shipType, null);
+                //Debug.Log(shipType.ToString());
+                _shipTypes[shipType] = _shipTypes[shipType] == null
+                    ? AppHandler.AssetHandler.LoadAsset<GameObject>(shipType.ToString())
+                    : _shipTypes[shipType];
+            }
 
-            SpawnShips(shipTypes, _shipNames, shipQuantities);
+            InstantiateShips(_shipTypes);
         }
 
-        private void SpawnShips(List<GameObject> shipTypes, List<String> _shipNames, List<int> shipQuantities)
+        private void InstantiateShips(Dictionary<ShipTypes, GameObject> shipTypes)
         {
-            for (int i = 0; i < shipTypes.Count; i++)
+            foreach (var shipType in EnumUtil.GetValues<ShipTypes>())
             {
                 List<GameObject> ships = new List<GameObject>();
-                for (int j = 0; j < shipQuantities[i]; j++)
+                for (int j = 0; j < poolCap; j++)
                 {
-                    GameObject newShip = Instantiate(shipTypes[i], transform.position, transform.rotation, transform);
+                    GameObject newShip = Instantiate(shipTypes[shipType], transform.position, transform.rotation, transform);
                     newShip.SetActive(false);
                     ships.Add(newShip);
                 }
 
-                _shipPool.Add(_shipNames[i], ships);
+                _shipPool.Add(shipType, ships);
             }
-        }
-
-        private void OnMainMenuTransition(REvent evt)
-        {
-            ResetPool();
         }
 
         private void ResetPool()
         {
-            ClearPool();
-            InitSingleton();
+            foreach (var spawnedItem in _spawnedItems)
+            {
+                AddToPool(spawnedItem);
+            }
+            // ClearPool();
+            // InitSingleton();
         }
 
         private void ClearPool()
         {
-            for (int i = 0; i < _shipPool.Count; i++)
+            foreach (var shipType in EnumUtil.GetValues<ShipTypes>())
             {
-                for (int j = 0; j < _shipPool[_shipNames[i]].Count; j++)
+                for (int i = 0; i < _shipPool[shipType].Count; i++)
                 {
-                    Destroy(_shipPool[_shipNames[i]][j]);
+                    Destroy(_shipPool[shipType][i]);
                 }
-                _shipPool[_shipNames[i]].Clear();
+                _shipPool[shipType].Clear();
             }
             _shipPool.Clear();
 
@@ -132,27 +133,18 @@ namespace GameResources.Ship
             _spawnedItems.Clear();
         }
 
-        public GameObject Spawn(ShipTypes type, Vector3 position, Quaternion rotation)
+        public GameObject GetFromPool(ShipTypes type, Vector3 position, Quaternion rotation)
         {
             GameObject temp = null;
-            switch (type)
+            if (_shipPool[type][0] != null)
             {
-                case ShipTypes.ScoutBoat:
-                    temp = _shipPool[_shipNames[0]][0];
-                    _shipPool[_shipNames[0]].RemoveAt(0);
-                    break;
-                case ShipTypes.FisherBoat:
-                    temp = _shipPool[_shipNames[1]][0];
-                    _shipPool[_shipNames[1]].RemoveAt(0);
-                    break;
-                case ShipTypes.SpeedBoat:
-                    temp = _shipPool[_shipNames[2]][0];
-                    _shipPool[_shipNames[2]].RemoveAt(0);
-                    break;
-                case ShipTypes.JetSki:
-                    temp = _shipPool[_shipNames[3]][0];
-                    _shipPool[_shipNames[3]].RemoveAt(0);
-                    break;
+                temp = _shipPool[type][0];
+                _shipPool[type].RemoveAt(0);
+            }
+            else
+            {
+                temp = AddNewItemInPool(type);
+                _shipPool[type].Remove(temp);
             }
             _spawnedItems.Add(temp);
             temp.transform.position = position;
@@ -162,25 +154,27 @@ namespace GameResources.Ship
             return temp;
         }
 
-        public void Despawn(GameObject itemToDespawn)
+        private GameObject AddNewItemInPool(ShipTypes shipType)
         {
-            itemToDespawn.SetActive(false);
-            itemToDespawn.transform.position = transform.position;
-            itemToDespawn.transform.rotation = transform.rotation;
-            switch (itemToDespawn.GetComponent<ShipController>()._shipData.ShipType)
+            GameObject newShip = Instantiate(_shipTypes[shipType]);
+            newShip.SetActive(false);
+            _shipPool[shipType].Add(newShip);
+            return newShip;
+        }
+
+        public void AddToPool(GameObject itemToDespawn)
+        {
+            if (_spawnedItems.Contains(itemToDespawn))
             {
-                case ShipTypes.ScoutBoat:
-                    _shipPool[_shipNames[0]].Add(itemToDespawn);
-                    break;
-                case ShipTypes.FisherBoat:
-                    _shipPool[_shipNames[1]].Add(itemToDespawn);
-                    break;
-                case ShipTypes.SpeedBoat:
-                    _shipPool[_shipNames[2]].Add(itemToDespawn);
-                    break;
-                case ShipTypes.JetSki:
-                    _shipPool[_shipNames[3]].Add(itemToDespawn);
-                    break;
+                itemToDespawn.SetActive(false);
+                itemToDespawn.transform.position = transform.position;
+                itemToDespawn.transform.rotation = transform.rotation;
+                _spawnedItems.Remove(itemToDespawn);
+                _shipPool[itemToDespawn.GetComponent<ShipController>()._shipData.ShipType].Add(itemToDespawn);
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException($"ShipPoolManager | {itemToDespawn.name} does not exist in the list of spawned items");
             }
         }
     }

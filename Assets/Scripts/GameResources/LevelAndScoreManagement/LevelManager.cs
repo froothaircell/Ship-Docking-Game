@@ -1,6 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using CoreResources.Utils;
 using GameResources.Events;
+using GameResources.Ship;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
@@ -8,16 +11,29 @@ namespace GameResources.LevelAndScoreManagement
 {
     public class LevelManager
     {
-        public static void AccessLevelData(ref List<int> shipQuantities)
+        public static int TotalShipsForLevel()
+        {
+            int tmp = 0;
+            Dictionary<ShipTypes, int> totalShips = new Dictionary<ShipTypes, int>();
+            AccessLevelData(ref totalShips);
+            foreach (var shipType in EnumUtil.GetValues<ShipTypes>())
+            {
+                tmp += totalShips[shipType];
+            }
+
+            return tmp;
+        }
+        
+        public static void AccessLevelData(ref Dictionary<ShipTypes, int> shipQuantities)
         {
             int CurrentLevel = AppHandler.PlayerStats.Level;
             LevelData lvlData = ScanForLevel(CurrentLevel);
-            shipQuantities = new List<int>()
+            shipQuantities = new Dictionary<ShipTypes, int>()
             {
-                lvlData.ScoutBoatQuantity,
-                lvlData.FisherBoatQuantity,
-                lvlData.SpeedBoatQuantity,
-                lvlData.JetSkiQuantity
+                {ShipTypes.ScoutBoat, lvlData.ScoutBoatQuantity},
+                {ShipTypes.FisherBoat, lvlData.FisherBoatQuantity},
+                {ShipTypes.SpeedBoat, lvlData.SpeedBoatQuantity},
+                {ShipTypes.JetSki, lvlData.JetSkiQuantity}
             };
         }
 
@@ -42,13 +58,29 @@ namespace GameResources.LevelAndScoreManagement
             await Task.Delay(500);
             REvent_LevelStart.Dispatch();
         }
-
+        
         public static async void LoadCurrentLevel()
         {
             AppHandler.PlayerStats.UpdateSaveData();
             SceneManager.LoadScene("Level" + AppHandler.PlayerStats.Level);
             await Task.Delay(500);
             REvent_LevelStart.Dispatch();
+        }
+
+        public static async void LoadArbitraryLevel(int level)
+        {
+            string levelStr = "Level" + level;
+            if (Application.CanStreamedLevelBeLoaded(levelStr))
+            {
+                AppHandler.PlayerStats.UpdateAndSave(-1, level);
+                SceneManager.LoadScene(levelStr);
+                await Task.Delay(500);
+                REvent_LevelStart.Dispatch();
+            }
+            else
+            {
+                throw new ArgumentOutOfRangeException($"Level {level} does not exist!");
+            }
         }
 
         private static int FindNextLevel()

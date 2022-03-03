@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CoreResources.Handlers.EventHandler;
+using CoreResources.Utils;
 using CoreResources.Utils.Jobs;
 using CoreResources.Utils.Singletons;
 using GameResources.Events;
@@ -15,21 +16,21 @@ namespace GameResources.Ship
     {
         private List<GameObject> _spawnerList;
         private List<IDisposable> _disposables;
-        private List<int> _remainingShips;
+        private Dictionary<ShipTypes, int> _remainingShips;
         private int _prevIndex;
 
         private UpdateJob SpawnCoroutine;
 
-        public List<int> RemainingShips => _remainingShips;
+        public Dictionary<ShipTypes, int> RemainingShips => _remainingShips;
 
-        public int RemainingShipsTotal
+        public int TotalUnspawnedShips
         {
             get
             {
                 int tmp = 0;
                 foreach (var remainingShipTypes in _remainingShips)
                 {
-                    tmp += remainingShipTypes;
+                    tmp += remainingShipTypes.Value;
                 }
 
                 return tmp;
@@ -55,18 +56,18 @@ namespace GameResources.Ship
         protected override void InitSingleton()
         {
             base.InitSingleton();
+            _prevIndex = -1;
             _disposables = new List<IDisposable>();
             _spawnerList = new List<GameObject>();
-            _remainingShips = new List<int>();
-            _prevIndex = -1;
+            _remainingShips = new Dictionary<ShipTypes, int>();
             LevelManager.AccessLevelData(ref _remainingShips);
-            AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnReset, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerMainMenuToPlay>(OnEnterPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToPlay>(OnEnterPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToPlay>(OnResumePlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToPause>(OnExitPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToLoss>(OnExitPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnExitPlay, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_BoatsLoaded>(OnReset, _disposables);
         }
 
         private void OnEnterPlay(REvent evt)
@@ -83,6 +84,18 @@ namespace GameResources.Ship
         {
             StopSpawners();
         }
+        
+        protected override void OnReset(REvent evt)
+        {
+            LevelManager.AccessLevelData(ref _remainingShips);
+            _prevIndex = -1;
+            ShipSpawner[] spawners = FindObjectsOfType<ShipSpawner>();
+            foreach (var spawner in spawners)
+            {
+                AddToSpawnerList(spawner.gameObject);
+            }
+            StartSpawners();
+        }
 
         private void StartSpawners()
         {
@@ -93,7 +106,7 @@ namespace GameResources.Ship
                     JobManager.SafeStopUpdate(ref SpawnCoroutine);
                 }
 
-                AppHandler.JobHandler.ExecuteCoroutine(SpawnIEnumerator());
+                SpawnCoroutine = AppHandler.JobHandler.ExecuteCoroutine(SpawnIEnumerator());
             }
         }
 
@@ -105,44 +118,35 @@ namespace GameResources.Ship
             }
         }
 
-        protected override void OnReset(REvent evt)
-        {
-                LevelManager.AccessLevelData(ref _remainingShips);
-            _prevIndex = -1;
-            ShipSpawner[] spawners = FindObjectsOfType<ShipSpawner>();
-            foreach (var spawner in spawners)
-            {
-                AddToSpawnerList(spawner.gameObject);
-            }
-            StartSpawners();
-        }
 
         private IEnumerator SpawnIEnumerator()
         {
             while (SpawnableShipsExist())
             {
+                yield return new WaitForSeconds(Random.Range(4, 10));
+                
                 int spawnerIndex = new int();
                 int shipIndex = new int();
                 GenerateRandomPermissibleIndices(ref spawnerIndex, ref shipIndex);
                 if (shipIndex >= 0)
                 {
+                    Debug.Log("ShipSpawnManager || Ship spawned!");
                     _spawnerList[spawnerIndex].GetComponent<ShipSpawner>().Spawn((ShipTypes) shipIndex);
-                    _remainingShips[shipIndex]--;
+                    _remainingShips[(ShipTypes) shipIndex]--;
                 }
-                yield return new WaitForSeconds(Random.Range(5, 10));
             }
         }
 
         private bool SpawnableShipsExist()
         {
-            for (int i = 0; i < _remainingShips.Count; i++)
+            foreach (var shipType in EnumUtil.GetValues<ShipTypes>())
             {
-                if (_remainingShips[i] > 0)
+                if (_remainingShips[shipType] > 0)
                 {
                     return true;
                 }
             }
-
+            
             return false;
         }
 
@@ -168,12 +172,12 @@ namespace GameResources.Ship
             // Check if this random value points to an empty list and
             // then just try to find a full list
             shipIndex = Random.Range(0, _remainingShips.Count - 1);
-            if (_remainingShips[shipIndex] <= 0)
+            if (_remainingShips[(ShipTypes) shipIndex] <= 0)
             {
                 int tmp = shipIndex;
                 for (int i = 0; i < _remainingShips.Count; i++)
                 {
-                    if (_remainingShips[i] > 0)
+                    if (_remainingShips[(ShipTypes) i] > 0)
                     {
                         shipIndex = i;
                     }

@@ -4,7 +4,6 @@ using CoreResources.Mediators;
 using CoreResources.Pool;
 using GameResources.Events;
 using GameResources.LevelAndScoreManagement;
-using UnityEngine;
 
 namespace GameResources.Menus.PauseAndHudMenu
 {
@@ -30,7 +29,6 @@ namespace GameResources.Menus.PauseAndHudMenu
             AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnDisplayLevel, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_DisplayScore>(OnDisplayScore, _disposables);
             
-            Debug.Log($"PauseAndHudMenuMediator | {this.GetInstanceID()} adding events");
             View.settingsButton.onClick.AddListener(OnSettingsToggled);
             View.pause_MainMenuButton.onClick.AddListener(OnQuitToMainMenu);
             View.pause_ResetSavesButton.onClick.AddListener(OnResetSaves);
