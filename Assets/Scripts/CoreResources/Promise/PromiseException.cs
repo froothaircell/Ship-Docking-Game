@@ -1,5 +1,4 @@
 using System;
-using CoreResources.Pool;
 
 namespace CoreResources.Promise
 {

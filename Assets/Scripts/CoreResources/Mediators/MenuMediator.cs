@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Pool;
 using CoreResources.StateMachine;

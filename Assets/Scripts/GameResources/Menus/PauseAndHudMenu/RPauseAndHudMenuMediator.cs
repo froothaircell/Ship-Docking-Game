@@ -2,10 +2,8 @@ using System;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Mediators;
 using CoreResources.Pool;
-using CoreResources.Utils.Disposables;
 using GameResources.Events;
 using GameResources.LevelAndScoreManagement;
-using JetBrains.Annotations;
 using UnityEngine;
 
 namespace GameResources.Menus.PauseAndHudMenu

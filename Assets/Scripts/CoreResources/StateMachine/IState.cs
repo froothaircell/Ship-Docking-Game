@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-
-namespace CoreResources.StateMachine
+﻿namespace CoreResources.StateMachine
 {
     public interface IState
     {

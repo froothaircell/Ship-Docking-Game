@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using CoreResources.Pool;
 using UnityEngine;
 
 namespace CoreResources.Promise

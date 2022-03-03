@@ -1,4 +1,3 @@
-using CoreResources.Utils;
 using CoreResources.Utils.Singletons;
 using UnityEngine;
 

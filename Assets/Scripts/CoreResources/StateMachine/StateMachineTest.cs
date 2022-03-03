@@ -57,4 +57,3 @@ public class StateMachineTest : MonoBehaviour
         someStateMachine.GoToPreviousState(4);
     }
 }
-

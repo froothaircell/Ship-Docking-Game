@@ -2,7 +2,6 @@ using System;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Pool;
 using CoreResources.StateMachine;
-using GameResources.Events;
 
 namespace GameResources.GameManager
 {

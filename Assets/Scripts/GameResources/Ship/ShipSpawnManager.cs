@@ -1,7 +1,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Utils.Jobs;
 using CoreResources.Utils.Singletons;

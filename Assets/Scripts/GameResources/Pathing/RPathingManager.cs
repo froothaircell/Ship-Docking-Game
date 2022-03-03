@@ -1,8 +1,6 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using CoreResources.Pool;
-using CoreResources.Utils.Singletons;
 using UnityEngine;
 
 namespace GameResources.Pathing
@@ -15,10 +13,6 @@ namespace GameResources.Pathing
         public float yOffset = 0.5f;
 
         private RPathMover _pathMover;
-
-        protected void Awake()
-        {
-        }
 
         private void OnEnable()
         {

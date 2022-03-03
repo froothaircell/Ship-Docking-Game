@@ -1,5 +1,4 @@
 using CoreResources.Utils.Singletons;
-using GameResources.LevelAndScoreManagement;
 using UnityEngine;
 
 namespace CoreResources.Utils.SaveData

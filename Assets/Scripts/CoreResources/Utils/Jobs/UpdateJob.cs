@@ -12,7 +12,6 @@ namespace CoreResources.Utils.Jobs
         public override void ReturnToPool()
         {
             RPromise.SafeResolve(ref _jobPromise);
-            
             base.ReturnToPool();
         }
     }

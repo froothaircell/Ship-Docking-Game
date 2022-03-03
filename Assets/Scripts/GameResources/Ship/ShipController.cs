@@ -1,8 +1,3 @@
-using System;
-using System.Collections.Generic;
-using CoreResources.Handlers.EventHandler;
-using CoreResources.Pool;
-using CoreResources.Utils.Disposables;
 using GameResources.Events;
 using UnityEngine;
 using UnityEngine.AI;
@@ -32,7 +27,8 @@ namespace GameResources.Ship
                 REvent_BoatDocked.Dispatch(transform.position);
                 AppHandler.ShipPoolHandler.Despawn(gameObject);
             }
-            else if (other.gameObject.layer == LayerMask.NameToLayer("Obstacle"))
+            else if (other.gameObject.layer == LayerMask.NameToLayer("Obstacle") ||
+                     other.gameObject.layer == LayerMask.NameToLayer("Boat"))
             {
                 REvent_BoatDestroyed.Dispatch(transform.position);
                 AppHandler.ShipPoolHandler.Despawn(gameObject);
