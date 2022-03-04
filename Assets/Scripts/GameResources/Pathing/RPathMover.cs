@@ -2,7 +2,6 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using CoreResources.Utils.Jobs;
-using GameResources.Ship;
 using UnityEngine;
 using UnityEngine.AI;
 
