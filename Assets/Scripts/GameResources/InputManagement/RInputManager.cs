@@ -36,7 +36,7 @@ namespace GameResources.InputManagement
                 if (Physics.Raycast(ray, out _raycastHit, Mathf.Infinity, (_boatLayerMask)))
                 {
                     _selectedPathingManager = _raycastHit.collider.transform.parent.GetComponent<RPathingManager>();
-                    _selectedPathingManager.ClearPath();
+                    _selectedPathingManager.ClearPoints();
                 }
             }
 
@@ -64,7 +64,7 @@ namespace GameResources.InputManagement
                     if (Physics.Raycast(ray, out _raycastHit, Mathf.Infinity, (_boatLayerMask)))
                     {
                         _selectedPathingManager = _raycastHit.collider.transform.parent.GetComponent<RPathingManager>();
-                        _selectedPathingManager.ClearPath();
+                        _selectedPathingManager.ClearPoints();
                     }
                 }
 

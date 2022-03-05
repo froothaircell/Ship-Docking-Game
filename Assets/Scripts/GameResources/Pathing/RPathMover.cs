@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using CoreResources.Pool;
 using CoreResources.Utils.Jobs;
 using UnityEngine;
 using UnityEngine.AI;
@@ -8,28 +9,26 @@ using UnityEngine.AI;
 namespace GameResources.Pathing
 {
     public class RPathMover : MonoBehaviour
-    {
+    { 
+        delegate void ActionRef<T>(ref T arg);
+        
         private NavMeshAgent _navMeshAgent;
-        private List<Vector3> _pathPoints = new List<Vector3>();
+
+        // private List<Vector3> _pathPoints = new List<Vector3>();
         public float distanceThreshold = 0.5f;
-        private UpdateJob _pathingCoroutine;
         private float _shipSpeed;
         private Vector3 _forwardDirection;
-        
-        public Action onPathingStopped = delegate {  };
+
+        public Action onPathingStopped = delegate { };
+        private ActionRef<PooledList<Vector3>> PathingAction;
         
         public void InitPathMover(float speed)
         {
-            if(_navMeshAgent == null)
+            if (_navMeshAgent == null)
                 _navMeshAgent = GetComponent<NavMeshAgent>();
             SetSpeed(speed);
             onPathingStopped += OnPathingStopped;
             _forwardDirection = transform.forward;
-            if (_pathingCoroutine != null)
-            {
-                JobManager.SafeStopUpdate(ref _pathingCoroutine);
-            }
-            _pathingCoroutine = AppHandler.JobHandler.ExecuteCoroutine(MoveStraight());
         }
 
         public void ResetPathMover()
@@ -38,78 +37,69 @@ namespace GameResources.Pathing
             onPathingStopped -= OnPathingStopped;
         }
 
-        private void OnPathingStopped()
-        {
-            _forwardDirection = transform.forward;
-            ClearPath();
-            _pathingCoroutine = AppHandler.JobHandler.ExecuteCoroutine(MoveStraight());
-        }
-
         private void SetSpeed(float speed)
         {
             _shipSpeed = speed;
             _navMeshAgent.speed = speed;
         }
-
+        
+        private void OnPathingStopped()
+        {
+            _forwardDirection = transform.forward;
+            ClearPath();
+        }
+        
         private void ClearPath()
         {
-            if(_navMeshAgent.isOnNavMesh)
+            if (_navMeshAgent.isOnNavMesh)
                 _navMeshAgent.ResetPath();
-            _pathPoints.Clear();
-            if (_pathingCoroutine != null)
-            {
-                JobManager.SafeStopUpdate(ref _pathingCoroutine);
-            }
         }
 
-        public void SetPoints(Vector3 point)
+        public void MoveAgent(ref PooledList<Vector3> pathPoints)
         {
-            _pathPoints.Add(point);
-            if (_pathingCoroutine == null)
+            if (PathingAction != null)
             {
-                _pathingCoroutine = AppHandler.JobHandler.ExecuteCoroutine(UpdatePathing());
+                PathingAction.Invoke(ref pathPoints);
             }
             else
             {
-                JobManager.SafeStopUpdate(ref _pathingCoroutine);
-                _pathingCoroutine = AppHandler.JobHandler.ExecuteCoroutine(UpdatePathing());
+                PathingAction = MoveStraight;
             }
         }
 
-        private IEnumerator UpdatePathing()
+        private void MoveOnPath(ref PooledList<Vector3> pathPoints)
         {
-            while (true)
+            if (pathPoints.Count > 0)
             {
-                if (ShouldSetDestination())
+                if (ShouldSetDestination(pathPoints))
                 {
-                    Vector3 pathPoint = _pathPoints[0];
-                    _pathPoints.RemoveAt(0);
+                    Vector3 pathPoint = pathPoints[0];
+                    pathPoints.RemoveAt(0);
                     _navMeshAgent.SetDestination(pathPoint);
-                    yield return 0;
                 }
-                else
-                {
-                    if (_pathPoints.Count == 0)
-                    {
-                        onPathingStopped.Invoke();
-                    }
-                    yield return 0;
-                }
+            }
+            else
+            {
+                onPathingStopped.Invoke();
+                PathingAction = MoveStraight;
             }
         }
 
-        private IEnumerator MoveStraight()
+        private void MoveStraight(ref PooledList<Vector3> pathPoints)
         {
-            while (true)
+            if (pathPoints.Count <= 0)
             {
                 transform.position += _forwardDirection * Time.deltaTime * _shipSpeed;
-                yield return 0;
+            }
+            else
+            {
+                PathingAction = MoveOnPath;
             }
         }
 
-        private bool ShouldSetDestination()
+        private bool ShouldSetDestination(List<Vector3> pathPoints)
         {
-            if (_pathPoints.Count == 0)
+            if (pathPoints.Count == 0)
                 return false;
 
             if (_navMeshAgent.hasPath == false || _navMeshAgent.remainingDistance < distanceThreshold)

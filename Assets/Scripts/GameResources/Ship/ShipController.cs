@@ -28,6 +28,11 @@ namespace GameResources.Ship
             _pathingManager.InitPathing(_shipData.ShipSpeed);
         }
 
+        private void OnDisable()
+        {
+            _pathingManager.DisablePathingManager();
+        }
+
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Flag"))
