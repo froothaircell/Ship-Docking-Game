@@ -15,7 +15,6 @@ namespace GameResources.Menus.MainMenu
                 _disposables = AppHandler.AppPool.Get<PooledList<IDisposable>>();
             }
 
-
             // AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnEnter, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameStart>(OnEnter, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerMainMenuToPlay>(OnExit, _disposables);

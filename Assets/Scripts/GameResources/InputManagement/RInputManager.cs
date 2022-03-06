@@ -1,4 +1,9 @@
+using System;
+using CoreResources.Handlers.EventHandler;
+using CoreResources.Pool;
+using CoreResources.Utils.Disposables;
 using CoreResources.Utils.Singletons;
+using GameResources.Events;
 using GameResources.Pathing;
 using UnityEngine;
 
@@ -9,11 +14,21 @@ namespace GameResources.InputManagement
         private LayerMask _boatLayerMask;
         private RPathingManager _selectedPathingManager;
         private RaycastHit _raycastHit;
+        private PooledList<IDisposable> _disposables;
+        private bool isPaused = false;
 
         protected override void InitSingleton()
         {
             base.InitSingleton();
             _selectedPathingManager = null;
+            isPaused = false;
+            if (_disposables == null)
+            {
+                _disposables = AppHandler.AppPool.Get<PooledList<IDisposable>>();
+            }
+
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToPause>(OnPauseInputs);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToPlay>(OnResumeInputs);
         }
 
         private void Start()
@@ -23,7 +38,29 @@ namespace GameResources.InputManagement
 
         private void Update()
         {
-            HandleInput();
+            if (!isPaused)
+            {
+                HandleInput();
+            }
+        }
+
+        private void OnDestroy()
+        {
+            if (_disposables != null)
+            {
+                _disposables.ClearDisposables();
+                _disposables.ReturnToPool();
+            }
+        }
+
+        private void OnPauseInputs(REvent evt)
+        {
+            isPaused = true;
+        }
+
+        private void OnResumeInputs(REvent evt)
+        {
+            isPaused = false;
         }
 
         private void HandleInput()

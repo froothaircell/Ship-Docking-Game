@@ -36,7 +36,7 @@ namespace GameResources
         public static ShipSpawnManager ShipSpawnHandler;
         public static ScoreManager ScoreHandler;
 
-        private void Awake()
+        protected override void Awake()
         {
             InitSingleton();
             if (GetInstanceID() == Instance.GetInstanceID())

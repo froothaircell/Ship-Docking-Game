@@ -30,21 +30,6 @@ namespace GameResources.Ship
         private PooledList<GameObject> _spawnedItems;
         private PooledList<IDisposable> _disposables;
         private const int poolCap = 10;
-        
-        protected override void Awake()
-        {
-            base.Awake();
-            
-            if (_disposables == null)
-            {
-                _disposables = AppHandler.AppPool.Get<PooledList<IDisposable>>();
-            }
-
-            AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnStartLevel, _disposables);
-            AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToMainMenu>(OnEndLevel, _disposables);
-            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnEndLevel, _disposables);
-            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToLoss>(OnEndLevel, _disposables);
-        }
 
         private void OnDestroy()
         {
@@ -59,8 +44,19 @@ namespace GameResources.Ship
         protected override void InitSingleton()
         {
             base.InitSingleton();
+            
+            if (_disposables == null)
+            {
+                _disposables = AppHandler.AppPool.Get<PooledList<IDisposable>>();
+            }
             _shipPool = new Dictionary<ShipTypes, List<GameObject>>();
             _spawnedItems = AppHandler.AppPool.Get<PooledList<GameObject>>();
+
+            AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnStartLevel, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToMainMenu>(OnEndLevel, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnEndLevel, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToLoss>(OnEndLevel, _disposables);
+            
             LoadShipPool();
         }
 
