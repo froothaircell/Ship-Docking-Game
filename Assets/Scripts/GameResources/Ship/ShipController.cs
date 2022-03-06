@@ -18,6 +18,7 @@ namespace GameResources.Ship
     public class ShipController : MonoBehaviour
     {
         public ShipData _shipData;
+        private static float visibilityThreshold = 5f;
         private RPathingManager _pathingManager;
         private PooledList<IDisposable> _disposables;
 
@@ -33,13 +34,15 @@ namespace GameResources.Ship
 
         private void OnEnable()
         {
-            _pathingManager.InitPathing(_shipData.ShipSpeed);
+            _pathingManager.InitPathing(_shipData.ShipSpeed, visibilityThreshold);
+            _pathingManager.OnOutOfCameraView += OnInvisible;
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToPause>(OnPause, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToPlay>(OnResume, _disposables);
         }
 
         private void OnDisable()
         {
+            _pathingManager.OnOutOfCameraView -= OnInvisible;
             _pathingManager.DisablePathingManager();
             if (_disposables != null)
             {
@@ -56,6 +59,12 @@ namespace GameResources.Ship
         private void OnResume(REvent evt)
         {
             _pathingManager.ResumePathing();
+        }
+
+        private void OnInvisible()
+        {
+            REvent_BoatDestroyed.Dispatch(transform.position);
+            AppHandler.ShipPoolHandler.AddToPool(gameObject);
         }
 
         private void OnTriggerEnter(Collider other)

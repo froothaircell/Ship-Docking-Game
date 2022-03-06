@@ -15,20 +15,23 @@ namespace GameResources.InputManagement
         private RPathingManager _selectedPathingManager;
         private RaycastHit _raycastHit;
         private PooledList<IDisposable> _disposables;
-        private bool isPaused = false;
+        private bool _disableInput = false;
 
         protected override void InitSingleton()
         {
             base.InitSingleton();
             _selectedPathingManager = null;
-            isPaused = false;
+            _disableInput = false;
             if (_disposables == null)
             {
                 _disposables = AppHandler.AppPool.Get<PooledList<IDisposable>>();
             }
 
-            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToPause>(OnPauseInputs);
-            AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToPlay>(OnResumeInputs);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToPause>(OnPauseInputs, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnPauseInputs, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToLoss>(OnPauseInputs, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnResumeInputs, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToPlay>(OnResumeInputs, _disposables);
         }
 
         private void Start()
@@ -38,7 +41,7 @@ namespace GameResources.InputManagement
 
         private void Update()
         {
-            if (!isPaused)
+            if (!_disableInput)
             {
                 HandleInput();
             }
@@ -55,12 +58,12 @@ namespace GameResources.InputManagement
 
         private void OnPauseInputs(REvent evt)
         {
-            isPaused = true;
+            _disableInput = true;
         }
 
         private void OnResumeInputs(REvent evt)
         {
-            isPaused = false;
+            _disableInput = false;
         }
 
         private void HandleInput()

@@ -9,29 +9,36 @@ namespace GameResources.Pathing
 {
     public class RPathingManager : MonoBehaviour
     {
+        public float yOffset = 0.5f;
+        public Action OnOutOfCameraView = delegate { };
         private LineRenderer _lineRenderer;
         private PooledList<Vector3> _points;
-        public float yOffset = 0.5f;
-        public Action<Vector3> OnNewPointAdded = delegate {  };
         private UpdateJob PathingCoroutine;
+        private float _visibilityThreshold = 0f;
+        private bool _firstEntry = false;
+        private Camera _mainCam;
 
         private RPathMover _pathMover;
 
-        public void InitPathing(float speed)
+        public void InitPathing(float speed, float visibilityThreshold)
         {
             _points = AppHandler.AppPool.Get<PooledList<Vector3>>();
+            _mainCam = Camera.main;
             if (_lineRenderer == null)
                 _lineRenderer = GetComponentInChildren<LineRenderer>();
             if (_pathMover == null)
                 _pathMover = GetComponent<RPathMover>();
             
             _pathMover.InitPathMover(speed);
+            _visibilityThreshold = visibilityThreshold;
+            _firstEntry = false;
             _pathMover.onPathingStopped += CleanRenderer;
             BeginPathing();
         }
 
         public void DisablePathingManager()
         {
+            _firstEntry = false;
             FinishPathing();
             ClearPoints();
             _pathMover.ResetPathMover();
@@ -108,16 +115,42 @@ namespace GameResources.Pathing
             {
                 _pathMover.MoveAgent(ref _points);
                 UpdateRenderer();
+                CheckScreenPosition();
                 yield return 0;
             }
         }
 
-        public void UpdateRenderer()
+        private void UpdateRenderer()
         {
             if (_points.Count > 0)
             {
                 _lineRenderer.positionCount = _points.Count;
                 _lineRenderer.SetPositions(_points.ToArray());
+            }
+        }
+
+        private void CheckScreenPosition()
+        {
+            if (_mainCam != null)
+            {
+                Vector3 shipScreenPosition = _mainCam.WorldToScreenPoint(transform.position);
+                if (!_firstEntry && 
+                    (shipScreenPosition.x > 0 && 
+                     shipScreenPosition.x < Screen.width && 
+                     shipScreenPosition.y > 0 && 
+                     shipScreenPosition.y < Screen.height))
+                {
+                    _firstEntry = true;
+                    return;
+                }
+                if (_firstEntry &&
+                    ((shipScreenPosition.x + _visibilityThreshold) < 0 ||
+                     (shipScreenPosition.x - _visibilityThreshold) > Screen.width ||
+                     (shipScreenPosition.y + _visibilityThreshold) < 0 ||
+                     (shipScreenPosition.y - _visibilityThreshold) > Screen.height))
+                {
+                    OnOutOfCameraView.Invoke();
+                }
             }
         }
 

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Pool;
@@ -116,7 +117,7 @@ namespace GameResources.Ship
         {
             if (_spawnedItems.Count > 0)
             {
-                foreach (var spawnedItem in _spawnedItems)
+                foreach (var spawnedItem in _spawnedItems.ToList())
                 {
                     AddToPool(spawnedItem);
                 }
