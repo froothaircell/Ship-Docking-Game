@@ -17,7 +17,11 @@ namespace GameResources.GameManager.States
 
         public override void OnExit()
         {
-            _disposables.ClearDisposables();
+            if (_disposables != null)
+            {
+                _disposables.ClearDisposables();
+                _disposables.ReturnToPool();
+            }
         }
 
         protected override void OnPlay(REvent evt)

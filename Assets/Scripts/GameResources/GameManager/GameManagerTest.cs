@@ -14,7 +14,7 @@ namespace GameResources.GameManager
         
         private void Start()
         {
-            MainMenu.onClick.AddListener(REvent_GameManagerPlayToMainMenu.Dispatch);
+            MainMenu.onClick.AddListener(REvent_GameManagerPauseToMainMenu.Dispatch);
             Play.onClick.AddListener(REvent_GameManagerMainMenuToPlay.Dispatch);
             Pause.onClick.AddListener(REvent_GameManagerPlayToPause.Dispatch);
             Win.onClick.AddListener(REvent_GameManagerPlayToWin.Dispatch);

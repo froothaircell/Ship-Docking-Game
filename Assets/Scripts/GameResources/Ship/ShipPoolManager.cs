@@ -40,13 +40,19 @@ namespace GameResources.Ship
                 _disposables = AppHandler.AppPool.Get<PooledList<IDisposable>>();
             }
 
-            AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnStartLevel);
+            AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnStartLevel, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToMainMenu>(OnEndLevel, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnEndLevel, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToLoss>(OnEndLevel, _disposables);
         }
 
         private void OnDestroy()
         {
-            _disposables.ClearDisposables();
-            _disposables.ReturnToPool();
+            if (_disposables != null)
+            {
+                _disposables.ClearDisposables();
+                _disposables.ReturnToPool();
+            }
             _spawnedItems.ReturnToPool();
         }
 
@@ -63,6 +69,12 @@ namespace GameResources.Ship
             ResetPool();
             await Task.Delay(500);
             REvent_BoatsLoaded.Dispatch();
+        }
+
+        private async void OnEndLevel(REvent evt)
+        {
+            ResetPool();
+            await Task.Delay(500);
         }
 
         // Make sure to name the prefabs after the variable names listed here
@@ -106,9 +118,12 @@ namespace GameResources.Ship
 
         private void ResetPool()
         {
-            foreach (var spawnedItem in _spawnedItems)
+            if (_spawnedItems.Count > 0)
             {
-                AddToPool(spawnedItem);
+                foreach (var spawnedItem in _spawnedItems)
+                {
+                    AddToPool(spawnedItem);
+                }
             }
             // ClearPool();
             // InitSingleton();
@@ -136,7 +151,7 @@ namespace GameResources.Ship
         public GameObject GetFromPool(ShipTypes type, Vector3 position, Quaternion rotation)
         {
             GameObject temp = null;
-            if (_shipPool[type][0] != null)
+            if (_shipPool[type].Count > 0)
             {
                 temp = _shipPool[type][0];
                 _shipPool[type].RemoveAt(0);
@@ -156,7 +171,7 @@ namespace GameResources.Ship
 
         private GameObject AddNewItemInPool(ShipTypes shipType)
         {
-            GameObject newShip = Instantiate(_shipTypes[shipType]);
+            GameObject newShip = Instantiate(_shipTypes[shipType], transform.position, transform.rotation, transform);
             newShip.SetActive(false);
             _shipPool[shipType].Add(newShip);
             return newShip;

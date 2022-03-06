@@ -19,7 +19,7 @@ namespace GameResources.Menus.MainMenu
             // AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnEnter, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameStart>(OnEnter, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerMainMenuToPlay>(OnExit, _disposables);
-            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToMainMenu>(OnEnter, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToMainMenu>(OnEnter, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToMainMenu>(OnEnter, _disposables);
 
             View.StartGameButton.onClick.AddListener(OnStartGame);

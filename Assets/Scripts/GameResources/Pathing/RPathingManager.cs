@@ -23,9 +23,8 @@ namespace GameResources.Pathing
             if (_lineRenderer == null)
                 _lineRenderer = GetComponentInChildren<LineRenderer>();
             if (_pathMover == null)
-            {
                 _pathMover = GetComponent<RPathMover>();
-            }
+            
             _pathMover.InitPathMover(speed);
             _pathMover.onPathingStopped += CleanRenderer;
             BeginPathing();
@@ -51,6 +50,16 @@ namespace GameResources.Pathing
                 JobManager.SafeStopUpdate(ref PathingCoroutine);
                 PathingCoroutine = AppHandler.JobHandler.ExecuteCoroutine(UpdatePath());
             }
+        }
+
+        public void PausePath()
+        {
+            FinishPathing();
+        }
+
+        public void ResumePathing()
+        {
+            BeginPathing();
         }
 
         private void FinishPathing()

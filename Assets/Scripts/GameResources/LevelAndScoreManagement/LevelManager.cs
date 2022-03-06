@@ -47,7 +47,7 @@ namespace GameResources.LevelAndScoreManagement
             AppHandler.PlayerStats.UpdateSaveData();
             SceneManager.LoadScene("EntryMenu");
             await Task.Delay(500);
-            REvent_GameManagerPlayToMainMenu.Dispatch();
+            REvent_GameManagerPauseToMainMenu.Dispatch();
         }
 
         public static async void LoadNextLevel()

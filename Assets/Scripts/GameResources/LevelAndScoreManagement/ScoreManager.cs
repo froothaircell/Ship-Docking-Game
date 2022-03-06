@@ -68,7 +68,7 @@ namespace GameResources.LevelAndScoreManagement
             if (_destroyedShips < _totalShips)
             {
                 _destroyedShips++;
-                int destroyedPerc = (_destroyedShips / _totalShips) * 100;
+                int destroyedPerc = (_destroyedShips * 100) / _totalShips;
                 // Lost the level
                 if (destroyedPerc > 25)
                 {

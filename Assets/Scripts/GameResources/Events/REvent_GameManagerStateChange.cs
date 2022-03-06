@@ -56,11 +56,11 @@ namespace GameResources.Events
         }
     }
     
-    public class REvent_GameManagerPlayToMainMenu : REvent
+    public class REvent_GameManagerPauseToMainMenu : REvent
     {
         public static void Dispatch()
         {
-            var evt = Get<REvent_GameManagerPlayToMainMenu>();
+            var evt = Get<REvent_GameManagerPauseToMainMenu>();
             AppHandler.EventHandler.Dispatch(evt);
         }
     }

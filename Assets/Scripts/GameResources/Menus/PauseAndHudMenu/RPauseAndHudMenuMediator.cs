@@ -19,7 +19,7 @@ namespace GameResources.Menus.PauseAndHudMenu
             AppHandler.EventHandler.Subscribe<REvent_GameStart>(OnEnterMainMenu, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerMainMenuToPlay>(OnEnterPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToPlay>(OnEnterPlay, _disposables);
-            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToMainMenu>(OnEnterMainMenu, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToMainMenu>(OnEnterMainMenu, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToMainMenu>(OnEnterMainMenu, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnExit, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToLoss>(OnExit, _disposables);

@@ -13,12 +13,16 @@ namespace GameResources.GameManager.States
             _disposables = AppHandler.AppPool.Get<PooledList<IDisposable>>();
 
             AppHandler.EventHandler.Subscribe<REvent_GameManagerMainMenuToPlay>(OnPlay, _disposables);
-            AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToMainMenu>(OnMainMenu, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToMainMenu>(OnMainMenu, _disposables);
         }
 
         public override void OnExit()
         {
-            _disposables.ClearDisposables();
+            if (_disposables != null)
+            {
+                _disposables.ClearDisposables();
+                _disposables.ReturnToPool();
+            }
         }
         
         protected override void OnPlay(REvent evt)
