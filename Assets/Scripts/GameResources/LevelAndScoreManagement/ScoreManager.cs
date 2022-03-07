@@ -23,8 +23,8 @@ namespace GameResources.LevelAndScoreManagement
             ResetValues();
             AppHandler.EventHandler.Subscribe<REvent_GameManagerMainMenuToPlay>(OnReset, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToPlay>(OnReset, _disposables);
-            AppHandler.EventHandler.Subscribe<REvent_BoatDocked>(IncrementDockedShips, _disposables);
-            AppHandler.EventHandler.Subscribe<REvent_BoatDestroyed>(IncrementDestroyedShips, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_ShipDocked>(IncrementDockedShips, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_ShipDestroyed>(IncrementDestroyedShips, _disposables);
         }
 
         protected override void OnReset(REvent evt)

@@ -32,16 +32,6 @@ namespace GameResources.Ship
         private PooledList<IDisposable> _disposables;
         private const int poolCap = 10;
 
-        private void OnDestroy()
-        {
-            if (_disposables != null)
-            {
-                _disposables.ClearDisposables();
-                _disposables.ReturnToPool();
-            }
-            _spawnedItems.ReturnToPool();
-        }
-
         protected override void InitSingleton()
         {
             base.InitSingleton();
@@ -53,6 +43,11 @@ namespace GameResources.Ship
             _shipPool = new Dictionary<ShipTypes, List<GameObject>>();
             _spawnedItems = AppHandler.AppPool.Get<PooledList<GameObject>>();
 
+            // For removing the ship when required
+            AppHandler.EventHandler.Subscribe<REvent_ShipDocked>(OnShipDocked, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_ShipDestroyed>(OnShipDestroyed, _disposables);
+
+            // For resetting the pool on level end cases
             AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnStartLevel, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToMainMenu>(OnEndLevel, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnEndLevel, _disposables);
@@ -61,17 +56,34 @@ namespace GameResources.Ship
             LoadShipPool();
         }
 
-        private async void OnStartLevel(REvent evt)
+        private void OnDestroy()
         {
-            ResetPool();
-            await Task.Delay(500);
-            REvent_BoatsLoaded.Dispatch();
+            if (_disposables != null)
+            {
+                _disposables.ClearDisposables();
+                _disposables.ReturnToPool();
+            }
+            _spawnedItems.ReturnToPool();
         }
 
-        private async void OnEndLevel(REvent evt)
+        private void OnStartLevel(REvent evt)
+        {
+            ResetPool(REvent_ShipsLoaded.Dispatch);
+        }
+
+        private void OnEndLevel(REvent evt)
         {
             ResetPool();
-            await Task.Delay(500);
+        }
+
+        private void OnShipDocked(REvent_ShipDocked evt)
+        {
+            AddToPool(evt.Transform.gameObject);
+        }
+
+        private void OnShipDestroyed(REvent_ShipDestroyed evt)
+        {
+            AddToPool(evt.Transform.gameObject);
         }
 
         // Make sure to name the prefabs after the variable names listed here
@@ -113,7 +125,7 @@ namespace GameResources.Ship
             }
         }
 
-        private void ResetPool()
+        private void ResetPool(Action callback = null)
         {
             if (_spawnedItems.Count > 0)
             {
@@ -124,6 +136,7 @@ namespace GameResources.Ship
             }
             // ClearPool();
             // InitSingleton();
+            callback?.Invoke();
         }
 
         private void ClearPool()
@@ -174,7 +187,7 @@ namespace GameResources.Ship
             return newShip;
         }
 
-        public void AddToPool(GameObject itemToDespawn)
+        private void AddToPool(GameObject itemToDespawn)
         {
             if (_spawnedItems.Contains(itemToDespawn))
             {

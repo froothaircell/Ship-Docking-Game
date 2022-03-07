@@ -67,7 +67,7 @@ namespace GameResources.Ship
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToPause>(OnExitPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToLoss>(OnExitPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnExitPlay, _disposables);
-            AppHandler.EventHandler.Subscribe<REvent_BoatsLoaded>(OnReset, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_ShipsLoaded>(OnReset, _disposables);
         }
 
         private void OnEnterPlay(REvent evt)

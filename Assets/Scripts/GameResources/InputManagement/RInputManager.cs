@@ -11,7 +11,7 @@ namespace GameResources.InputManagement
 {
     public class RInputManager : GenericSingleton<RInputManager>
     {
-        private LayerMask _boatLayerMask;
+        private LayerMask _shipLayerMask;
         private RPathingManager _selectedPathingManager;
         private RaycastHit _raycastHit;
         private PooledList<IDisposable> _disposables;
@@ -36,7 +36,7 @@ namespace GameResources.InputManagement
 
         private void Start()
         {
-            _boatLayerMask = LayerMask.GetMask("Boat");
+            _shipLayerMask = LayerMask.GetMask("Ship");
         }
 
         private void Update()
@@ -73,7 +73,7 @@ namespace GameResources.InputManagement
             if (Input.GetButtonDown("Fire1"))
             {
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                if (Physics.Raycast(ray, out _raycastHit, Mathf.Infinity, (_boatLayerMask)))
+                if (Physics.Raycast(ray, out _raycastHit, Mathf.Infinity, (_shipLayerMask)))
                 {
                     _selectedPathingManager = _raycastHit.collider.transform.parent.GetComponent<RPathingManager>();
                     _selectedPathingManager.ClearPoints();
@@ -101,7 +101,7 @@ namespace GameResources.InputManagement
                 if (press.phase == TouchPhase.Began)
                 {
                     ray = Camera.main.ScreenPointToRay(press.position);
-                    if (Physics.Raycast(ray, out _raycastHit, Mathf.Infinity, (_boatLayerMask)))
+                    if (Physics.Raycast(ray, out _raycastHit, Mathf.Infinity, (_shipLayerMask)))
                     {
                         _selectedPathingManager = _raycastHit.collider.transform.parent.GetComponent<RPathingManager>();
                         _selectedPathingManager.ClearPoints();

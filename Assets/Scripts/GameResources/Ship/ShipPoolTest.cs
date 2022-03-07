@@ -16,12 +16,12 @@ namespace GameResources.Ship
                 _disposables = new List<IDisposable>();
             }
             
-            AppHandler.EventHandler.Subscribe<REvent_BoatDocked>(TestCallback, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_ShipDocked>(TestCallback, _disposables);
         }
 
-        private void TestCallback(REvent_BoatDocked evt)
+        private void TestCallback(REvent_ShipDocked evt)
         {
-            Debug.Log($"Event called at position {evt.Position}");
+            Debug.Log($"Event called at position {evt.Transform.position}");
         }
     }
 }

@@ -63,22 +63,22 @@ namespace GameResources.Ship
 
         private void OnInvisible()
         {
-            REvent_BoatDestroyed.Dispatch(transform.position);
-            AppHandler.ShipPoolHandler.AddToPool(gameObject);
+            // AppHandler.ShipPoolHandler.AddToPool(gameObject);
+            REvent_ShipDestroyed.Dispatch(transform);
         }
 
         private void OnTriggerEnter(Collider other)
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Flag"))
             {
-                REvent_BoatDocked.Dispatch(transform.position);
-                AppHandler.ShipPoolHandler.AddToPool(gameObject);
+                // AppHandler.ShipPoolHandler.AddToPool(gameObject);
+                REvent_ShipDocked.Dispatch(transform);
             }
             else if (other.gameObject.layer == LayerMask.NameToLayer("Obstacle") ||
-                     other.gameObject.layer == LayerMask.NameToLayer("Boat"))
+                     other.gameObject.layer == LayerMask.NameToLayer("Ship"))
             {
-                REvent_BoatDestroyed.Dispatch(transform.position);
-                AppHandler.ShipPoolHandler.AddToPool(gameObject);
+                // AppHandler.ShipPoolHandler.AddToPool(gameObject);
+                REvent_ShipDestroyed.Dispatch(transform);
             }
         }
     }
