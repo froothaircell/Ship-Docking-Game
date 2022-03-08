@@ -14,7 +14,7 @@ using GameResources.Ship;
 
 namespace GameResources
 {
-    public class AppHandler : GenericSingleton<AppHandler>
+    public class AppHandler : MonobehaviorSingleton<AppHandler>
     {
         public static TypePool AppPool = new TypePool("AppPool");
         public static TypePool EventPool = new TypePool("EventPool");
@@ -48,24 +48,25 @@ namespace GameResources
         private void Initialize()
         {
             // Make the core services available before starting the game related stuff
-            EventHandler = REventHandler.Instance;
-            PlayerStats = PlayerModel.Instance;
-            SaveManager = PlayerPrefsManager.Instance;
+            EventHandler = REventHandler.SetInstanceType<REventHandler>();
+            SaveManager = PlayerPrefsManager.SetInstanceType<PlayerPrefsManager>();
+            PlayerStats = PlayerModel.SetInstanceType<PlayerModel>();
+            AssetHandler = AssetLoader.SetInstanceType<AssetLoader>();
             InputHandler = RInputManager.Instance;
-            AssetHandler = AssetLoader.Instance;
             MainMenuMediator = RMainMenuMediator.Instance;
             PauseAndHudMenuMediator = RPauseAndHudMenuMediator.Instance;
             WinOrLossMenuMediator = RWinOrLossMenuMediator.Instance;
 
             JobHandler = JobManager.SetInstanceType<JobManager>();
-            PlayerStats.Init();
             InitializeMenus();
-            GMMediator = RGameManagerMediator.Create();
-            GMMediator.Initialize();
             
             ShipPoolHandler = ShipPoolManager.Instance;
-            ShipSpawnHandler = ShipSpawnManager.Instance;
-            ScoreHandler = ScoreManager.Instance;
+            ShipSpawnHandler = ShipSpawnManager.SetInstanceType<ShipSpawnManager>();
+            ScoreHandler = ScoreManager.SetInstanceType<ScoreManager>();
+            
+            // Run these at the end so that relevant scripts can run their callbacks on the first state
+            GMMediator = RGameManagerMediator.Create();
+            GMMediator.Initialize();
         }
 
         private void InitializeMenus()

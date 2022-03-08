@@ -3,8 +3,18 @@ using UnityEngine;
 
 namespace CoreResources.Utils.SaveData
 {
-    public class PlayerPrefsManager : GenericSingleton<PlayerPrefsManager>
+    public class PlayerPrefsManager : InitializableGenericSingleton<PlayerPrefsManager>
     {
+        protected override void InitSingleton()
+        {
+            
+        }
+
+        protected override void CleanSingleton()
+        {
+            
+        }
+
         public void GetPlayerInfo(ref int score, ref int level)
         {
             GetPlayerScore(ref score);

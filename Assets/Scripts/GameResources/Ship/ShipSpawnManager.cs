@@ -1,7 +1,7 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using CoreResources.Handlers.EventHandler;
+using CoreResources.Pool;
 using CoreResources.Utils;
 using CoreResources.Utils.Jobs;
 using CoreResources.Utils.Singletons;
@@ -12,10 +12,9 @@ using Random = UnityEngine.Random;
 
 namespace GameResources.Ship
 {
-    public class ShipSpawnManager : GenericSingleton<ShipSpawnManager>
+    public class ShipSpawnManager : InitializableGenericSingleton<ShipSpawnManager>
     {
-        private List<GameObject> _spawnerList;
-        private List<IDisposable> _disposables;
+        private PooledList<GameObject> _spawnerList;
         private Dictionary<ShipTypes, int> _remainingShips;
         private int _prevIndex;
 
@@ -57,8 +56,7 @@ namespace GameResources.Ship
         {
             base.InitSingleton();
             _prevIndex = -1;
-            _disposables = new List<IDisposable>();
-            _spawnerList = new List<GameObject>();
+            _spawnerList = AppHandler.AppPool.Get<PooledList<GameObject>>();
             _remainingShips = new Dictionary<ShipTypes, int>();
             LevelManager.AccessLevelData(ref _remainingShips);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerMainMenuToPlay>(OnEnterPlay, _disposables);
@@ -68,6 +66,12 @@ namespace GameResources.Ship
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToLoss>(OnExitPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnExitPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_ShipsLoaded>(OnReset, _disposables);
+        }
+
+        protected override void CleanSingleton()
+        {
+            base.CleanSingleton();
+            _spawnerList?.ReturnToPool();
         }
 
         private void OnEnterPlay(REvent evt)
@@ -85,11 +89,11 @@ namespace GameResources.Ship
             StopSpawners();
         }
         
-        protected override void OnReset(REvent evt)
+        private void OnReset(REvent evt)
         {
             LevelManager.AccessLevelData(ref _remainingShips);
             _prevIndex = -1;
-            ShipSpawner[] spawners = FindObjectsOfType<ShipSpawner>();
+            ShipSpawner[] spawners = UnityEngine.Object.FindObjectsOfType<ShipSpawner>();
             foreach (var spawner in spawners)
             {
                 AddToSpawnerList(spawner.gameObject);

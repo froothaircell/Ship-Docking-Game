@@ -1,9 +1,10 @@
 using CoreResources.Utils.Singletons;
 using GameResources;
+using GameResources.Events;
 
 namespace CoreResources.Utils.SaveData
 {
-    public class PlayerModel : GenericSingleton<PlayerModel>
+    public class PlayerModel : InitializableGenericSingleton<PlayerModel>
     {
         private int _score;
         private int _level;
@@ -21,8 +22,9 @@ namespace CoreResources.Utils.SaveData
             AppHandler.SaveManager.SetPlayerInfo(_score, _level);
         }
 
-        public void Init()
+        protected override void InitSingleton()
         {
+            base.InitSingleton();
             UpdateStats();
             if (_level == 0)
             {
@@ -30,6 +32,12 @@ namespace CoreResources.Utils.SaveData
                 _score = 0;
                 UpdateSaveData();
             }
+        }
+
+        protected override void CleanSingleton()
+        {
+            base.CleanSingleton();
+            UpdateSaveData();
         }
 
         // Just set the value of a parameter to -1 if we don't need to add it

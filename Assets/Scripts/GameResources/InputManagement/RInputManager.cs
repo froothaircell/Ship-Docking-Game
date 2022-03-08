@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace GameResources.InputManagement
 {
-    public class RInputManager : GenericSingleton<RInputManager>
+    public class RInputManager : MonobehaviorSingleton<RInputManager>
     {
         private LayerMask _shipLayerMask;
         private RPathingManager _selectedPathingManager;

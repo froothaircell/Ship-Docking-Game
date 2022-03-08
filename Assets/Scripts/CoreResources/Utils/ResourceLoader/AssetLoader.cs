@@ -3,8 +3,18 @@ using UnityEngine;
 
 namespace CoreResources.Utils.ResourceLoader
 {
-    public class AssetLoader : GenericSingleton<AssetLoader>
+    public class AssetLoader : InitializableGenericSingleton<AssetLoader>
     {
+        protected override void InitSingleton()
+        {
+            
+        }
+
+        protected override void CleanSingleton()
+        {
+            
+        }
+        
         public bool HasAsset(string name)
         {
             if (string.IsNullOrEmpty(name))

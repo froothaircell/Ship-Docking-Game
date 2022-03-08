@@ -5,9 +5,19 @@ using CoreResources.Utils.Singletons;
 
 namespace CoreResources.Handlers.EventHandler
 {
-    public class REventHandler : GenericSingleton<REventHandler>
+    public class REventHandler : InitializableGenericSingleton<REventHandler>
     {
         private Dictionary<Type, Delegate> _listeners = new Dictionary<Type, Delegate>();
+
+        protected override void InitSingleton()
+        {
+            
+        }
+
+        protected override void CleanSingleton()
+        {
+            
+        }
 
         // Assigns the dispose function to a collection of IDisposables
         public void Subscribe<T>(Action<T> callback, ICollection<IDisposable> disposableContainer) where T : REvent

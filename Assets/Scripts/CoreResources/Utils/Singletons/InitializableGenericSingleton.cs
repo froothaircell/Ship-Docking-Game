@@ -1,4 +1,9 @@
 using System;
+using CoreResources.Handlers.EventHandler;
+using CoreResources.Pool;
+using CoreResources.Utils.Disposables;
+using GameResources;
+using GameResources.Events;
 
 namespace CoreResources.Utils.Singletons
 {
@@ -10,6 +15,7 @@ namespace CoreResources.Utils.Singletons
     
     public abstract class InitializableGenericSingleton<T> : GenericSingleton where T : InitializableGenericSingleton<T>
     {
+        protected PooledList<IDisposable> _disposables;
         private static T _instance;
 
         public static T Instance
@@ -55,12 +61,22 @@ namespace CoreResources.Utils.Singletons
 
         protected override void InitSingleton()
         {
-            
+            _disposables = AppHandler.AppPool.Get<PooledList<IDisposable>>();
+            AppHandler.EventHandler.Subscribe<REvent_GameQuit>(OnCleanSingleton, _disposables);
         }
 
         protected override void CleanSingleton()
         {
-            
+            if (_disposables != null)
+            {
+                _disposables.ClearDisposables();
+                _disposables.ReturnToPool();
+            }
+        }
+
+        private void OnCleanSingleton(REvent evt)
+        {
+            CleanSingleton();
         }
     }
 }

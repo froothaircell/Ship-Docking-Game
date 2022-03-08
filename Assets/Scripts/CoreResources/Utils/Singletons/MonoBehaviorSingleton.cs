@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CoreResources.Utils.Singletons
 {
-    public abstract class GenericSingleton<T> : MonoBehaviour where T : GenericSingleton<T>
+    public abstract class MonobehaviorSingleton<T> : MonoBehaviour where T : MonobehaviorSingleton<T>
     {
         private static T _instance;
 

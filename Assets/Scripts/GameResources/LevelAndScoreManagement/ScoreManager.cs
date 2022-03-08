@@ -1,24 +1,18 @@
-using System;
-using System.Collections.Generic;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Utils.Singletons;
 using GameResources.Events;
 
 namespace GameResources.LevelAndScoreManagement
 {
-    public class ScoreManager : GenericSingleton<ScoreManager>
+    public class ScoreManager : InitializableGenericSingleton<ScoreManager>
     {
         private int _dockedShips;
         private int _destroyedShips;
         private int _totalShips;
-
-        private List<IDisposable> _disposables;
-
+        
         protected override void InitSingleton()
         {
             base.InitSingleton();
-            
-            _disposables = new List<IDisposable>();
             
             ResetValues();
             AppHandler.EventHandler.Subscribe<REvent_GameManagerMainMenuToPlay>(OnReset, _disposables);
@@ -27,7 +21,7 @@ namespace GameResources.LevelAndScoreManagement
             AppHandler.EventHandler.Subscribe<REvent_ShipDestroyed>(IncrementDestroyedShips, _disposables);
         }
 
-        protected override void OnReset(REvent evt)
+        private void OnReset(REvent evt)
         {
             ResetValues();
         }

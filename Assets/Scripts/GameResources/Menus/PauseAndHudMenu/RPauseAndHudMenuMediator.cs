@@ -27,6 +27,7 @@ namespace GameResources.Menus.PauseAndHudMenu
             // Stats based events
             AppHandler.EventHandler.Subscribe<REvent_GameStart>(OnDisplayLevel, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnDisplayLevel, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToMainMenu>(OnDisplayLevel, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_DisplayScore>(OnDisplayScore, _disposables);
             
             View.settingsButton.onClick.AddListener(OnSettingsToggled);

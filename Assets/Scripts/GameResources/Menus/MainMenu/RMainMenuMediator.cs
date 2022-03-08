@@ -3,6 +3,7 @@ using CoreResources.Mediators;
 using CoreResources.Pool;
 using GameResources.Events;
 using GameResources.LevelAndScoreManagement;
+using UnityEngine;
 
 namespace GameResources.Menus.MainMenu
 {
@@ -42,6 +43,7 @@ namespace GameResources.Menus.MainMenu
         private void OnQuitGame()
         {
             REvent_GameQuit.Dispatch();
+            Application.Quit();
         }
     }
 }

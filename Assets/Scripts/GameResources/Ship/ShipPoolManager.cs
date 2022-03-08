@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Pool;
 using CoreResources.Utils;
@@ -21,7 +20,7 @@ namespace GameResources.Ship
         JetSki = 3
     }
     
-    public class ShipPoolManager : GenericSingleton<ShipPoolManager>
+    public class ShipPoolManager : MonobehaviorSingleton<ShipPoolManager>
     {
         // We'll use this to instantiate new objects of the specific type
         // Load the ships into this list
@@ -136,7 +135,7 @@ namespace GameResources.Ship
             }
             // ClearPool();
             // InitSingleton();
-            callback?.Invoke();
+            callback?.DynamicInvoke();
         }
 
         private void ClearPool()

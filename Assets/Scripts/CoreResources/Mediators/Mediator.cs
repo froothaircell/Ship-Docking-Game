@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace CoreResources.Mediators
 {
-    public class Mediator<T> : GenericSingleton<T> where T : Mediator<T>
+    public class Mediator<T> : MonobehaviorSingleton<T> where T : Mediator<T>
     {
         public virtual string Name
         {
