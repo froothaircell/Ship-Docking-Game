@@ -35,18 +35,19 @@ namespace GameResources.Pathing
             if (_onCourse) return;
 
             Vector3 targetDirection = (_currentDestination - transform.position).normalized;
-            Quaternion targetRotation = Quaternion.LookRotation((targetDirection), Vector3.up);
+            Vector3 targetRotation = Quaternion.LookRotation((targetDirection), Vector3.up).eulerAngles;
+            targetRotation = new Vector3(0, targetRotation.y, 0);
             var dotProduct = Vector3.Dot(transform.forward, targetDirection);
             if(dotProduct < 1 - _dotProductThreshold)
             {
                 // point ahead of ship. correct course
-                transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation,
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(targetRotation),
                     (_rotationSpeed * Time.deltaTime));
             }
             else
             {
                 // rotation is close enough to desired threshold. clamp it to the target
-                transform.rotation = targetRotation;
+                transform.rotation = Quaternion.Euler(targetRotation);
                 _onCourse = true;
             }
         }

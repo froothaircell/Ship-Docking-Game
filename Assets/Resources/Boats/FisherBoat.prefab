@@ -80,6 +80,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7db0c54986c74840a2722fe4d8461863, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _rendererUpdateRadius: 2
   _minDistanceToChangeDestination: 3.5
   _lineResolution: 1
 --- !u!114 &3176611953821978754

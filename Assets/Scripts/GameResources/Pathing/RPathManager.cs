@@ -64,6 +64,7 @@ namespace GameResources.Pathing
         public void BeginPathing()
         {
             ClearPath();
+            _indexForSteering = 0;
             _firstPoint = true;
         }
 
@@ -113,6 +114,10 @@ namespace GameResources.Pathing
                 _firstPoint = false;
                 return true;
             }
+
+            if (_indexForSteering >= _points.Count - 1)
+                return false;
+            
             var isInRange = Vector3.Distance(transform.position, _points[_indexForSteering]) < _minDistanceToChangeDestination;
             return isInRange;
         }
