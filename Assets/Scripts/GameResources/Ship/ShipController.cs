@@ -5,6 +5,7 @@ using CoreResources.Utils.Disposables;
 using GameResources.Events;
 using GameResources.Pathing;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace GameResources.Ship
 {

@@ -12,7 +12,7 @@ namespace GameResources.InputManagement
     public class RInputManager : MonobehaviorSingleton<RInputManager>
     {
         private LayerMask _shipLayerMask;
-        private RPathingManager _selectedPathingManager;
+        private RPathManager _selectedPathingManager;
         private RaycastHit _raycastHit;
         private PooledList<IDisposable> _disposables;
         private bool _disableInput = false;
@@ -75,14 +75,14 @@ namespace GameResources.InputManagement
                 ray = Camera.main.ScreenPointToRay(Input.mousePosition);
                 if (Physics.Raycast(ray, out _raycastHit, Mathf.Infinity, (_shipLayerMask)))
                 {
-                    _selectedPathingManager = _raycastHit.collider.transform.parent.GetComponent<RPathingManager>();
-                    _selectedPathingManager.ClearPoints();
+                    _selectedPathingManager = _raycastHit.collider.transform.parent.GetComponent<RPathManager>();
+                    _selectedPathingManager.BeginPathing();
                 }
             }
 
             if (Input.GetButtonUp("Fire1") && _selectedPathingManager != null)
             {
-                _selectedPathingManager.OnButtonReleased();
+                // _selectedPathingManager.OnButtonReleased();
                 _selectedPathingManager = null;
             }
 
@@ -103,14 +103,14 @@ namespace GameResources.InputManagement
                     ray = Camera.main.ScreenPointToRay(press.position);
                     if (Physics.Raycast(ray, out _raycastHit, Mathf.Infinity, (_shipLayerMask)))
                     {
-                        _selectedPathingManager = _raycastHit.collider.transform.parent.GetComponent<RPathingManager>();
-                        _selectedPathingManager.ClearPoints();
+                        _selectedPathingManager = _raycastHit.collider.transform.parent.GetComponent<RPathManager>();
+                        _selectedPathingManager.BeginPathing();
                     }
                 }
 
                 if (press.phase == TouchPhase.Ended)
                 {
-                    _selectedPathingManager.OnButtonReleased();
+                    // _selectedPathingManager.OnButtonReleased();
                     _selectedPathingManager = null;
                 }
 

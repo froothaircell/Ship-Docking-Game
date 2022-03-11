@@ -231,11 +231,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3928487505943875746}
-  - component: {fileID: 7542326846575013229}
-  - component: {fileID: 5025574195300001871}
   - component: {fileID: 3059430875822443914}
-  - component: {fileID: 305471754578729888}
   - component: {fileID: 9180745986928484669}
+  - component: {fileID: 5613928699384232311}
+  - component: {fileID: 5300001453616483106}
+  - component: {fileID: 7065558336561436358}
+  - component: {fileID: 7259030337376518735}
   m_Layer: 8
   m_Name: JetSki
   m_TagString: Untagged
@@ -259,32 +260,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7542326846575013229
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7535386521545216516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e5bdadc809042ecbc173cf7cdc7160c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  yOffset: 0.5
---- !u!114 &5025574195300001871
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7535386521545216516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8aba8602f4eb406696efd1da0f2c2903, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distanceThreshold: 0.5
 --- !u!195 &3059430875822443914
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -307,21 +282,6 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &305471754578729888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7535386521545216516}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97873152abb34831b8af5458d8114af3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _shipData:
-    ShipType: 3
-    ShipSpeed: 6
 --- !u!54 &9180745986928484669
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -338,3 +298,58 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &5613928699384232311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7535386521545216516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99135b4033f54bcc8a4a87a505b9b8ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipData:
+    ShipType: 3
+    ShipSpeed: 6
+--- !u!114 &5300001453616483106
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7535386521545216516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db0c54986c74840a2722fe4d8461863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minDistanceToChangeDestination: 2.5
+  _lineResolution: 1
+--- !u!114 &7065558336561436358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7535386521545216516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75a37a722abf416cbfc0e08298fad5d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7259030337376518735
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7535386521545216516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a199c942e2a74d1a95aa784664a347bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotationSpeed: 5
+  _dotProductThreshold: 0.01

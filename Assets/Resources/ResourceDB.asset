@@ -158,6 +158,9 @@ MonoBehaviour:
   - _name: TMP Settings
     _path: 
     retrievedObject: {fileID: 0}
+  - _name: DOTweenSettings
+    _path: 
+    retrievedObject: {fileID: 0}
   - _name: Level 1
     _path: 
     retrievedObject: {fileID: 0}

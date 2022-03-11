@@ -231,11 +231,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4025179927385176116}
-  - component: {fileID: 2538581156325102030}
-  - component: {fileID: 5563467060000629914}
   - component: {fileID: 8355132105700132784}
-  - component: {fileID: 329781537234004110}
   - component: {fileID: 6785239658259153146}
+  - component: {fileID: 70255865700844327}
+  - component: {fileID: 7255037620365675336}
+  - component: {fileID: 2669301281820319077}
+  - component: {fileID: 1280169828340743510}
   m_Layer: 8
   m_Name: ScoutBoat
   m_TagString: Untagged
@@ -259,32 +260,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2538581156325102030
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2452827925018756281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e5bdadc809042ecbc173cf7cdc7160c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  yOffset: 0.5
---- !u!114 &5563467060000629914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2452827925018756281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8aba8602f4eb406696efd1da0f2c2903, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  distanceThreshold: 0.5
 --- !u!195 &8355132105700132784
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -307,21 +282,6 @@ NavMeshAgent:
   m_BaseOffset: 0.5
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
---- !u!114 &329781537234004110
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2452827925018756281}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97873152abb34831b8af5458d8114af3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _shipData:
-    ShipType: 0
-    ShipSpeed: 3
 --- !u!54 &6785239658259153146
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -338,3 +298,58 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &70255865700844327
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452827925018756281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99135b4033f54bcc8a4a87a505b9b8ca, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shipData:
+    ShipType: 0
+    ShipSpeed: 3
+--- !u!114 &7255037620365675336
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452827925018756281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db0c54986c74840a2722fe4d8461863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _minDistanceToChangeDestination: 3.5
+  _lineResolution: 1
+--- !u!114 &2669301281820319077
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452827925018756281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 75a37a722abf416cbfc0e08298fad5d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1280169828340743510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2452827925018756281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a199c942e2a74d1a95aa784664a347bc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _rotationSpeed: 5
+  _dotProductThreshold: 0.01
