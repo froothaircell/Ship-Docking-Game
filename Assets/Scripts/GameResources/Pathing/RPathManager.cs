@@ -9,9 +9,11 @@ namespace GameResources.Pathing
     public class RPathManager : MonoBehaviour, IShipComponent
     {
         public Action<Vector3> OnNewDestinationSet;
+        public float _rendererUpdateRadius = 1f; // determines if the renderer is close enough to the ship to update
         public float _minDistanceToChangeDestination = 0.4f; // must be greater than or equal to line resolution
         public float _lineResolution = 1f; // less increases resolution
-        
+
+        private int _indexForSteering = 0;
         private float _lineRendererYOffset = 0.5f;
         private bool _firstPoint = false;
         private LineRenderer _lineRenderer;
@@ -20,6 +22,7 @@ namespace GameResources.Pathing
         
         public void OnInit()
         {
+            _indexForSteering = 0;
             _firstPoint = false;
             _points = AppHandler.AppPool.Get<PooledList<Vector3>>();
             if (_lineRenderer == null)
@@ -35,16 +38,26 @@ namespace GameResources.Pathing
 
         public void OnUpdate()
         {
-            if (ShouldSetDestination())
-            {
-                OnNewDestinationSet.Invoke(_points[0]);
-                _points.RemoveAt(0);
-                UpdateRenderer();
-            }
-
             if (_points.Count == 0)
             {
                 _lineRenderer.positionCount = 0;
+                return;
+            }
+
+            // remove 0th point only when ship gets to it
+            if (Vector3.Distance(_points[0], transform.position) <= _rendererUpdateRadius)
+            {
+                _points.RemoveAt(0);
+                UpdateRenderer();
+                if(_indexForSteering > 0)
+                    _indexForSteering--;
+            }
+            
+            if (ShouldSetDestination())
+            {
+                // Get the point that the ship needs via another variable
+                OnNewDestinationSet.Invoke(_points[_indexForSteering]);
+                _indexForSteering = _indexForSteering == (_points.Count - 1) ? _indexForSteering : _indexForSteering + 1;
             }
         }
 
@@ -64,7 +77,7 @@ namespace GameResources.Pathing
         {
             if (DistanceToLastPoint(hitInfo.point) > _lineResolution)
             {
-                Vector3 point = hitInfo.point + new Vector3(0, _lineRendererYOffset);
+                Vector3 point = new Vector3(hitInfo.point.x, _lineRendererYOffset, hitInfo.point.z);
                 _points.Add(point);
                 _lineRenderer.positionCount = _points.Count;
                 _lineRenderer.SetPositions(_points.ToArray());
@@ -100,7 +113,7 @@ namespace GameResources.Pathing
                 _firstPoint = false;
                 return true;
             }
-            var isInRange = Vector3.Distance(transform.position, _points[0]) < _minDistanceToChangeDestination;
+            var isInRange = Vector3.Distance(transform.position, _points[_indexForSteering]) < _minDistanceToChangeDestination;
             return isInRange;
         }
     }
