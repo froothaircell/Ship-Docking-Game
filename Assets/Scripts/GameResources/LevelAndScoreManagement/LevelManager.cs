@@ -2,15 +2,25 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoreResources.Utils;
+using CoreResources.Utils.Singletons;
 using GameResources.Events;
 using GameResources.Ship;
-using UnityEngine.SceneManagement;
 using UnityEngine;
+
 
 namespace GameResources.LevelAndScoreManagement
 {
-    public class LevelManager
+    // This class manages the access of level based data and loading and unloading of levels
+    public class LevelManager : InitializableGenericSingleton<LevelManager>
     {
+        private GameObject _currentLevel;
+
+        protected override void CleanSingleton()
+        {
+            DestroyCurrentLevel();
+            base.CleanSingleton();
+        }
+
         public static int TotalShipsForLevel()
         {
             int tmp = 0;
@@ -42,40 +52,31 @@ namespace GameResources.LevelAndScoreManagement
             return AppHandler.AssetHandler.LoadAsset<LevelData>("Level " + currentLevel);
         }
 
-        public static async void LoadMainMenu()
+        public void LoadMainMenu()
         {
             AppHandler.PlayerStats.UpdateSaveData();
-            SceneManager.LoadScene("EntryMenu");
-            await Task.Delay(500);
+            if(_currentLevel != null)
+                _currentLevel.SetActive(false);
             REvent_GameManagerPauseToMainMenu.Dispatch();
         }
 
-        public static async void LoadNextLevel()
+        public void LoadNextLevel()
         {
-            int nextLevel = FindNextLevel();
-            AppHandler.PlayerStats.UpdateAndSave(-1, nextLevel);
-            SceneManager.LoadScene("Level" + nextLevel);
-            await Task.Delay(500);
-            REvent_LevelStart.Dispatch();
+            LoadArbitraryLevel(AppHandler.PlayerStats.Level + 1, REvent_LevelStart.Dispatch);
         }
         
-        public static async void LoadCurrentLevel()
+        public void LoadCurrentLevel()
         {
-            AppHandler.PlayerStats.UpdateSaveData();
-            SceneManager.LoadScene("Level" + AppHandler.PlayerStats.Level);
-            await Task.Delay(500);
-            REvent_LevelStart.Dispatch();
+            LoadArbitraryLevel(AppHandler.PlayerStats.Level, REvent_LevelStart.Dispatch);
         }
 
-        public static async void LoadArbitraryLevel(int level)
+        private void LoadArbitraryLevel(int level, Action onLoadComplete = null)
         {
-            string levelStr = "Level" + level;
-            if (Application.CanStreamedLevelBeLoaded(levelStr))
+            string levelStr = FindLevel("Level" + level);
+            if (AppHandler.AssetHandler.HasAsset(levelStr))
             {
                 AppHandler.PlayerStats.UpdateAndSave(-1, level);
-                SceneManager.LoadScene(levelStr);
-                await Task.Delay(500);
-                REvent_LevelStart.Dispatch();
+                AssignAndLoadLevel(levelStr, onLoadComplete);
             }
             else
             {
@@ -83,16 +84,43 @@ namespace GameResources.LevelAndScoreManagement
             }
         }
 
-        private static int FindNextLevel()
+        private string FindLevel(string levelName)
         {
-            int nextLevel = AppHandler.PlayerStats.Level + 1;
-            if(Application.CanStreamedLevelBeLoaded("Level" + nextLevel))
+            if (AppHandler.AssetHandler.HasAsset(levelName))
             {
-                return nextLevel;
+                return levelName;
             }
-            else
+
+            return "Level" + 1;
+        }
+
+        private async void AssignAndLoadLevel(string levelName, Action onLoadComplete = null)
+        {
+            if (_currentLevel != null)
             {
-                return 1;
+                if (_currentLevel.name == levelName)
+                {
+                    _currentLevel.SetActive(true);
+                    onLoadComplete?.Invoke();
+                    return;
+                }
+
+                DestroyCurrentLevel();
+            }
+            _currentLevel = AppHandler.AssetHandler.LoadAsset<GameObject>(levelName);
+            _currentLevel = GameObject.Instantiate(_currentLevel);
+            await Task.Delay(200);
+            _currentLevel.name = levelName;
+            _currentLevel.SetActive(true);
+            onLoadComplete?.Invoke();
+        }
+
+        private void DestroyCurrentLevel()
+        {
+            if (_currentLevel != null)
+            {
+                GameObject.Destroy(_currentLevel);
+                _currentLevel = null;
             }
         }
     }

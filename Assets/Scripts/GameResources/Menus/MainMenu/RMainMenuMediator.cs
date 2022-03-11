@@ -36,7 +36,7 @@ namespace GameResources.Menus.MainMenu
 
         private void OnStartGame()
         {
-            LevelManager.LoadCurrentLevel();
+            AppHandler.LevelHandler.LoadCurrentLevel();
             REvent_GameManagerMainMenuToPlay.Dispatch();
         }
 

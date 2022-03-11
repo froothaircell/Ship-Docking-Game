@@ -35,6 +35,7 @@ namespace GameResources
         public static ShipPoolManager ShipPoolHandler;
         public static ShipSpawnManager ShipSpawnHandler;
         public static ScoreManager ScoreHandler;
+        public static LevelManager LevelHandler;
 
         protected override void Awake()
         {
@@ -63,6 +64,7 @@ namespace GameResources
             ShipPoolHandler = ShipPoolManager.Instance;
             ShipSpawnHandler = ShipSpawnManager.SetInstanceType<ShipSpawnManager>();
             ScoreHandler = ScoreManager.SetInstanceType<ScoreManager>();
+            LevelHandler = LevelManager.SetInstanceType<LevelManager>();
             
             // Run these at the end so that relevant scripts can run their callbacks on the first state
             GMMediator = RGameManagerMediator.Create();

@@ -25,6 +25,21 @@ MonoBehaviour:
   - _name: SpeedBoat
     _path: Boats
     retrievedObject: {fileID: 0}
+  - _name: Level1
+    _path: Level Prefabs
+    retrievedObject: {fileID: 0}
+  - _name: Level2
+    _path: Level Prefabs
+    retrievedObject: {fileID: 0}
+  - _name: Level3
+    _path: Level Prefabs
+    retrievedObject: {fileID: 0}
+  - _name: Level4
+    _path: Level Prefabs
+    retrievedObject: {fileID: 0}
+  - _name: Level5
+    _path: Level Prefabs
+    retrievedObject: {fileID: 0}
   - _name: Main Menu
     _path: Menus
     retrievedObject: {fileID: 0}

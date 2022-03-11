@@ -58,19 +58,19 @@ namespace GameResources.Menus.WinOrLossMenu
 
         private void OnNextLevel()
         {
-            LevelManager.LoadNextLevel();
+            AppHandler.LevelHandler.LoadNextLevel();
             REvent_GameManagerWinOrLossToPlay.Dispatch();
         }
 
         private void OnMainMenu()
         {
-            LevelManager.LoadMainMenu();
+            AppHandler.LevelHandler.LoadMainMenu();
             REvent_GameManagerWinOrLossToMainMenu.Dispatch();
         }
 
         private void OnRestartLevel()
         {
-            LevelManager.LoadCurrentLevel();
+            AppHandler.LevelHandler.LoadCurrentLevel();
             REvent_GameManagerWinOrLossToPlay.Dispatch();
         }
     }

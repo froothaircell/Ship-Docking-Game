@@ -80,14 +80,14 @@ namespace GameResources.Menus.PauseAndHudMenu
 
         private void OnQuitToMainMenu()
         {
-            LevelManager.LoadMainMenu();
+            AppHandler.LevelHandler.LoadMainMenu();
         }
 
         private void OnResetSaves()
         {
             AppHandler.SaveManager.ResetPlayerPrefs();
             AppHandler.PlayerStats.ResetStats();
-            LevelManager.LoadMainMenu();
+            AppHandler.LevelHandler.LoadMainMenu();
         }
 
         private void OnDisplayLevel(REvent evt)
