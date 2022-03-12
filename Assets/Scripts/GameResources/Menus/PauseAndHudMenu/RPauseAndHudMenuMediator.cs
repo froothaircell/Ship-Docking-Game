@@ -44,7 +44,6 @@ namespace GameResources.Menus.PauseAndHudMenu
             View.destroyedShipsProgress.SetActive(true);
             View.settingsButton.gameObject.SetActive(true);
             transform.GetChild(0).gameObject.SetActive(true);
-            DisplayDockedShipProgress(0);
             OnEnterMenu();
         }
 
@@ -56,7 +55,7 @@ namespace GameResources.Menus.PauseAndHudMenu
             View.pauseMenu.SetActive(false);
             View.settingsButton.gameObject.SetActive(false);
             OnEnterMenu();
-            DisplayDockedShipProgress(AppHandler.PlayerStats.Score);
+            DisplayScore(AppHandler.PlayerStats.Score);
             transform.GetChild(0).gameObject.SetActive(true);
         }
         
@@ -117,6 +116,11 @@ namespace GameResources.Menus.PauseAndHudMenu
         private void OnDisplayDestroyedShipProgress(REvent_DisplayDestroyedProgress evt)
         {
             DisplayDestroyedShipProgress(evt.DestroyedProgress);
+        }
+
+        private void DisplayScore(int score)
+        {
+            View.scoreText.text = "Score" + score;
         }
 
         private void DisplayDockedShipProgress(float progress)
