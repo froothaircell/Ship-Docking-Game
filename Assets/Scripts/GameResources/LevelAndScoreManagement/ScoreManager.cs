@@ -44,10 +44,11 @@ namespace GameResources.LevelAndScoreManagement
             if (_dockedShips < _totalShips)
             {
                 _dockedShips++;
-                int dockedPerc = (_dockedShips * 100) / _totalShips;
-                REvent_DisplayScore.Dispatch(dockedPerc);
+                float dockedProgress = _dockedShips / (_totalShips * 0.75f);
+                dockedProgress = dockedProgress >= 1f ? 1f : dockedProgress;
+                REvent_DisplayDockedProgress.Dispatch(dockedProgress);
                 // Won the level
-                if (dockedPerc >= 75)
+                if (dockedProgress >= 1f)
                 {
                     // this is just a sample equation, subject to change later
                     int levelScore = (_dockedShips - _destroyedShips) * 10;
@@ -62,9 +63,11 @@ namespace GameResources.LevelAndScoreManagement
             if (_destroyedShips < _totalShips)
             {
                 _destroyedShips++;
-                int destroyedPerc = (_destroyedShips * 100) / _totalShips;
+                float destroyableShipsLeft = _destroyedShips / (_totalShips * 0.25f);
+                destroyableShipsLeft = destroyableShipsLeft >= 1f ? 1f : destroyableShipsLeft;
+                REvent_DisplayDestroyedProgress.Dispatch(destroyableShipsLeft);
                 // Lost the level
-                if (destroyedPerc > 25)
+                if (destroyableShipsLeft >= 1f)
                 {
                     REvent_GameManagerPlayToLoss.Dispatch();
                 }

@@ -2,8 +2,8 @@ using System;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Mediators;
 using CoreResources.Pool;
+using DG.Tweening;
 using GameResources.Events;
-using GameResources.LevelAndScoreManagement;
 
 namespace GameResources.Menus.PauseAndHudMenu
 {
@@ -28,7 +28,9 @@ namespace GameResources.Menus.PauseAndHudMenu
             AppHandler.EventHandler.Subscribe<REvent_GameStart>(OnDisplayLevel, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_LevelStart>(OnDisplayLevel, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToMainMenu>(OnDisplayLevel, _disposables);
-            AppHandler.EventHandler.Subscribe<REvent_DisplayScore>(OnDisplayScore, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_DisplayDockedProgress>(OnDisplayDockedShipProgress, _disposables);
+            AppHandler.EventHandler.Subscribe<REvent_DisplayDestroyedProgress>(OnDisplayDestroyedShipProgress,
+                _disposables);
             
             View.settingsButton.onClick.AddListener(OnSettingsToggled);
             View.pause_MainMenuButton.onClick.AddListener(OnQuitToMainMenu);
@@ -37,31 +39,38 @@ namespace GameResources.Menus.PauseAndHudMenu
 
         public void OnEnterPlay(REvent evt)
         {
+            View.scoreText.gameObject.SetActive(false);
+            View.dockedShipsProgress.SetActive(true);
+            View.destroyedShipsProgress.SetActive(true);
             View.settingsButton.gameObject.SetActive(true);
             transform.GetChild(0).gameObject.SetActive(true);
-            DisplayScore(0);
+            DisplayDockedShipProgress(0);
             OnEnterMenu();
         }
 
         public void OnEnterMainMenu(REvent evt)
         {
+            View.scoreText.gameObject.SetActive(true);
+            View.dockedShipsProgress.SetActive(false);
+            View.destroyedShipsProgress.SetActive(false);
             View.pauseMenu.SetActive(false);
             View.settingsButton.gameObject.SetActive(false);
             OnEnterMenu();
-            DisplayScore(AppHandler.PlayerStats.Score);
+            DisplayDockedShipProgress(AppHandler.PlayerStats.Score);
             transform.GetChild(0).gameObject.SetActive(true);
         }
         
         public override void OnEnterMenu()
         {
             View.levelText.gameObject.SetActive(true);
-            View.scoreText.gameObject.SetActive(true);
+            View.dockedShipsProgressBar.value = 0f;
+            View.destroyedShipsProgressBar.value = 0f;
+
         }
 
         public override void OnExitMenu()
         {
-            // View.RemoveAllListeners();
-            // _disposables.ClearDisposables();
+            
         }
 
         private void OnSettingsToggled()
@@ -100,14 +109,26 @@ namespace GameResources.Menus.PauseAndHudMenu
             View.levelText.text = "Level " + level;
         }
 
-        private void OnDisplayScore(REvent_DisplayScore evt)
+        private void OnDisplayDockedShipProgress(REvent_DisplayDockedProgress evt)
         {
-            DisplayScore(evt.Score);
+            DisplayDockedShipProgress(evt.DockedProgress);
         }
 
-        private void DisplayScore(int score)
+        private void OnDisplayDestroyedShipProgress(REvent_DisplayDestroyedProgress evt)
         {
-            View.scoreText.text = "Score " + score;
+            DisplayDestroyedShipProgress(evt.DestroyedProgress);
+        }
+
+        private void DisplayDockedShipProgress(float progress)
+        {
+            DOTween.To(() => View.dockedShipsProgressBar.value, 
+                x => View.dockedShipsProgressBar.value = x, progress, 2f);
+        }
+
+        private void DisplayDestroyedShipProgress(float progress)
+        {
+            DOTween.To(() => View.destroyedShipsProgressBar.value, 
+                x => View.destroyedShipsProgressBar.value = x, progress, 2f);
         }
     }
 }

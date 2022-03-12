@@ -12,6 +12,10 @@ namespace GameResources.Menus.PauseAndHudMenu
         public Button pause_ResetSavesButton;
         public TMP_Text levelText;
         public TMP_Text scoreText;
+        public Slider dockedShipsProgressBar;
+        public Slider destroyedShipsProgressBar;
+        public GameObject dockedShipsProgress;
+        public GameObject destroyedShipsProgress;
         public GameObject pauseMenu;
 
         public override void RemoveAllListeners()
