@@ -5,11 +5,11 @@ namespace GameResources.Pathing
 {
     public class RPathDrive : MonoBehaviour, IShipComponent
     {
-        private float _movementSpeed;
+        private float _movementSpeed; // Keep this public later on
         
         public void OnInit()
         {
-            _movementSpeed = GetComponent<AltShipController>().shipData.ShipSpeed;
+            _movementSpeed = GetComponent<ShipController>().shipData.ShipSpeed;
         }
 
         public void OnReset()

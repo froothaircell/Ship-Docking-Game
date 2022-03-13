@@ -174,7 +174,7 @@ namespace GameResources.Ship
             temp.transform.position = position;
             temp.transform.rotation = rotation;
             temp.SetActive(true);
-            temp.GetComponent<AltShipController>().enabled = true;
+            temp.GetComponent<ShipController>().enabled = true;
             return temp;
         }
 
@@ -194,7 +194,7 @@ namespace GameResources.Ship
                 itemToDespawn.transform.position = transform.position;
                 itemToDespawn.transform.rotation = transform.rotation;
                 _spawnedItems.Remove(itemToDespawn);
-                _shipPool[itemToDespawn.GetComponent<AltShipController>().shipData.ShipType].Add(itemToDespawn);
+                _shipPool[itemToDespawn.GetComponent<ShipController>().shipData.ShipType].Add(itemToDespawn);
             }
             else
             {

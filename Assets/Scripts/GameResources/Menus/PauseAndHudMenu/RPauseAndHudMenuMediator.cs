@@ -120,7 +120,7 @@ namespace GameResources.Menus.PauseAndHudMenu
 
         private void DisplayScore(int score)
         {
-            View.scoreText.text = "Score" + score;
+            View.scoreText.text = "Score " + score;
         }
 
         private void DisplayDockedShipProgress(float progress)

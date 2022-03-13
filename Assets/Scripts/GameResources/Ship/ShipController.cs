@@ -16,7 +16,7 @@ namespace GameResources.Ship
         public float ShipSpeed;
     }
     
-    public class AltShipController : MonoBehaviour
+    public class ShipController : MonoBehaviour
     {
         public ShipData shipData;
         private const float VisibilityThreshold = 5f;

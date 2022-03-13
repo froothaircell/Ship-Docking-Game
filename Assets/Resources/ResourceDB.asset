@@ -173,6 +173,15 @@ MonoBehaviour:
   - _name: TMP Settings
     _path: 
     retrievedObject: {fileID: 0}
+  - _name: NewLayer 1
+    _path: Level Prefabs
+    retrievedObject: {fileID: 0}
+  - _name: NewLayer 2
+    _path: Level Prefabs
+    retrievedObject: {fileID: 0}
+  - _name: NewLayer
+    _path: Level Prefabs
+    retrievedObject: {fileID: 0}
   - _name: DOTweenSettings
     _path: 
     retrievedObject: {fileID: 0}
