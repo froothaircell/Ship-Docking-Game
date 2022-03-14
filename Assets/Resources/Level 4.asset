@@ -17,3 +17,6 @@ MonoBehaviour:
   FisherBoatQuantity: 5
   SpeedBoatQuantity: 4
   JetSkiQuantity: 2
+  RedBoatQuantity: 5
+  GreenBoatQuantity: 3
+  BlueBoatQuantity: 7

@@ -49,7 +49,7 @@ LineRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 798c8f6b9faac6748b00e76c7357ac76, type: 2}
+  - {fileID: 2100000, guid: 41b809452016e1f44962fb9d6422acff, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -80,8 +80,8 @@ LineRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
-        value: 0.49738312
+        time: 0.023971558
+        value: 1
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -156,7 +156,7 @@ Transform:
   m_GameObject: {fileID: 5144504086407832113}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 3928487505943875746}
   m_RootOrder: 0
@@ -289,6 +289,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shipData:
     ShipType: 3
+    ShipColor: 0
     ShipSpeed: 6
 --- !u!114 &5300001453616483106
 MonoBehaviour:

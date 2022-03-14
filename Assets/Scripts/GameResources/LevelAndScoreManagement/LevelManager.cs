@@ -25,7 +25,7 @@ namespace GameResources.LevelAndScoreManagement
         {
             int tmp = 0;
             Dictionary<ShipTypes, int> totalShips = new Dictionary<ShipTypes, int>();
-            AccessLevelData(ref totalShips);
+            AccessShipsByType(ref totalShips);
             foreach (var shipType in EnumUtil.GetValues<ShipTypes>())
             {
                 tmp += totalShips[shipType];
@@ -33,8 +33,20 @@ namespace GameResources.LevelAndScoreManagement
 
             return tmp;
         }
+
+        public static void AccessShipsByColor(ref Dictionary<ShipColors, int> coloredShipQuantities)
+        {
+            int CurrentLevel = AppHandler.PlayerStats.Level;
+            LevelData lvlData = ScanForLevel(CurrentLevel);
+            coloredShipQuantities = new Dictionary<ShipColors, int>()
+            {
+                {ShipColors.Red, lvlData.RedBoatQuantity},
+                {ShipColors.Green, lvlData.GreenBoatQuantity},
+                {ShipColors.Blue, lvlData.BlueBoatQuantity}
+            };
+        }
         
-        public static void AccessLevelData(ref Dictionary<ShipTypes, int> shipQuantities)
+        public static void AccessShipsByType(ref Dictionary<ShipTypes, int> shipQuantities)
         {
             int CurrentLevel = AppHandler.PlayerStats.Level;
             LevelData lvlData = ScanForLevel(CurrentLevel);
@@ -72,7 +84,7 @@ namespace GameResources.LevelAndScoreManagement
 
         private void LoadArbitraryLevel(int level, Action onLoadComplete = null)
         {
-            string levelStr = FindLevel("Level" + level);
+            string levelStr = FindLevel("Level" + level, ref level);
             if (AppHandler.AssetHandler.HasAsset(levelStr))
             {
                 AppHandler.PlayerStats.UpdateAndSave(-1, level);
@@ -84,13 +96,14 @@ namespace GameResources.LevelAndScoreManagement
             }
         }
 
-        private string FindLevel(string levelName)
+        private string FindLevel(string levelName, ref int level)
         {
             if (AppHandler.AssetHandler.HasAsset(levelName))
             {
                 return levelName;
             }
 
+            level = 1;
             return "Level" + 1;
         }
 

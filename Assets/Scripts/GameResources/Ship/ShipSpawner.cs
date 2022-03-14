@@ -9,9 +9,9 @@ namespace GameResources.Ship
             AppHandler.ShipSpawnHandler.RemoveFromSpawnersList(this.gameObject);
         }
 
-        public void Spawn(ShipTypes type)
+        public void Spawn(ShipTypes type, ShipColors shipColor)
         {
-            AppHandler.ShipPoolHandler.GetFromPool(type, transform.position, transform.rotation);
+            AppHandler.ShipPoolHandler.GetFromPool(type, shipColor, transform.position, transform.rotation);
         }
     }
 }

@@ -8,11 +8,11 @@ using UnityEngine;
 
 namespace GameResources.Ship
 {
-    // Add Ship data class here later
     [System.Serializable]
     public class ShipData
     {
         public ShipTypes ShipType;
+        public ShipColors ShipColor;
         public float ShipSpeed;
     }
     
@@ -59,6 +59,23 @@ namespace GameResources.Ship
 
         private void InitShipController()
         {
+            // Set Ship Color
+            switch (shipData.ShipColor)
+            {
+                case ShipColors.Red:
+                    GetComponentInChildren<Renderer>().material.SetColor("Glow_Color", Color.red);
+                    break;
+                case ShipColors.Green:
+                    GetComponentInChildren<Renderer>().material.SetColor("Glow_Color", Color.green);
+                    break;
+                case ShipColors.Blue:
+                    GetComponentInChildren<Renderer>().material.SetColor("Glow_Color", Color.blue);
+                    break;
+                default:
+                    GetComponentInChildren<Renderer>().material.SetColor("Glow_Color", Color.white);
+                    break;
+            }
+
             // init visibility based event
             _mainCam = Camera.main;
             _firstEntry = false;

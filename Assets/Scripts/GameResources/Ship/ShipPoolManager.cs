@@ -19,6 +19,13 @@ namespace GameResources.Ship
         SpeedBoat = 2,
         JetSki = 3
     }
+
+    public enum ShipColors
+    {
+        Red = 0,
+        Green = 1,
+        Blue = 2
+    }
     
     public class ShipPoolManager : MonobehaviorSingleton<ShipPoolManager>
     {
@@ -157,7 +164,7 @@ namespace GameResources.Ship
             _spawnedItems.Clear();
         }
 
-        public GameObject GetFromPool(ShipTypes type, Vector3 position, Quaternion rotation)
+        public GameObject GetFromPool(ShipTypes type, ShipColors shipColor, Vector3 position, Quaternion rotation)
         {
             GameObject temp = null;
             if (_shipPool[type].Count > 0)
@@ -173,6 +180,7 @@ namespace GameResources.Ship
             _spawnedItems.Add(temp);
             temp.transform.position = position;
             temp.transform.rotation = rotation;
+            temp.GetComponent<ShipController>().shipData.ShipColor = shipColor;
             temp.SetActive(true);
             temp.GetComponent<ShipController>().enabled = true;
             return temp;

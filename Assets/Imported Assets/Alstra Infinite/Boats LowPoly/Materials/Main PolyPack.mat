@@ -21,18 +21,26 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Main PolyPack
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: fa75a634eb129d64e952e3b607d66955,
+    type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Base_Texture:
+        m_Texture: {fileID: 2800000, guid: b868d378da93586499669ee7a20385eb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_D9535E15:
+        m_Texture: {fileID: 2800000, guid: b868d378da93586499669ee7a20385eb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: b868d378da93586499669ee7a20385eb, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -78,6 +86,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Glow_Period: 2
+    - Max_Power: 1.66
+    - Min_Power: 1
+    - Vector1_318DD186: 3
+    - Vector1_AF291940: 2
+    - Vector1_E0F5CCBE: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -104,6 +118,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
+    - Color_A9F09CC6: {r: 3.9999995, g: 0, b: 0, a: 0}
+    - Glow_Color: {r: 0.9190675, g: 0.990566, b: 0.369126, a: 0}
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}

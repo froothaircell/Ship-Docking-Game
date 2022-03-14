@@ -8,18 +8,26 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Main
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: fa75a634eb129d64e952e3b607d66955,
+    type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
-  m_CustomRenderQueue: 2000
-  stringTagMap:
-    RenderType: Opaque
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses: []
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Base_Texture:
+        m_Texture: {fileID: 2800000, guid: b436f30706f17e44581969d00a2f1cc0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - Texture2D_D9535E15:
+        m_Texture: {fileID: 2800000, guid: b436f30706f17e44581969d00a2f1cc0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: b436f30706f17e44581969d00a2f1cc0, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -40,7 +48,15 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _Diffuse:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _EmissionMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Illumination:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -49,6 +65,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -65,6 +85,12 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Glow_Period: 2
+    - Max_Power: 1.66
+    - Min_Power: 1
+    - Vector1_318DD186: 3
+    - Vector1_AF291940: 2
+    - Vector1_E0F5CCBE: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -72,7 +98,10 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
+    - _Emission: 1
     - _EnvironmentReflections: 1
+    - _FPow: 2
+    - _Factor: 0.5
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
@@ -82,18 +111,27 @@ Material:
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _SampleGI: 0
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
+    - _SpecK: 46
     - _SpecularHighlights: 1
     - _SrcBlend: 1
+    - _Strength: 2
     - _Surface: 0
     - _UVSec: 0
     - _WorkflowMode: 1
+    - _Wrapping: 0.5
     - _ZWrite: 1
     m_Colors:
+    - Color_A9F09CC6: {r: 2.9960785, g: 0, b: 0, a: 0}
+    - Glow_Color: {r: 0.9190675, g: 0.990566, b: 0.369126, a: 0}
     - _BaseColor: {r: 0.78823537, g: 0.78823537, b: 0.78823537, a: 1}
     - _Color: {r: 0.78823537, g: 0.78823537, b: 0.78823537, a: 1}
-    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _DisColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Emission: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FColor: {r: 1, g: 1, b: 1, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
 --- !u!114 &8162535386434865156
 MonoBehaviour:

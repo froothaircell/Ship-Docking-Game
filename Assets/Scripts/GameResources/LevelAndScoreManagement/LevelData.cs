@@ -10,5 +10,8 @@ namespace GameResources.LevelAndScoreManagement
         public int FisherBoatQuantity;
         public int SpeedBoatQuantity;
         public int JetSkiQuantity;
+        public int RedBoatQuantity;
+        public int GreenBoatQuantity;
+        public int BlueBoatQuantity;
     }
 }

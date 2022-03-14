@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Pool;
 using CoreResources.Utils;
@@ -15,19 +17,21 @@ namespace GameResources.Ship
     public class ShipSpawnManager : InitializableGenericSingleton<ShipSpawnManager>
     {
         private PooledList<GameObject> _spawnerList;
-        private Dictionary<ShipTypes, int> _remainingShips;
+        private Dictionary<ShipTypes, int> _remainingShipsByType;
+        private Dictionary<ShipColors, int> _remainingShipsByColor;
         private int _prevIndex;
 
         private UpdateJob SpawnCoroutine;
 
-        public Dictionary<ShipTypes, int> RemainingShips => _remainingShips;
+        public Dictionary<ShipTypes, int> RemainingShipsByType => _remainingShipsByType;
+        public Dictionary<ShipColors, int> RemainingShipsByColor => _remainingShipsByColor;
 
         public int TotalUnspawnedShips
         {
             get
             {
                 int tmp = 0;
-                foreach (var remainingShipTypes in _remainingShips)
+                foreach (var remainingShipTypes in _remainingShipsByType)
                 {
                     tmp += remainingShipTypes.Value;
                 }
@@ -57,8 +61,8 @@ namespace GameResources.Ship
             base.InitSingleton();
             _prevIndex = -1;
             _spawnerList = AppHandler.AppPool.Get<PooledList<GameObject>>();
-            _remainingShips = new Dictionary<ShipTypes, int>();
-            LevelManager.AccessLevelData(ref _remainingShips);
+            _remainingShipsByType = new Dictionary<ShipTypes, int>();
+            GetShipLists();
             AppHandler.EventHandler.Subscribe<REvent_GameManagerMainMenuToPlay>(OnEnterPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerWinOrLossToPlay>(OnEnterPlay, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPauseToPlay>(OnResumePlay, _disposables);
@@ -76,7 +80,7 @@ namespace GameResources.Ship
 
         private void OnEnterPlay(REvent evt)
         {
-            LevelManager.AccessLevelData(ref _remainingShips);
+            GetShipLists();
         }
 
         private void OnResumePlay(REvent evt)
@@ -91,7 +95,7 @@ namespace GameResources.Ship
         
         private void OnReset(REvent evt)
         {
-            LevelManager.AccessLevelData(ref _remainingShips);
+            GetShipLists();
             _prevIndex = -1;
             ShipSpawner[] spawners = UnityEngine.Object.FindObjectsOfType<ShipSpawner>();
             foreach (var spawner in spawners)
@@ -99,6 +103,25 @@ namespace GameResources.Ship
                 AddToSpawnerList(spawner.gameObject);
             }
             StartSpawners();
+        }
+
+        private void GetShipLists()
+        {
+            LevelManager.AccessShipsByType(ref _remainingShipsByType);
+            LevelManager.AccessShipsByColor(ref _remainingShipsByColor);
+            int x = 0, y = 0;
+            foreach (var shipType in EnumUtil.GetValues<ShipTypes>())
+            {
+                x += _remainingShipsByType[shipType];
+            }
+
+            foreach (var shipColor in EnumUtil.GetValues<ShipColors>())
+            {
+                y += _remainingShipsByColor[shipColor];
+            }
+
+            if (x != y)
+                throw new ArgumentOutOfRangeException($"The total ships by color and by type donot match");
         }
 
         private void StartSpawners()
@@ -131,12 +154,14 @@ namespace GameResources.Ship
                 
                 int spawnerIndex = new int();
                 int shipIndex = new int();
-                GenerateRandomPermissibleIndices(ref spawnerIndex, ref shipIndex);
-                if (shipIndex >= 0)
+                int shipColorIndex = new int();
+                GenerateRandomPermissibleIndices(ref spawnerIndex, ref shipIndex, ref shipColorIndex);
+                if (shipIndex >= 0 && shipColorIndex >= 0)
                 {
                     Debug.Log("ShipSpawnManager || Ship spawned!");
-                    _spawnerList[spawnerIndex].GetComponent<ShipSpawner>().Spawn((ShipTypes) shipIndex);
-                    _remainingShips[(ShipTypes) shipIndex]--;
+                    _spawnerList[spawnerIndex].GetComponent<ShipSpawner>().Spawn((ShipTypes) shipIndex, (ShipColors) shipColorIndex);
+                    _remainingShipsByType[(ShipTypes) shipIndex]--;
+                    _remainingShipsByColor[(ShipColors) shipColorIndex]--;
                 }
             }
         }
@@ -145,7 +170,7 @@ namespace GameResources.Ship
         {
             foreach (var shipType in EnumUtil.GetValues<ShipTypes>())
             {
-                if (_remainingShips[shipType] > 0)
+                if (_remainingShipsByType[shipType] > 0)
                 {
                     return true;
                 }
@@ -156,7 +181,7 @@ namespace GameResources.Ship
 
         // Check if the random value isn't the same as the previous
         // index and it's not pointing to an emptied list
-        private void GenerateRandomPermissibleIndices(ref int spawnerIndex, ref int shipIndex)
+        private void GenerateRandomPermissibleIndices(ref int spawnerIndex, ref int shipIndex, ref int colorIndex)
         {
             spawnerIndex = Random.Range(0, _spawnerList.Count - 1);
             if (spawnerIndex == _prevIndex)
@@ -175,20 +200,38 @@ namespace GameResources.Ship
 
             // Check if this random value points to an empty list and
             // then just try to find a full list
-            shipIndex = Random.Range(0, _remainingShips.Count - 1);
-            if (_remainingShips[(ShipTypes) shipIndex] <= 0)
+            shipIndex = Random.Range(0, _remainingShipsByType.Count - 1);
+            if (_remainingShipsByType[(ShipTypes) shipIndex] <= 0)
             {
                 int tmp = shipIndex;
-                for (int i = 0; i < _remainingShips.Count; i++)
+                for (int i = 0; i < _remainingShipsByType.Count; i++)
                 {
-                    if (_remainingShips[(ShipTypes) i] > 0)
+                    if (_remainingShipsByType[(ShipTypes) i] > 0)
                     {
                         shipIndex = i;
+                        break;
                     }
                 }
 
                 if(tmp == shipIndex)
                     shipIndex = -1;
+            }
+
+            colorIndex = Random.Range(0, _remainingShipsByColor.Count - 1);
+            if (_remainingShipsByColor[(ShipColors) colorIndex] <= 0)
+            {
+                int tmp = colorIndex;
+                for (int i = 0; i < _remainingShipsByColor.Count; i++)
+                {
+                    if (_remainingShipsByColor[(ShipColors) i] > 0)
+                    {
+                        colorIndex = i;
+                        break;
+                    }
+                }
+
+                if (tmp == colorIndex)
+                    colorIndex = -1;
             }
         }
     }
