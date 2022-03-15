@@ -34,6 +34,10 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - Base_Texture:
+        m_Texture: {fileID: 2800000, guid: 8082a90ad79808e42a30b505fee15417, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
         m_Texture: {fileID: 2800000, guid: 8082a90ad79808e42a30b505fee15417, type: 3}
         m_Scale: {x: 1, y: 1}
@@ -63,6 +67,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Floats:
+    - Glow_Period: 2
+    - Max_Power: 1.66
+    - Min_Power: 1
     - _AlphaClip: 0
     - _Blend: 0
     - _BumpScale: 1
@@ -85,7 +92,8 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 0
     m_Colors:
-    - _BaseColor: {r: 0.8509804, g: 0.90588236, b: 0.23529412, a: 1}
+    - Glow_Color: {r: 0.9190675, g: 0.990566, b: 0.369126, a: 0}
+    - _BaseColor: {r: 0.63627005, g: 0, b: 1, a: 0.7254902}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}

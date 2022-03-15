@@ -795,6 +795,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2371535281594345615}
     m_Modifications:
+    - target: {fileID: 1611719067451320209, guid: 4a0018a33f5823c40ad6952fc599c2f1,
+        type: 3}
+      propertyPath: assignedShipColor
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3545782917956220711, guid: 4a0018a33f5823c40ad6952fc599c2f1,
         type: 3}
       propertyPath: m_LocalPosition.y

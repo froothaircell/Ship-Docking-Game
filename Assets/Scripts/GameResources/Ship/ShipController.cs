@@ -4,6 +4,7 @@ using CoreResources.Pool;
 using CoreResources.Utils;
 using CoreResources.Utils.Disposables;
 using GameResources.Events;
+using GameResources.ShipDockZone;
 using UnityEngine;
 
 namespace GameResources.Ship
@@ -147,7 +148,15 @@ namespace GameResources.Ship
         {
             if (other.gameObject.layer == LayerMask.NameToLayer("Flag"))
             {
-                REvent_ShipDocked.Dispatch(transform);
+                ShipColors assignedDockColor = other.transform.parent.GetComponent<DockZoneController>().assignedShipColor;
+                if (assignedDockColor == shipData.ShipColor)
+                {
+                    REvent_ShipDocked.Dispatch(transform);
+                }
+                else
+                {
+                    REvent_ShipDestroyed.Dispatch(transform);
+                }
             }
             else if (other.gameObject.layer == LayerMask.NameToLayer("Obstacle") ||
                      other.gameObject.layer == LayerMask.NameToLayer("Ship"))

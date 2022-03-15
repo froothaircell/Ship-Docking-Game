@@ -50,27 +50,21 @@ MonoBehaviour:
     _path: Menus
     retrievedObject: {fileID: 0}
   - _name: Flag
-    _path: Misc Prefabs
+    _path: Misc Prefabs/Docking Zones
+    retrievedObject: {fileID: 0}
+  - _name: StoneX1_2
+    _path: Misc Prefabs/Obstacles
+    retrievedObject: {fileID: 0}
+  - _name: Stone_LowFlat_1
+    _path: Misc Prefabs/Obstacles
+    retrievedObject: {fileID: 0}
+  - _name: Stone_LowFlat_3
+    _path: Misc Prefabs/Obstacles
     retrievedObject: {fileID: 0}
   - _name: Main Camera
     _path: Misc Prefabs
     retrievedObject: {fileID: 0}
-  - _name: Obstacle
-    _path: Misc Prefabs
-    retrievedObject: {fileID: 0}
   - _name: ShipSpawner
-    _path: Misc Prefabs
-    retrievedObject: {fileID: 0}
-  - _name: StoneX1
-    _path: Misc Prefabs
-    retrievedObject: {fileID: 0}
-  - _name: StoneX1_2
-    _path: Misc Prefabs
-    retrievedObject: {fileID: 0}
-  - _name: Stone_LowFlat_1
-    _path: Misc Prefabs
-    retrievedObject: {fileID: 0}
-  - _name: Stone_LowFlat_3
     _path: Misc Prefabs
     retrievedObject: {fileID: 0}
   - _name: AppHandler
