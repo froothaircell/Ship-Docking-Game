@@ -1,9 +1,11 @@
 using System;
+using Coffee.UIExtensions;
 using CoreResources.Handlers.EventHandler;
 using CoreResources.Mediators;
 using CoreResources.Pool;
 using DG.Tweening;
 using GameResources.Events;
+using UnityEngine;
 
 namespace GameResources.Menus.PauseAndHudMenu
 {
@@ -39,7 +41,7 @@ namespace GameResources.Menus.PauseAndHudMenu
 
         public void OnEnterPlay(REvent evt)
         {
-            View.scoreText.gameObject.SetActive(false);
+            View.scorePanel.SetActive(false);
             View.dockedShipsProgress.SetActive(true);
             View.destroyedShipsProgress.SetActive(true);
             View.settingsButton.gameObject.SetActive(true);
@@ -49,7 +51,7 @@ namespace GameResources.Menus.PauseAndHudMenu
 
         public void OnEnterMainMenu(REvent evt)
         {
-            View.scoreText.gameObject.SetActive(true);
+            View.scorePanel.SetActive(true);
             View.dockedShipsProgress.SetActive(false);
             View.destroyedShipsProgress.SetActive(false);
             View.pauseMenu.SetActive(false);
@@ -61,7 +63,7 @@ namespace GameResources.Menus.PauseAndHudMenu
         
         public override void OnEnterMenu()
         {
-            View.levelText.gameObject.SetActive(true);
+            View.levelPanel.SetActive(true);
             View.dockedShipsProgressBar.value = 0f;
             View.destroyedShipsProgressBar.value = 0f;
 
@@ -131,7 +133,7 @@ namespace GameResources.Menus.PauseAndHudMenu
 
         private void DisplayDestroyedShipProgress(float progress)
         {
-            DOTween.To(() => View.destroyedShipsProgressBar.value, 
+            DOTween.To(() => View.destroyedShipsProgressBar.value,
                 x => View.destroyedShipsProgressBar.value = x, progress, 2f);
         }
     }

@@ -14,6 +14,8 @@ namespace GameResources.Menus.PauseAndHudMenu
         public TMP_Text scoreText;
         public Slider dockedShipsProgressBar;
         public Slider destroyedShipsProgressBar;
+        public GameObject levelPanel;
+        public GameObject scorePanel;
         public GameObject dockedShipsProgress;
         public GameObject destroyedShipsProgress;
         public GameObject pauseMenu;
