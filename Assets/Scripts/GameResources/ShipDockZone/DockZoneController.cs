@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace GameResources.ShipDockZone
 {
-    public static class MarkerColors
+    public static class ShipAndMarkerColors
     {
         public static Color RedM => new Color(0.98f, 0.17f, 0.17f, 0.73f);
         public static Color GreenM => new Color(0.15f, 1f, 0f, 0.73f);
@@ -21,13 +21,13 @@ namespace GameResources.ShipDockZone
             switch (assignedShipColor)
             {
                 case ShipColors.Red:
-                    renderer.material.SetColor("_BaseColor", MarkerColors.RedM);
+                    renderer.material.SetColor("_BaseColor", ShipAndMarkerColors.RedM);
                     break;
                 case ShipColors.Green:
-                    renderer.material.SetColor("_BaseColor", MarkerColors.GreenM);
+                    renderer.material.SetColor("_BaseColor", ShipAndMarkerColors.GreenM);
                     break;
                 case ShipColors.Blue:
-                    renderer.material.SetColor("_BaseColor", MarkerColors.BlueM);
+                    renderer.material.SetColor("_BaseColor", ShipAndMarkerColors.BlueM);
                     break;
                 default:
                     renderer.material.SetColor("_BaseColor", Color.white);
