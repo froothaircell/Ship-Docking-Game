@@ -6,7 +6,7 @@ namespace GameResources.Ship
     {
         private void OnDestroy()
         {
-            AppHandler.ShipSpawnHandler.RemoveFromSpawnersList(this.gameObject);
+            // AppHandler.ShipSpawnHandler.RemoveFromSpawnersList(this.gameObject);
         }
 
         public void Spawn(ShipTypes type, ShipColors shipColor)
