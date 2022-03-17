@@ -47,6 +47,24 @@ namespace CoreResources.Utils.SaveData
             PlayerPrefs.SetInt(nameof(level), level);
         }
 
+        public void SetPlayerInputPrefs(float touchRadius)
+        {
+            if (touchRadius >= 0f)
+            {
+                PlayerPrefs.SetFloat(nameof(touchRadius), touchRadius);
+            }
+        }
+
+        public void GetPlayerInputPrefs(ref float touchRadius)
+        {
+            if (!PlayerPrefs.HasKey(nameof(touchRadius)))
+            {
+                PlayerPrefs.SetFloat(nameof(touchRadius), 3f);
+            }
+
+            touchRadius = PlayerPrefs.GetFloat(nameof(touchRadius));
+        }
+
         public void ResetPlayerPrefs()
         {
             PlayerPrefs.DeleteAll();

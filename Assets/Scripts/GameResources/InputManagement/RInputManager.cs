@@ -11,22 +11,27 @@ namespace GameResources.InputManagement
 {
     public class RInputManager : MonobehaviorSingleton<RInputManager>
     {
+        
         private LayerMask _shipLayerMask;
         private RPathManager _selectedPathingManager;
         private RaycastHit _raycastHit;
         private PooledList<IDisposable> _disposables;
         private bool _disableInput = false;
+        private float _touchRadius = 3f;
 
         protected override void InitSingleton()
         {
             base.InitSingleton();
             _selectedPathingManager = null;
             _disableInput = false;
+            
             if (_disposables == null)
             {
                 _disposables = AppHandler.AppPool.Get<PooledList<IDisposable>>();
             }
 
+            AppHandler.SaveManager.GetPlayerInputPrefs(ref _touchRadius);
+            
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToPause>(OnPauseInputs, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToWin>(OnPauseInputs, _disposables);
             AppHandler.EventHandler.Subscribe<REvent_GameManagerPlayToLoss>(OnPauseInputs, _disposables);
@@ -66,6 +71,12 @@ namespace GameResources.InputManagement
             _disableInput = false;
         }
 
+        private void SetTouchRadius(float radius)
+        {
+            _touchRadius = radius;
+            AppHandler.SaveManager.SetPlayerInputPrefs(radius);
+        }
+
         private void HandleInput()
         {
             Ray ray;
@@ -101,7 +112,8 @@ namespace GameResources.InputManagement
                 if (press.phase == TouchPhase.Began)
                 {
                     ray = Camera.main.ScreenPointToRay(press.position);
-                    if (Physics.Raycast(ray, out _raycastHit, Mathf.Infinity, (_shipLayerMask)))
+                    // if (Physics.Raycast(ray, out _raycastHit, Mathf.Infinity, (_shipLayerMask)))
+                    if(Physics.SphereCast(ray, _touchRadius, out _raycastHit, Mathf.Infinity, _shipLayerMask))
                     {
                         _selectedPathingManager = _raycastHit.collider.transform.parent.GetComponent<RPathManager>();
                         _selectedPathingManager.BeginPathing();
@@ -117,6 +129,7 @@ namespace GameResources.InputManagement
                 if (press.phase == TouchPhase.Moved && _selectedPathingManager != null)
                 {
                     ray = Camera.main.ScreenPointToRay(press.position);
+                    // if(Physics.SphereCast(ray, _touchRadius, out _raycastHit, Mathf.Infinity))
                     if (Physics.Raycast(ray, out _raycastHit, Mathf.Infinity))
                     {
                         _selectedPathingManager.DrawPath(_raycastHit);
