@@ -76,8 +76,28 @@ namespace GameResources.Pathing
         
         public void DrawPath(RaycastHit hitInfo)
         {
-            if (DistanceToLastPoint(hitInfo.point) > _lineResolution)
+            float dist = DistanceToLastPoint(hitInfo.point);
+            if (dist > _lineResolution)
             {
+                // Add cases for when the length between points exceeds 2 * _lineResolution between updates
+                if (dist > _lineResolution * 2 && dist < Mathf.Infinity)
+                {
+                    int iterations = (int) (dist / _lineResolution);
+                    Vector3 prevPoint = _points.Last();
+                    float xDist = hitInfo.point.x - prevPoint.x;
+                    float zDist = hitInfo.point.z - prevPoint.z;
+                    for (int i = 1; i < iterations; i++)
+                    {
+                        Vector3 stitchedPoint = new Vector3((prevPoint.x + xDist * ((float) i / iterations)), _lineRendererYOffset,
+                            prevPoint.z + zDist * ((float) i / iterations));
+                        _points.Add(stitchedPoint);
+                    }
+                    _points.Add(new Vector3(hitInfo.point.x, _lineRendererYOffset, hitInfo.point.z));
+                    _lineRenderer.positionCount = _points.Count;
+                    _lineRenderer.SetPositions(_points.ToArray());
+                    return;
+                }
+
                 Vector3 point = new Vector3(hitInfo.point.x, _lineRendererYOffset, hitInfo.point.z);
                 _points.Add(point);
                 _lineRenderer.positionCount = _points.Count;
