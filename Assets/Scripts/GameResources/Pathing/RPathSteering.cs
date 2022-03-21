@@ -8,7 +8,7 @@ namespace GameResources.Pathing
     {
         public float _rotationSpeed;
         public float _dotProductThreshold;
-        private Vector3 _currentDestination;
+        private Vector3? _currentDestination;
         private bool _onCourse = false;
 
         public bool IsTurning
@@ -23,18 +23,20 @@ namespace GameResources.Pathing
         {
             _onCourse = true;
             GetComponent<RPathManager>().OnNewDestinationSet += OnNewCurrentDestination;
+            GetComponent<RPathManager>().OnNoDestinationSet += OnClearDestination;
         }
 
         public void OnReset()
         {
             GetComponent<RPathManager>().OnNewDestinationSet -= OnNewCurrentDestination;
+            GetComponent<RPathManager>().OnNoDestinationSet -= OnClearDestination;
         }
 
         public void OnUpdate()
         {
             if (_onCourse) return;
 
-            Vector3 targetDirection = (_currentDestination - transform.position).normalized;
+            Vector3 targetDirection = (_currentDestination.GetValueOrDefault() - transform.position).normalized;
             Vector3 targetRotation = Quaternion.LookRotation((targetDirection), Vector3.up).eulerAngles;
             targetRotation = new Vector3(0, targetRotation.y, 0);
             var dotProduct = Vector3.Dot(transform.forward, targetDirection);
@@ -56,6 +58,12 @@ namespace GameResources.Pathing
         {
             _currentDestination = newDestination;
             _onCourse = false;
+        }
+
+        public void OnClearDestination()
+        {
+            _currentDestination = null;
+            _onCourse = true;
         }
     }
 }

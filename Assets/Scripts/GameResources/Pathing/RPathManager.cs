@@ -9,6 +9,7 @@ namespace GameResources.Pathing
     public class RPathManager : MonoBehaviour, IShipComponent
     {
         public Action<Vector3> OnNewDestinationSet;
+        public Action OnNoDestinationSet;
         public float _rendererUpdateRadius = 1f; // determines if the renderer is close enough to the ship to update
         public float _minDistanceToChangeDestination = 0.4f; // must be greater than or equal to line resolution
         public float _lineResolution = 1f; // less increases resolution
@@ -41,6 +42,7 @@ namespace GameResources.Pathing
             if (_points.Count == 0)
             {
                 _lineRenderer.positionCount = 0;
+                OnNoDestinationSet.Invoke();
                 return;
             }
 
