@@ -65,19 +65,19 @@ namespace GameResources.Ship
             {
                 case ShipColors.Red:
                     GetComponentInChildren<Renderer>().material.SetColor("Glow_Color", ShipAndMarkerColors.RedM);
-                    GetComponentInChildren<LineRenderer>().material.SetColor("Glow_Color", ShipAndMarkerColors.RedM);
+                    GetComponentInChildren<LineRenderer>().material.SetColor("_Color", ShipAndMarkerColors.RedM);
                     break;
                 case ShipColors.Green:
                     GetComponentInChildren<Renderer>().material.SetColor("Glow_Color", ShipAndMarkerColors.GreenM);
-                    GetComponentInChildren<LineRenderer>().material.SetColor("Glow_Color", ShipAndMarkerColors.GreenM);
+                    GetComponentInChildren<LineRenderer>().material.SetColor("_Color", ShipAndMarkerColors.GreenM);
                     break;
                 case ShipColors.Blue:
                     GetComponentInChildren<Renderer>().material.SetColor("Glow_Color", ShipAndMarkerColors.BlueM);
-                    GetComponentInChildren<LineRenderer>().material.SetColor("Glow_Color", ShipAndMarkerColors.BlueM);
+                    GetComponentInChildren<LineRenderer>().material.SetColor("_Color", ShipAndMarkerColors.BlueM);
                     break;
                 default:
                     GetComponentInChildren<Renderer>().material.SetColor("Glow_Color", Color.white);
-                    GetComponentInChildren<LineRenderer>().material.SetColor("Glow_Color", Color.white);
+                    GetComponentInChildren<LineRenderer>().material.SetColor("_Color", Color.white);
                     break;
             }
 

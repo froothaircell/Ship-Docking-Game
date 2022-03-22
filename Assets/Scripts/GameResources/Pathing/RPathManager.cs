@@ -30,6 +30,9 @@ namespace GameResources.Pathing
                 _lineRenderer = GetComponentInChildren<LineRenderer>();
             if (_steeringComponent == null)
                 _steeringComponent = GetComponent<RPathSteering>();
+
+            // float width = _lineRenderer.startWidth;
+            // _lineRenderer.material.mainTextureScale = new Vector2(1f / (2f * width), 1f / (2f * width));
         }
 
         public void OnReset()
