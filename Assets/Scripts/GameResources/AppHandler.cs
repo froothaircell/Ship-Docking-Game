@@ -11,6 +11,7 @@ using GameResources.Menus.MainMenu;
 using GameResources.Menus.PauseAndHudMenu;
 using GameResources.Menus.WinOrLossMenu;
 using GameResources.Ship;
+using UnityEngine;
 
 namespace GameResources
 {
@@ -48,6 +49,12 @@ namespace GameResources
 
         private void Initialize()
         {
+            // Check for windows build and set screen size
+#if UNITY_STANDALONE_WIN
+            Screen.SetResolution(564, 960, false);
+            Screen.fullScreen = false;
+#endif
+
             // Make the core services available before starting the game related stuff
             EventHandler = REventHandler.SetInstanceType<REventHandler>();
             SaveManager = PlayerPrefsManager.SetInstanceType<PlayerPrefsManager>();
